@@ -697,7 +697,24 @@ const resources = {
       "environmentalActionPlans": "Çevresel Eylem Planları",
       "environmentalActionPlansPlaceholder": "Çevresel eylem planları ve hedefler...",
       "physicalRiskAssessment": "Fiziksel Risk Değerlendirmesi",
-      "physicalRiskAssessmentPlaceholder": "Fiziksel risk değerlendirmesi, iklim adaptasyon önlemleri..."
+      "physicalRiskAssessmentPlaceholder": "Fiziksel risk değerlendirmesi, iklim adaptasyon önlemleri...",
+      
+      // DataCollectionModule
+      "energyResources": "Enerji & Kaynak",
+      "financialInfo": "Finansal Bilgiler",
+      "riskStrategy": "Risk & Strateji",
+      "headOfficeAddress": "Merkez Ofis Adresi",
+      "headOfficeAddressPlaceholder": "Merkez ofis adresi",
+      "totalEmployees": "Çalışan Sayısı",
+      "totalEmployeesPlaceholder": "Çalışan sayısı",
+      "annualRevenueCurrency": "Yıllık Ciro",
+      "annualRevenuePlaceholderShort": "Yıllık ciro",
+      "operationalCountries": "Faaliyet Gösterilen Ülkeler",
+      "operationalCountriesPlaceholder": "Türkiye, Almanya, İtalya",
+      "selectSectorPlaceholderShort": "Sektör seçiniz",
+      "construction": "İnşaat",
+      "food": "Gıda",
+      "technology": "Teknoloji"
     }
   },
   en: {
@@ -1399,7 +1416,24 @@ const resources = {
       "environmentalActionPlans": "Environmental Action Plans",
       "environmentalActionPlansPlaceholder": "Environmental action plans and targets...",
       "physicalRiskAssessment": "Physical Risk Assessment",
-      "physicalRiskAssessmentPlaceholder": "Physical risk assessment, climate adaptation measures..."
+      "physicalRiskAssessmentPlaceholder": "Physical risk assessment, climate adaptation measures...",
+      
+      // DataCollectionModule
+      "energyResources": "Energy & Resources",
+      "financialInfo": "Financial Information",
+      "riskStrategy": "Risk & Strategy",
+      "headOfficeAddress": "Head Office Address",
+      "headOfficeAddressPlaceholder": "Head office address",
+      "totalEmployees": "Total Employees",
+      "totalEmployeesPlaceholder": "Employee count",
+      "annualRevenueCurrency": "Annual Revenue",
+      "annualRevenuePlaceholderShort": "Annual revenue",
+      "operationalCountries": "Operational Countries",
+      "operationalCountriesPlaceholder": "Turkey, Germany, Italy",
+      "selectSectorPlaceholderShort": "Select sector",
+      "construction": "Construction",
+      "food": "Food",
+      "technology": "Technology"
     }
   }
 };

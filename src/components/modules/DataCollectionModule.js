@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import DataManager from '../../services/DataManager';
 
 const DataCollectionModule = ({ onClose, onDataSaved }) => {
+    const { t } = useTranslation();
     const [currentStep, setCurrentStep] = useState(1);
     const [formData, setFormData] = useState({
         // Adım 1: Temel Şirket Bilgileri
@@ -51,12 +53,12 @@ const DataCollectionModule = ({ onClose, onDataSaved }) => {
     });
 
     const steps = [
-        { id: 1, title: 'Temel Bilgiler', icon: '🏢' },
-        { id: 2, title: 'Emisyon Verileri', icon: '🌫️' },
-        { id: 3, title: 'Enerji & Kaynak', icon: '⚡' },
-        { id: 4, title: 'Finansal Bilgiler', icon: '💰' },
-        { id: 5, title: 'Risk & Strateji', icon: '🎯' },
-        { id: 6, title: 'Governance', icon: '👥' }
+        { id: 1, title: t('companyInfo'), icon: '🏢' },
+        { id: 2, title: t('emissionData'), icon: '🌫️' },
+        { id: 3, title: t('energyResources'), icon: '⚡' },
+        { id: 4, title: t('financialInfo'), icon: '💰' },
+        { id: 5, title: t('riskStrategy'), icon: '🎯' },
+        { id: 6, title: t('governance'), icon: '👥' }
     ];
 
     const handleInputChange = (field, value) => {
