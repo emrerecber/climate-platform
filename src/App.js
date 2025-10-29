@@ -2889,7 +2889,7 @@ function App() {
 
             {formStep === 6 && (
               <div>
-                <h2 style={{ marginBottom: '30px' }}>🌍 PACTA Analizi</h2>
+                <h2 style={{ marginBottom: '30px' }}>🌍 {t('pactaAnalysis')}</h2>
                 
                 {/* Sektör Bilgisi */}
                 <div style={{
@@ -2900,8 +2900,8 @@ function App() {
                   border: '1px solid #81d4fa'
                 }}>
                   <p style={{ margin: 0, fontSize: '14px' }}>  
-                    <strong>Seçilen Sektör:</strong> {riskFormData.sector || 'Sektör seçilmedi'} - 
-                    Paris Anlaşması ile uyumlu sermaye geçiş değerlendirmesi
+                    <strong>{t('selectedSector')}:</strong> {riskFormData.sector || t('sectorNotSelected')} - 
+                    {t('parisAgreementAssessment')}
                   </p>
                 </div>
 
@@ -2910,15 +2910,15 @@ function App() {
                   <div>
                     {/* Temel Bilgiler */}
                     <div style={{ backgroundColor: 'white', padding: '25px', borderRadius: '12px', marginBottom: '20px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
-                      <h3 style={{ fontSize: '18px', marginBottom: '20px', color: '#1f2937' }}>⚡ Enerji Üretim Bilgileri</h3>
+                      <h3 style={{ fontSize: '18px', marginBottom: '20px', color: '#1f2937' }}>⚡ {t('energyProductionInfo')}</h3>
                       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
                         <div>
-                          <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Toplam Kurulu Güç (MW)</label>
+                          <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>{t('totalInstalledCapacity')}</label>
                           <input 
                             type="number" 
                             value={riskFormData.totalInstalledCapacity}
                             onChange={(e) => handleFormChange('totalInstalledCapacity', e.target.value)}
-                            placeholder="Örn: 5000" 
+                            placeholder={t('totalCapacityPlaceholder')}
                             style={{
                               width: '100%',
                               padding: '10px',
@@ -2929,12 +2929,12 @@ function App() {
                           />
                         </div>
                         <div>
-                          <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Yıllık Üretim (GWh)</label>
+                          <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>{t('annualProduction')}</label>
                           <input 
                             type="number" 
                             value={riskFormData.annualProduction}
                             onChange={(e) => handleFormChange('annualProduction', e.target.value)}
-                            placeholder="Örn: 25000" 
+                            placeholder={t('annualProductionPlaceholder')}
                             style={{
                               width: '100%',
                               padding: '10px',
@@ -2949,10 +2949,10 @@ function App() {
 
                     {/* Teknoloji Dağılımı */}
                     <div style={{ backgroundColor: 'white', padding: '25px', borderRadius: '12px', marginBottom: '20px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
-                      <h3 style={{ fontSize: '18px', marginBottom: '20px', color: '#1f2937' }}>🏭 Teknoloji Bazında Kurulu Güç Dağılımı (MW)</h3>
+                      <h3 style={{ fontSize: '18px', marginBottom: '20px', color: '#1f2937' }}>🏭 {t('technologyDistribution')}</h3>
                       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
                         <div>
-                          <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#7c2d12' }}>Kömür</label>
+                          <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#7c2d12' }}>{t('coal')}</label>
                           <input 
                             type="number" 
                             value={riskFormData.coalCapacity}
@@ -2968,7 +2968,7 @@ function App() {
                           />
                         </div>
                         <div>
-                          <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#1c1917' }}>Doğal Gaz</label>
+                          <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#1c1917' }}>{t('naturalGas')}</label>
                           <input 
                             type="number" 
                             value={riskFormData.naturalGasCapacity}
@@ -2984,7 +2984,7 @@ function App() {
                           />
                         </div>
                         <div>
-                          <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#451a03' }}>Petrol</label>
+                          <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#451a03' }}>{t('oil')}</label>
                           <input 
                             type="number" 
                             value={riskFormData.oilCapacity}
@@ -3000,7 +3000,7 @@ function App() {
                           />
                         </div>
                         <div>
-                          <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#1e40af' }}>Hidroelektrik</label>
+                          <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#1e40af' }}>{t('hydroelectric')}</label>
                           <input 
                             type="number" 
                             value={riskFormData.hydroCapacity}
@@ -3016,7 +3016,7 @@ function App() {
                           />
                         </div>
                         <div>
-                          <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#059669' }}>Rüzgar</label>
+                          <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#059669' }}>{t('wind')}</label>
                           <input 
                             type="number" 
                             value={riskFormData.windCapacity}
@@ -3032,7 +3032,7 @@ function App() {
                           />
                         </div>
                         <div>
-                          <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#ca8a04' }}>Güneş</label>
+                          <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#ca8a04' }}>{t('solar')}</label>
                           <input 
                             type="number" 
                             value={riskFormData.solarCapacity}
@@ -3048,7 +3048,7 @@ function App() {
                           />
                         </div>
                         <div>
-                          <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#7c3aed' }}>Nükleer</label>
+                          <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#7c3aed' }}>{t('nuclear')}</label>
                           <input 
                             type="number" 
                             value={riskFormData.nuclearCapacity}
@@ -3064,7 +3064,7 @@ function App() {
                           />
                         </div>
                         <div>
-                          <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#15803d' }}>Biyokütle</label>
+                          <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#15803d' }}>{t('biomass')}</label>
                           <input 
                             type="number" 
                             value={riskFormData.biomassCapacity}
@@ -3080,7 +3080,7 @@ function App() {
                           />
                         </div>
                         <div>
-                          <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#dc2626' }}>Jeotermal</label>
+                          <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#dc2626' }}>{t('geothermal')}</label>
                           <input 
                             type="number" 
                             value={riskFormData.geothermalCapacity}
