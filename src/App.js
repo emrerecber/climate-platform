@@ -2884,6 +2884,22 @@ function App() {
                     </div>
                   </div>
                 </div>
+
+                <div style={{
+                  marginTop: '30px',
+                  padding: '20px',
+                  backgroundColor: '#e0f2fe',
+                  borderRadius: '8px',
+                  borderLeft: '4px solid #0ea5e9'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
+                    <span style={{ fontSize: '24px' }}>ℹ️</span>
+                    <h3 style={{ margin: 0, fontSize: '16px', color: '#0369a1' }}>{t('pactaAnalysis')}</h3>
+                  </div>
+                  <p style={{ margin: 0, fontSize: '14px', color: '#0c4a6e', lineHeight: '1.6' }}>
+                    {t('pactaAnalysisNote')}
+                  </p>
+                </div>
               </div>
             )}
 
@@ -3549,34 +3565,18 @@ function App() {
                     {t('next')}
                   </button>
                 ) : formStep === 5 ? (
-                  <>
-                    <button 
-                      onClick={submitForm}
-                      style={{
-                        ...buttonStyle, 
-                        backgroundColor: '#28a745',
-                        fontSize: '16px',
-                        fontWeight: '600',
-                        padding: '12px 24px'
-                      }}
-                    >
-                      ✓ {t('completeAssessment')}
-                    </button>
-                    
-                    <button 
-                      onClick={() => setActiveTab('pacta')}
-                      style={{
-                        ...buttonStyle, 
-                        backgroundColor: '#3b82f6',
-                        fontSize: '16px',
-                        fontWeight: '600',
-                        padding: '12px 24px',
-                        marginLeft: '10px'
-                      }}
-                    >
-                      📊 {t('continueToPACTA')}
-                    </button>
-                  </>
+                  <button 
+                    onClick={submitForm}
+                    style={{
+                      ...buttonStyle, 
+                      backgroundColor: '#28a745',
+                      fontSize: '16px',
+                      fontWeight: '600',
+                      padding: '12px 24px'
+                    }}
+                  >
+                    ✓ {t('completeAssessment')}
+                  </button>
                 ) : null}
               </div>
             </div>

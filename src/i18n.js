@@ -936,7 +936,8 @@ const resources = {
       "riskLevel": "Risk Düzeyi",
       "pactaTechnologyAlignment": "PACTA Teknoloji Uyumu",
       "misalignmentGap": "Misalignment Gap",
-      "benchmarkDistance": "Benchmark'tan uzaklık"
+      "benchmarkDistance": "Benchmark'tan uzaklık",
+      "pactaAnalysisNote": "PACTA (Paris Anlaşması Sermaye Geçiş Değerlendirmesi) analizini sol menüdeki ayrı PACTA Analizi sayfasından yapabilirsiniz."
     }
   },
   en: {
@@ -1877,7 +1878,8 @@ const resources = {
       "riskLevel": "Risk Level",
       "pactaTechnologyAlignment": "PACTA Technology Alignment",
       "misalignmentGap": "Misalignment Gap",
-      "benchmarkDistance": "Distance from Benchmark"
+      "benchmarkDistance": "Distance from Benchmark",
+      "pactaAnalysisNote": "You can perform PACTA (Paris Agreement Capital Transition Assessment) analysis from the separate PACTA Analysis page in the left menu."
     }
   }
 };
