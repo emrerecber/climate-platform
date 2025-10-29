@@ -3,6 +3,7 @@ import { Line, Bar, Pie, Doughnut } from 'react-chartjs-2';
 import { climateRiskCalculator, RiskUtils } from '../services/RiskCalculators';
 import DataManager from '../services/DataManager';
 import { weatherService } from '../services/WeatherService';
+import { useTranslation } from 'react-i18next';
 
 // Demo veri - gerçek projede API'den gelecek
 const demoAssets = [
@@ -71,6 +72,7 @@ const demoAssets = [
 ];
 
 const EnhancedRiskAnalysis = () => {
+    const { t } = useTranslation();
     const [assets, setAssets] = useState(demoAssets);
     const [portfolioAnalysis, setPortfolioAnalysis] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -202,7 +204,7 @@ const EnhancedRiskAnalysis = () => {
 
     // Grafik verilerini hazırla
     const riskDistributionData = {
-        labels: ['Yüksek Risk', 'Orta Risk', 'Düşük Risk'],
+        labels: [t('highRisk'), t('mediumRisk'), t('lowRisk')],
         datasets: [{
             data: [
                 portfolioStats.riskDistribution.high,
@@ -219,14 +221,14 @@ const EnhancedRiskAnalysis = () => {
         labels: ['2020', '2021', '2022', '2023', '2024', '2025P'],
         datasets: [
             {
-                label: 'Portföy Risk Skoru',
+                label: t('portfolioRiskScore'),
                 data: [2.15, 2.08, 2.02, 1.96, 1.91, 1.85],
                 borderColor: '#0066cc',
                 backgroundColor: 'rgba(0, 102, 204, 0.1)',
                 fill: true
             },
             {
-                label: 'Sektör Ortalaması',
+                label: t('sectorAverage'),
                 data: [2.25, 2.20, 2.15, 2.10, 2.05, 2.00],
                 borderColor: '#6c757d',
                 backgroundColor: 'rgba(108, 117, 125, 0.1)',
@@ -241,10 +243,10 @@ const EnhancedRiskAnalysis = () => {
             <div style={{ marginBottom: '30px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <div>
                     <h1 style={{ marginBottom: '8px', color: '#dc2626' }}>
-                        🌡️ Gelişmiş İklim Risk Analizi
+                        🌡️ {t('advancedClimateRiskAnalysis')}
                     </h1>
                     <p style={{ color: '#666' }}>
-                        X Bank metodolojisi ile kapsamlı risk değerlendirmesi
+                        {t('xBankMethodology')}
                     </p>
                 </div>
                 <div style={{ display: 'flex', gap: '15px' }}>
@@ -261,7 +263,7 @@ const EnhancedRiskAnalysis = () => {
                             fontSize: '14px'
                         }}
                     >
-                        {weatherUpdating ? '🌀 Güncelleniyor...' : '🌤️ Hava Durumu Güncelle'}
+                        {weatherUpdating ? `🌀 ${t('updating')}` : `🌤️ ${t('updateWeather')}`}
                     </button>
                     <button
                         onClick={performPortfolioAnalysis}
@@ -275,7 +277,7 @@ const EnhancedRiskAnalysis = () => {
                             fontSize: '14px'
                         }}
                     >
-                        🔄 Analizi Yenile
+                        🔄 {t('refreshAnalysis')}
                     </button>
                 </div>
             </div>
@@ -296,7 +298,7 @@ const EnhancedRiskAnalysis = () => {
                     <div style={{ fontSize: '28px', fontWeight: 'bold', color: '#dc3545', marginBottom: '8px' }}>
                         {portfolioStats.totalAssets}
                     </div>
-                    <div style={{ fontSize: '14px', color: '#6c757d' }}>Toplam Varlık</div>
+                    <div style={{ fontSize: '14px', color: '#6c757d' }}>{t('totalAssets')}</div>
                 </div>
 
                 <div style={{
@@ -308,7 +310,7 @@ const EnhancedRiskAnalysis = () => {
                     <div style={{ fontSize: '28px', fontWeight: 'bold', color: '#ffc107', marginBottom: '8px' }}>
                         {portfolioStats.avgRiskScore}
                     </div>
-                    <div style={{ fontSize: '14px', color: '#6c757d' }}>Ortalama Risk Skoru</div>
+                    <div style={{ fontSize: '14px', color: '#6c757d' }}>{t('avgRiskScoreFull')}</div>
                 </div>
 
                 <div style={{
@@ -320,7 +322,7 @@ const EnhancedRiskAnalysis = () => {
                     <div style={{ fontSize: '28px', fontWeight: 'bold', color: '#28a745', marginBottom: '8px' }}>
                         €{RiskUtils.formatMoney(portfolioStats.totalValue)}
                     </div>
-                    <div style={{ fontSize: '14px', color: '#6c757d' }}>Toplam Değer</div>
+                    <div style={{ fontSize: '14px', color: '#6c757d' }}>{t('totalValue')}</div>
                 </div>
 
                 <div style={{
@@ -332,7 +334,7 @@ const EnhancedRiskAnalysis = () => {
                     <div style={{ fontSize: '28px', fontWeight: 'bold', color: '#17a2b8', marginBottom: '8px' }}>
                         {portfolioStats.riskDistribution.high}
                     </div>
-                    <div style={{ fontSize: '14px', color: '#6c757d' }}>Yüksek Risk</div>
+                    <div style={{ fontSize: '14px', color: '#6c757d' }}>{t('highRiskFull')}</div>
                 </div>
             </div>
 
@@ -350,7 +352,7 @@ const EnhancedRiskAnalysis = () => {
                     borderRadius: '12px',
                     boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
                 }}>
-                    <h3 style={{ marginBottom: '20px', fontSize: '18px' }}>Risk Dağılımı</h3>
+                    <h3 style={{ marginBottom: '20px', fontSize: '18px' }}>{t('riskDistribution')}</h3>
                     <div style={{ height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <Pie
                             data={riskDistributionData}
@@ -374,7 +376,7 @@ const EnhancedRiskAnalysis = () => {
                     borderRadius: '12px',
                     boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
                 }}>
-                    <h3 style={{ marginBottom: '20px', fontSize: '18px' }}>Risk Trend Analizi</h3>
+                    <h3 style={{ marginBottom: '20px', fontSize: '18px' }}>{t('riskTrendAnalysis')}</h3>
                     <div style={{ height: '300px' }}>
                         <Line
                             data={riskTrendData}
@@ -401,7 +403,7 @@ const EnhancedRiskAnalysis = () => {
                 boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
                 marginBottom: '30px'
             }}>
-                <h3 style={{ marginBottom: '20px', fontSize: '18px' }}>⚡ Stres Testi Senaryoları</h3>
+                <h3 style={{ marginBottom: '20px', fontSize: '18px' }}>⚡ {t('stressTestScenarios')}</h3>
                 
                 <div style={{ display: 'flex', gap: '15px', marginBottom: '20px' }}>
                     <button
@@ -416,7 +418,7 @@ const EnhancedRiskAnalysis = () => {
                             cursor: stressTesting ? 'not-allowed' : 'pointer'
                         }}
                     >
-                        🌡️ Aşırı Sıcaklık
+                        🌡️ {t('extremeHeat')}
                     </button>
                     <button
                         onClick={() => runStressTest('flood')}
@@ -430,7 +432,7 @@ const EnhancedRiskAnalysis = () => {
                             cursor: stressTesting ? 'not-allowed' : 'pointer'
                         }}
                     >
-                        🌧️ Şiddetli Yağış
+                        🌧️ {t('severeRainfall')}
                     </button>
                     <button
                         onClick={() => runStressTest('carbonPrice')}
@@ -444,14 +446,14 @@ const EnhancedRiskAnalysis = () => {
                             cursor: stressTesting ? 'not-allowed' : 'pointer'
                         }}
                     >
-                        💰 Karbon Fiyat Şoku
+                        💰 {t('carbonPriceShock')}
                     </button>
                 </div>
 
                 {stressTesting && (
                     <div style={{ textAlign: 'center', padding: '20px', color: '#6c757d' }}>
                         <div style={{ fontSize: '32px', marginBottom: '10px' }}>⚡</div>
-                        <p>Stres testi uygulanıyor...</p>
+                        <p>{t('stressTestRunning')}</p>
                     </div>
                 )}
 
@@ -461,25 +463,25 @@ const EnhancedRiskAnalysis = () => {
                         padding: '20px', 
                         borderRadius: '8px' 
                     }}>
-                        <h4 style={{ marginBottom: '15px' }}>{stressResults.scenario} Sonuçları</h4>
+                        <h4 style={{ marginBottom: '15px' }}>{stressResults.scenario} {t('stressTestResults')}</h4>
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px', marginBottom: '20px' }}>
                             <div style={{ textAlign: 'center' }}>
                                 <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#dc3545' }}>
                                     {stressResults.summary.affectedAssets}
                                 </div>
-                                <div style={{ fontSize: '12px', color: '#6c757d' }}>Etkilenen Varlık</div>
+                                <div style={{ fontSize: '12px', color: '#6c757d' }}>{t('affectedAssets')}</div>
                             </div>
                             <div style={{ textAlign: 'center' }}>
                                 <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#ffc107' }}>
                                     +{stressResults.summary.avgImpact.toFixed(2)}
                                 </div>
-                                <div style={{ fontSize: '12px', color: '#6c757d' }}>Ortalama Etki</div>
+                                <div style={{ fontSize: '12px', color: '#6c757d' }}>{t('avgImpact')}</div>
                             </div>
                             <div style={{ textAlign: 'center' }}>
                                 <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#17a2b8' }}>
                                     +{stressResults.summary.maxImpact.toFixed(2)}
                                 </div>
-                                <div style={{ fontSize: '12px', color: '#6c757d' }}>Maksimum Etki</div>
+                                <div style={{ fontSize: '12px', color: '#6c757d' }}>{t('maxImpact')}</div>
                             </div>
                         </div>
 
@@ -518,7 +520,7 @@ const EnhancedRiskAnalysis = () => {
                     borderRadius: '12px',
                     boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
                 }}>
-                    <h3 style={{ marginBottom: '20px', fontSize: '18px' }}>💡 Risk Yönetimi Önerileri</h3>
+                    <h3 style={{ marginBottom: '20px', fontSize: '18px' }}>💡 {t('riskManagementRecommendations')}</h3>
                     
                     {recommendations.map((rec, index) => (
                         <div key={index} style={{
@@ -539,7 +541,7 @@ const EnhancedRiskAnalysis = () => {
                                     <h4 style={{ margin: '0 0 8px 0', fontSize: '16px' }}>{rec.title}</h4>
                                     <p style={{ margin: '0 0 15px 0', color: '#666' }}>{rec.description}</p>
                                     <div>
-                                        <strong style={{ fontSize: '14px', color: '#495057' }}>Eylemler:</strong>
+                                        <strong style={{ fontSize: '14px', color: '#495057' }}>{t('actions')}:</strong>
                                         <ul style={{ margin: '8px 0 0 20px', color: '#6c757d' }}>
                                             {rec.actions.map((action, i) => (
                                                 <li key={i} style={{ marginBottom: '4px' }}>{action}</li>
