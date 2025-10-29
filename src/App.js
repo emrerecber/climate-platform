@@ -2449,12 +2449,12 @@ function App() {
 
             {formStep === 2 && (
               <div>
-                <h2 style={{ marginBottom: '20px' }}>Emisyon Verileri</h2>
+                <h2 style={{ marginBottom: '20px' }}>{t('emissionData')}</h2>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
                   <div>
                     <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>
-                      Scope 1 Emisyonları (tCO₂e/yıl) *
-                      <span style={{ fontSize: '12px', color: '#6b7280', marginLeft: '8px' }}>Doğrudan emisyonlar</span>
+                      {t('scope1Emissions')} *
+                      <span style={{ fontSize: '12px', color: '#6b7280', marginLeft: '8px' }}>{t('scope1Description')}</span>
                     </label>
                     <input
                       type="number"
@@ -2467,13 +2467,13 @@ function App() {
                         borderRadius: '8px',
                         fontSize: '14px'
                       }}
-                      placeholder="Örn: 50000"
+                      placeholder={t('scope1Placeholder')}
                     />
                   </div>
                   <div>
                     <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>
-                      Scope 2 Emisyonları (tCO₂e/yıl) *
-                      <span style={{ fontSize: '12px', color: '#6b7280', marginLeft: '8px' }}>Enerji kaynaklı</span>
+                      {t('scope2Emissions')} *
+                      <span style={{ fontSize: '12px', color: '#6b7280', marginLeft: '8px' }}>{t('scope2Description')}</span>
                     </label>
                     <input
                       type="number"
@@ -2486,13 +2486,13 @@ function App() {
                         borderRadius: '8px',
                         fontSize: '14px'
                       }}
-                      placeholder="Örn: 75000"
+                      placeholder={t('scope2Placeholder')}
                     />
                   </div>
                   <div>
                     <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>
-                      Scope 3 Emisyonları (tCO₂e/yıl)
-                      <span style={{ fontSize: '12px', color: '#6b7280', marginLeft: '8px' }}>Değer zinciri</span>
+                      {t('scope3Emissions')}
+                      <span style={{ fontSize: '12px', color: '#6b7280', marginLeft: '8px' }}>{t('scope3Description')}</span>
                     </label>
                     <input
                       type="number"
@@ -2505,12 +2505,12 @@ function App() {
                         borderRadius: '8px',
                         fontSize: '14px'
                       }}
-                      placeholder="Örn: 125000"
+                      placeholder={t('scope3Placeholder')}
                     />
                   </div>
                   <div>
                     <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>
-                      Yenilenebilir Enerji Oranı (%)
+                      {t('renewableEnergyRatio')}
                     </label>
                     <input
                       type="number"
@@ -2523,12 +2523,12 @@ function App() {
                         borderRadius: '8px',
                         fontSize: '14px'
                       }}
-                      placeholder="0-100"
+                      placeholder={t('renewableEnergyPlaceholder')}
                     />
                   </div>
                   <div>
                     <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>
-                      2030 Emisyon Azaltım Hedefi (%)
+                      {t('emissionReductionTarget2030')}
                     </label>
                     <input
                       type="number"
@@ -2541,12 +2541,12 @@ function App() {
                         borderRadius: '8px',
                         fontSize: '14px'
                       }}
-                      placeholder="Örn: 50"
+                      placeholder={t('emissionTargetPlaceholder')}
                     />
                   </div>
                   <div>
                     <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>
-                      Toplam Enerji Tüketimi (GWh/yıl)
+                      {t('totalEnergyConsumption')}
                     </label>
                     <input
                       type="number"
@@ -2559,7 +2559,7 @@ function App() {
                         borderRadius: '8px',
                         fontSize: '14px'
                       }}
-                      placeholder="Yıllık toplam enerji"
+                      placeholder={t('totalEnergyPlaceholder')}
                     />
                   </div>
                 </div>
@@ -2568,10 +2568,10 @@ function App() {
 
             {formStep === 3 && (
               <div>
-                <h2 style={{ marginBottom: '20px' }}>TCFD Uyumluluk</h2>
+                <h2 style={{ marginBottom: '20px' }}>{t('tcfdCompliance')}</h2>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
                   <div>
-                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Yönetişim</label>
+                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>{t('governance')}</label>
                     <select
                       value={riskFormData.tcfdGovernance}
                       onChange={(e) => handleFormChange('tcfdGovernance', e.target.value)}
@@ -2584,14 +2584,14 @@ function App() {
                         backgroundColor: 'white'
                       }}
                     >
-                      <option value="">Seçiniz</option>
-                      <option value="full">Tam Uyumlu</option>
-                      <option value="partial">Kısmi Uyumlu</option>
-                      <option value="none">Uyumsuz</option>
+                      <option value="">{t('selectSector')}</option>
+                      <option value="full">{t('fullyCompliant')}</option>
+                      <option value="partial">{t('partiallyCompliant')}</option>
+                      <option value="none">{t('nonCompliant')}</option>
                     </select>
                   </div>
                   <div>
-                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Strateji</label>
+                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>{t('strategy')}</label>
                     <select
                       value={riskFormData.tcfdStrategy}
                       onChange={(e) => handleFormChange('tcfdStrategy', e.target.value)}
@@ -2604,14 +2604,14 @@ function App() {
                         backgroundColor: 'white'
                       }}
                     >
-                      <option value="">Seçiniz</option>
-                      <option value="full">Tam Uyumlu</option>
-                      <option value="partial">Kısmi Uyumlu</option>
-                      <option value="none">Uyumsuz</option>
+                      <option value="">{t('selectSector')}</option>
+                      <option value="full">{t('fullyCompliant')}</option>
+                      <option value="partial">{t('partiallyCompliant')}</option>
+                      <option value="none">{t('nonCompliant')}</option>
                     </select>
                   </div>
                   <div>
-                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Risk Yönetimi</label>
+                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>{t('riskManagement')}</label>
                     <select
                       value={riskFormData.tcfdRiskManagement}
                       onChange={(e) => handleFormChange('tcfdRiskManagement', e.target.value)}
@@ -2624,14 +2624,14 @@ function App() {
                         backgroundColor: 'white'
                       }}
                     >
-                      <option value="">Seçiniz</option>
-                      <option value="full">Tam Uyumlu</option>
-                      <option value="partial">Kısmi Uyumlu</option>
-                      <option value="none">Uyumsuz</option>
+                      <option value="">{t('selectSector')}</option>
+                      <option value="full">{t('fullyCompliant')}</option>
+                      <option value="partial">{t('partiallyCompliant')}</option>
+                      <option value="none">{t('nonCompliant')}</option>
                     </select>
                   </div>
                   <div>
-                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Metrikler ve Hedefler</label>
+                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>{t('metricsTargets')}</label>
                     <select
                       value={riskFormData.tcfdMetrics}
                       onChange={(e) => handleFormChange('tcfdMetrics', e.target.value)}
@@ -2644,15 +2644,15 @@ function App() {
                         backgroundColor: 'white'
                       }}
                     >
-                      <option value="">Seçiniz</option>
-                      <option value="full">Tam Uyumlu</option>
-                      <option value="partial">Kısmi Uyumlu</option>
-                      <option value="none">Uyumsuz</option>
+                      <option value="">{t('selectSector')}</option>
+                      <option value="full">{t('fullyCompliant')}</option>
+                      <option value="partial">{t('partiallyCompliant')}</option>
+                      <option value="none">{t('nonCompliant')}</option>
                     </select>
                   </div>
                   <div style={{ gridColumn: '1 / -1' }}>
                     <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>
-                      İklim Senaryo Analizi Yapıldı mı?
+                      {t('climateScenarioAnalysis')}
                     </label>
                     <select
                       value={riskFormData.climateScenarioAnalysis}
@@ -2666,10 +2666,10 @@ function App() {
                         backgroundColor: 'white'
                       }}
                     >
-                      <option value="">Seçiniz</option>
-                      <option value="yes-both">Evet (1.5°C ve 2°C senaryoları)</option>
-                      <option value="yes-partial">Evet (Sadece 2°C senaryosu)</option>
-                      <option value="no">Hayır</option>
+                      <option value="">{t('selectSector')}</option>
+                      <option value="yes-both">{t('yesBothScenarios')}</option>
+                      <option value="yes-partial">{t('yesPartialScenario')}</option>
+                      <option value="no">{t('no')}</option>
                     </select>
                   </div>
                 </div>
@@ -2678,12 +2678,12 @@ function App() {
 
             {formStep === 4 && (
               <div>
-                <h2 style={{ marginBottom: '20px' }}>Risk Faktörleri</h2>
+                <h2 style={{ marginBottom: '20px' }}>{t('riskFactors')}</h2>
                 
-                <h3 style={{ fontSize: '16px', marginBottom: '15px', color: '#374151' }}>Fiziksel Risk Faktörleri</h3>
+                <h3 style={{ fontSize: '16px', marginBottom: '15px', color: '#374151' }}>{t('physicalRiskFactors')}</h3>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '30px' }}>
                   <div>
-                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Sel Riski</label>
+                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>{t('floodRisk')}</label>
                     <select
                       value={riskFormData.floodRisk}
                       onChange={(e) => handleFormChange('floodRisk', e.target.value)}
@@ -2696,14 +2696,14 @@ function App() {
                         backgroundColor: 'white'
                       }}
                     >
-                      <option value="">Seçiniz</option>
-                      <option value="low">Düşük</option>
-                      <option value="medium">Orta</option>
-                      <option value="high">Yüksek</option>
+                      <option value="">{t('selectSector')}</option>
+                      <option value="low">{t('low')}</option>
+                      <option value="medium">{t('medium')}</option>
+                      <option value="high">{t('high')}</option>
                     </select>
                   </div>
                   <div>
-                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Kuraklık Riski</label>
+                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>{t('droughtRisk')}</label>
                     <select
                       value={riskFormData.droughtRisk}
                       onChange={(e) => handleFormChange('droughtRisk', e.target.value)}
@@ -2716,14 +2716,14 @@ function App() {
                         backgroundColor: 'white'
                       }}
                     >
-                      <option value="">Seçiniz</option>
-                      <option value="low">Düşük</option>
-                      <option value="medium">Orta</option>
-                      <option value="high">Yüksek</option>
+                      <option value="">{t('selectSector')}</option>
+                      <option value="low">{t('low')}</option>
+                      <option value="medium">{t('medium')}</option>
+                      <option value="high">{t('high')}</option>
                     </select>
                   </div>
                   <div>
-                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Aşırı Sıcak Riski</label>
+                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>{t('heatWaveRisk')}</label>
                     <select
                       value={riskFormData.heatWaveRisk}
                       onChange={(e) => handleFormChange('heatWaveRisk', e.target.value)}
@@ -2736,14 +2736,14 @@ function App() {
                         backgroundColor: 'white'
                       }}
                     >
-                      <option value="">Seçiniz</option>
-                      <option value="low">Düşük</option>
-                      <option value="medium">Orta</option>
-                      <option value="high">Yüksek</option>
+                      <option value="">{t('selectSector')}</option>
+                      <option value="low">{t('low')}</option>
+                      <option value="medium">{t('medium')}</option>
+                      <option value="high">{t('high')}</option>
                     </select>
                   </div>
                   <div>
-                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Kritik Lokasyonlar</label>
+                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>{t('criticalLocations')}</label>
                     <input
                       type="text"
                       value={riskFormData.operationalLocations}
@@ -2755,16 +2755,16 @@ function App() {
                         borderRadius: '8px',
                         fontSize: '14px'
                       }}
-                      placeholder="Örn: İstanbul, İzmir, Ankara"
+                      placeholder={t('locationsPlaceholder')}
                     />
                   </div>
                 </div>
 
-                <h3 style={{ fontSize: '16px', marginBottom: '15px', color: '#374151' }}>Geçiş Riski Faktörleri</h3>
+                <h3 style={{ fontSize: '16px', marginBottom: '15px', color: '#374151' }}>{t('transitionRiskFactors')}</h3>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
                   <div>
                     <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>
-                      Karbon Yoğunluğu (tCO₂/milyon TL)
+                      {t('carbonIntensity')}
                     </label>
                     <input
                       type="number"
@@ -2777,11 +2777,11 @@ function App() {
                         borderRadius: '8px',
                         fontSize: '14px'
                       }}
-                      placeholder="Örn: 150"
+                      placeholder={t('carbonIntensityPlaceholder')}
                     />
                   </div>
                   <div>
-                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>CBAM Maruziyeti</label>
+                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>{t('cbamExposure')}</label>
                     <select
                       value={riskFormData.cbamExposure}
                       onChange={(e) => handleFormChange('cbamExposure', e.target.value)}
@@ -2794,16 +2794,16 @@ function App() {
                         backgroundColor: 'white'
                       }}
                     >
-                      <option value="">Seçiniz</option>
-                      <option value="none">Yok</option>
-                      <option value="low">Düşük</option>
-                      <option value="medium">Orta</option>
-                      <option value="high">Yüksek</option>
+                      <option value="">{t('selectSector')}</option>
+                      <option value="none">{t('none')}</option>
+                      <option value="low">{t('low')}</option>
+                      <option value="medium">{t('medium')}</option>
+                      <option value="high">{t('high')}</option>
                     </select>
                   </div>
                   <div>
                     <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>
-                      Yeşil Gelir Oranı (%)
+                      {t('greenRevenueRatio')}
                     </label>
                     <input
                       type="number"
@@ -2816,11 +2816,11 @@ function App() {
                         borderRadius: '8px',
                         fontSize: '14px'
                       }}
-                      placeholder="Örn: 10"
+                      placeholder={t('greenRevenuePlaceholder')}
                     />
                   </div>
                   <div>
-                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>EU Taksonomi Uyumu (%)</label>
+                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>{t('euTaxonomyAlignment')}</label>
                     <input
                       type="number"
                       value={riskFormData.euTaxonomyAlignment}
@@ -2832,7 +2832,7 @@ function App() {
                         borderRadius: '8px',
                         fontSize: '14px'
                       }}
-                      placeholder="Örn: 25"
+                      placeholder={t('euTaxonomyPlaceholder')}
                     />
                   </div>
                 </div>
@@ -2841,10 +2841,10 @@ function App() {
 
             {formStep === 5 && (
               <div>
-                <h2 style={{ marginBottom: '20px' }}>ESG Değerlendirme & Hedefler</h2>
+                <h2 style={{ marginBottom: '20px' }}>{t('esgTargets')}</h2>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
                   <div>
-                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>CDP İklim Skoru</label>
+                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>{t('cdpClimateScore')}</label>
                     <select
                       value={riskFormData.cdpScore}
                       onChange={(e) => handleFormChange('cdpScore', e.target.value)}
@@ -2857,7 +2857,7 @@ function App() {
                         backgroundColor: 'white'
                       }}
                     >
-                      <option value="">Seçiniz</option>
+                      <option value="">{t('selectSector')}</option>
                       <option value="A">A</option>
                       <option value="B">B</option>
                       <option value="C">C</option>
@@ -2872,14 +2872,14 @@ function App() {
                   borderRadius: '8px',
                   borderLeft: '4px solid #6366f1'
                 }}>
-                  <h3 style={{ margin: '0 0 15px 0', fontSize: '16px' }}>Tahmini Risk Skorları</h3>
+                  <h3 style={{ margin: '0 0 15px 0', fontSize: '16px' }}>{t('estimatedRiskScores')}</h3>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
                     <div>
-                      <p style={{ margin: '0 0 5px 0', fontSize: '14px', color: '#6b7280' }}>Geçiş Riski</p>
+                      <p style={{ margin: '0 0 5px 0', fontSize: '14px', color: '#6b7280' }}>{t('transitionRisk')}</p>
                       <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#ef4444' }}>2.4</div>
                     </div>
                     <div>
-                      <p style={{ margin: '0 0 5px 0', fontSize: '14px', color: '#6b7280' }}>Fiziksel Risk</p>
+                      <p style={{ margin: '0 0 5px 0', fontSize: '14px', color: '#6b7280' }}>{t('physicalRisk')}</p>
                       <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#f59e0b' }}>2.1</div>
                     </div>
                   </div>
