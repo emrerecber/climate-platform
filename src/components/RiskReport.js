@@ -21,7 +21,33 @@ const RiskReport = ({ company, scores, enhanced, productSpecific, settings, onCl
   });
   
   return (
-    <div style={{
+    <>
+      <style>{`
+        @media print {
+          body * {
+            visibility: hidden;
+          }
+          #risk-report-content, #risk-report-content * {
+            visibility: visible;
+          }
+          #risk-report-content {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            background: white;
+            padding: 20px;
+          }
+          .no-print {
+            display: none !important;
+          }
+          @page {
+            size: A4;
+            margin: 1.5cm;
+          }
+        }
+      `}</style>
+    <div className="no-print" style={{
       position: 'fixed',
       top: 0,
       left: 0,
@@ -34,7 +60,7 @@ const RiskReport = ({ company, scores, enhanced, productSpecific, settings, onCl
       zIndex: 2000,
       overflow: 'auto'
     }}>
-      <div style={{
+      <div id="risk-report-content" style={{
         backgroundColor: 'white',
         width: '90%',
         maxWidth: '1200px',
@@ -900,7 +926,7 @@ const RiskReport = ({ company, scores, enhanced, productSpecific, settings, onCl
         </div>
 
         {/* Butonlar */}
-        <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
+        <div className="no-print" style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
           <button
             onClick={onClose}
             style={{
@@ -932,6 +958,11 @@ const RiskReport = ({ company, scores, enhanced, productSpecific, settings, onCl
         </div>
       </div>
     </div>
+    </>
+  );
+};
+
+export default RiskReport;
   );
 };
 
