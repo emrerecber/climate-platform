@@ -850,7 +850,26 @@ const resources = {
       "governance": "Yönetişim",
       "ghgEmissionDistribution": "GHG Emisyon Dağılımı (tCO₂e)",
       "scope1Direct": "Scope 1 (Doğrudan)",
-      "scope2Energy": "Scope 2 (Enerji)"
+      "scope2Energy": "Scope 2 (Enerji)",
+      "carbonIntensity": "Karbon Yoğunluğu",
+      "greenFinance": "Yeşil Finans",
+      "netZeroProgress": "Net Zero İlerleme",
+      "portfolioRatio": "Portföy Oranı",
+      "to2050Target": "2050 Hedefine",
+      "riskAlertsNotifications": "Risk Uyarıları & Bildirimler",
+      "high": "Yüksek",
+      "medium": "Orta",
+      "socarRiskIncrease": "SOCAR Turkey risk seviyesi artış gösteriyor",
+      "tuprasEsgImprovement": "TÜPRAŞ ESG skoru iyileştirme gösterdi",
+      "energySectorCarbonRisk": "Enerji sektöründe karbon fiyat risk artışı",
+      "istanbulFloodWarning": "İstanbul bölgesinde sel riski uyarısı",
+      "portfolioPerformanceTrend": "Portföy Performans Trendi",
+      "portfolioReturn": "Portföy Getiri (%)",
+      "benchmark": "Benchmark (%)",
+      "carbonIntensityShort": "Karbon Yoğunluk",
+      "portfolioBenchmarkSummary": "Portföy son 6 ayda benchmark'tan %5.8 daha iyi performans gösterirken karbon yoğunluk %11.2 azaldı.",
+      "regulatoryCalendar": "Düzenleyici Takvim",
+      "daysLeft": "gün"
     }
   },
   en: {
@@ -1705,7 +1724,26 @@ const resources = {
       "governance": "Governance",
       "ghgEmissionDistribution": "GHG Emission Distribution (tCO₂e)",
       "scope1Direct": "Scope 1 (Direct)",
-      "scope2Energy": "Scope 2 (Energy)"
+      "scope2Energy": "Scope 2 (Energy)",
+      "carbonIntensity": "Carbon Intensity",
+      "greenFinance": "Green Finance",
+      "netZeroProgress": "Net Zero Progress",
+      "portfolioRatio": "Portfolio Ratio",
+      "to2050Target": "To 2050 Target",
+      "riskAlertsNotifications": "Risk Alerts & Notifications",
+      "high": "High",
+      "medium": "Medium",
+      "socarRiskIncrease": "SOCAR Turkey risk level showing increase",
+      "tuprasEsgImprovement": "TUPRAS ESG score showing improvement",
+      "energySectorCarbonRisk": "Carbon price risk increase in energy sector",
+      "istanbulFloodWarning": "Flood risk warning in Istanbul region",
+      "portfolioPerformanceTrend": "Portfolio Performance Trend",
+      "portfolioReturn": "Portfolio Return (%)",
+      "benchmark": "Benchmark (%)",
+      "carbonIntensityShort": "Carbon Intensity",
+      "portfolioBenchmarkSummary": "Portfolio outperformed benchmark by 5.8% over the last 6 months while carbon intensity decreased by 11.2%.",
+      "regulatoryCalendar": "Regulatory Calendar",
+      "daysLeft": "days"
     }
   }
 };

@@ -404,10 +404,10 @@ function App() {
       
       // Risk alerts and notifications
       const riskAlerts = [
-        { type: 'high', message: 'SOCAR Turkey risk seviyesi artış gösteriyor', priority: 1, date: '2024-10-06' },
-        { type: 'medium', message: 'Enerji sektöründe karbon fiyat risk artışı', priority: 2, date: '2024-10-05' },
-        { type: 'info', message: 'TÜPRAŞ ESG skoru iyileştirme gösterdi', priority: 3, date: '2024-10-04' },
-        { type: 'medium', message: 'İstanbul bölgesinde sel riski uyarısı', priority: 2, date: '2024-10-03' }
+        { type: 'high', messageKey: 'socarRiskIncrease', priority: 1, date: '2024-10-06' },
+        { type: 'medium', messageKey: 'energySectorCarbonRisk', priority: 2, date: '2024-10-05' },
+        { type: 'info', messageKey: 'tuprasEsgImprovement', priority: 3, date: '2024-10-04' },
+        { type: 'medium', messageKey: 'istanbulFloodWarning', priority: 2, date: '2024-10-03' }
       ];
       
       // Upcoming regulatory deadlines
@@ -497,7 +497,7 @@ function App() {
               overflow: 'hidden'
             }}>
               <div style={{ position: 'relative', zIndex: 1 }}>
-                <h3 style={{ margin: 0, fontSize: '14px', opacity: 0.9, fontWeight: '600' }}>Karbon Yoğunluğu</h3>
+                <h3 style={{ margin: 0, fontSize: '14px', opacity: 0.9, fontWeight: '600' }}>{t('carbonIntensity')}</h3>
                 <p style={{ margin: '10px 0 5px 0', fontSize: '28px', fontWeight: 'bold' }}>
                   {dashboardMetrics.avgCarbonIntensity.toFixed(0)}
                 </p>
@@ -516,11 +516,11 @@ function App() {
               overflow: 'hidden'
             }}>
               <div style={{ position: 'relative', zIndex: 1 }}>
-                <h3 style={{ margin: 0, fontSize: '14px', opacity: 0.9, fontWeight: '600' }}>Yeşil Finans</h3>
+                <h3 style={{ margin: 0, fontSize: '14px', opacity: 0.9, fontWeight: '600' }}>{t('greenFinance')}</h3>
                 <p style={{ margin: '10px 0 5px 0', fontSize: '28px', fontWeight: 'bold' }}>
                   {dashboardMetrics.greenFinanceRatio.toFixed(1)}%
                 </p>
-                <div style={{ fontSize: '12px', opacity: 0.9 }}>Portföy Oranı</div>
+                <div style={{ fontSize: '12px', opacity: 0.9 }}>{t('portfolioRatio')}</div>
               </div>
               <div style={{ position: 'absolute', top: '-10px', right: '-10px', fontSize: '60px', opacity: 0.1 }}>🌍</div>
             </div>
@@ -535,11 +535,11 @@ function App() {
               overflow: 'hidden'
             }}>
               <div style={{ position: 'relative', zIndex: 1 }}>
-                <h3 style={{ margin: 0, fontSize: '14px', opacity: 0.9, fontWeight: '600' }}>Net Zero İlerleme</h3>
+                <h3 style={{ margin: 0, fontSize: '14px', opacity: 0.9, fontWeight: '600' }}>{t('netZeroProgress')}</h3>
                 <p style={{ margin: '10px 0 5px 0', fontSize: '28px', fontWeight: 'bold' }}>
                   {dashboardMetrics.netZeroProgress.toFixed(1)}%
                 </p>
-                <div style={{ fontSize: '12px', opacity: 0.9 }}>2050 Hedefine</div>
+                <div style={{ fontSize: '12px', opacity: 0.9 }}>{t('to2050Target')}</div>
               </div>
               <div style={{ position: 'absolute', top: '-10px', right: '-10px', fontSize: '60px', opacity: 0.1 }}>🎯</div>
             </div>
@@ -548,13 +548,13 @@ function App() {
           {/* Risk Alerts Section */}
           <div style={{ backgroundColor: 'white', padding: '20px', borderRadius: '12px', marginBottom: '30px', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
-              <h3 style={{ margin: 0, fontSize: '18px', color: '#374151' }}>🚨 Risk Uyarıları & Bildirimler</h3>
+              <h3 style={{ margin: 0, fontSize: '18px', color: '#374151' }}>🚨 {t('riskAlertsNotifications')}</h3>
               <div style={{ display: 'flex', gap: '5px' }}>
                 <span style={{ padding: '4px 8px', backgroundColor: '#fee2e2', color: '#991b1b', borderRadius: '12px', fontSize: '12px', fontWeight: 'bold' }}>
-                  {riskAlerts.filter(a => a.type === 'high').length} Yüksek
+                  {riskAlerts.filter(a => a.type === 'high').length} {t('high')}
                 </span>
                 <span style={{ padding: '4px 8px', backgroundColor: '#fef3c7', color: '#92400e', borderRadius: '12px', fontSize: '12px', fontWeight: 'bold' }}>
-                  {riskAlerts.filter(a => a.type === 'medium').length} Orta
+                  {riskAlerts.filter(a => a.type === 'medium').length} {t('medium')}
                 </span>
               </div>
             </div>
@@ -568,7 +568,7 @@ function App() {
                   fontSize: '14px'
                 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
-                    <span style={{ flex: 1, lineHeight: '1.4' }}>{alert.message}</span>
+                    <span style={{ flex: 1, lineHeight: '1.4' }}>{t(alert.messageKey)}</span>
                     <span style={{ fontSize: '12px', color: '#6b7280', marginLeft: '10px' }}>{alert.date}</span>
                   </div>
                 </div>
@@ -579,7 +579,7 @@ function App() {
           {/* Performance Dashboard */}
           <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '20px', marginBottom: '30px' }}>
             <div style={{ backgroundColor: 'white', padding: '25px', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
-              <h3 style={{ marginBottom: '20px', fontSize: '18px', color: '#374151' }}>📈 Portföy Performans Trendi</h3>
+              <h3 style={{ marginBottom: '20px', fontSize: '18px', color: '#374151' }}>📈 {t('portfolioPerformanceTrend')}</h3>
               <ResponsiveContainer width="100%" height={300}>
                 <LineChart data={monthlyPerformanceData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -588,18 +588,18 @@ function App() {
                   <YAxis yAxisId="right" orientation="right" />
                   <Tooltip />
                   <Legend />
-                  <Line yAxisId="left" type="monotone" dataKey="portfolio" stroke="#5b5ce6" strokeWidth={3} name="Portföy Getiri (%)" dot={{ fill: '#5b5ce6', strokeWidth: 2, r: 6 }} />
-                  <Line yAxisId="left" type="monotone" dataKey="benchmark" stroke="#6b7280" strokeWidth={2} strokeDasharray="5 5" name="Benchmark (%)" />
-                  <Line yAxisId="right" type="monotone" dataKey="carbon" stroke="#ef4444" strokeWidth={2} name="Karbon Yoğunluk" dot={{ fill: '#ef4444', strokeWidth: 2, r: 4 }} />
+                  <Line yAxisId="left" type="monotone" dataKey="portfolio" stroke="#5b5ce6" strokeWidth={3} name={t('portfolioReturn')} dot={{ fill: '#5b5ce6', strokeWidth: 2, r: 6 }} />
+                  <Line yAxisId="left" type="monotone" dataKey="benchmark" stroke="#6b7280" strokeWidth={2} strokeDasharray="5 5" name={t('benchmark')} />
+                  <Line yAxisId="right" type="monotone" dataKey="carbon" stroke="#ef4444" strokeWidth={2} name={t('carbonIntensityShort')} dot={{ fill: '#ef4444', strokeWidth: 2, r: 4 }} />
                 </LineChart>
               </ResponsiveContainer>
               <div style={{ marginTop: '15px', padding: '10px', backgroundColor: '#f8fafc', borderRadius: '6px', fontSize: '14px', color: '#475569' }}>
-                📊 Portföy son 6 ayda benchmark'tan %5.8 daha iyi performans gösterirken karbon yoğunluk %11.2 azaldı.
+                📈 {t('portfolioBenchmarkSummary')}
               </div>
             </div>
 
             <div style={{ backgroundColor: 'white', padding: '25px', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
-              <h3 style={{ marginBottom: '20px', fontSize: '18px', color: '#374151' }}>📋 Düzenleyici Takvim</h3>
+              <h3 style={{ marginBottom: '20px', fontSize: '18px', color: '#374151' }}>📋 {t('regulatoryCalendar')}</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {regulatoryDeadlines.map((deadline, idx) => (
                   <div key={idx} style={{
@@ -615,7 +615,7 @@ function App() {
                         fontWeight: 'bold',
                         color: deadline.daysLeft <= 30 ? '#dc2626' : deadline.daysLeft <= 60 ? '#d97706' : '#16a34a'
                       }}>
-                        {deadline.daysLeft} gün
+                        {deadline.daysLeft} {t('daysLeft')}
                       </span>
                     </div>
                   </div>
