@@ -19,8 +19,8 @@
   status = 200
 
 # Function configuration
-[functions]
-  directory = "backend/netlify/functions"
+#[functions]
+#  directory = "backend/netlify/functions"
 
 # Headers for security
 [[headers]]
