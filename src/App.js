@@ -3644,7 +3644,7 @@ function App() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '25px', marginBottom: '30px' }}>
             {/* Loan Portfolio */}
             <div style={{ backgroundColor: 'white', padding: '25px', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
-              <h3 style={{ marginBottom: '20px', fontSize: '18px', color: '#1e40af' }}>💼 Kredi Portföyü</h3>
+              <h3 style={{ marginBottom: '20px', fontSize: '18px', color: '#1e40af' }}>💼 {t('loanPortfolio')}</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
                 <div style={{ 
                   padding: '15px', 
@@ -3653,10 +3653,10 @@ function App() {
                   borderLeft: '4px solid #3b82f6'
                 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: '14px', fontWeight: '600' }}>Kurumsal Krediler</span>
+                    <span style={{ fontSize: '14px', fontWeight: '600' }}>{t('corporateLoans')}</span>
                     <span style={{ fontSize: '16px', fontWeight: 'bold', color: '#3b82f6' }}>€15.2B</span>
                   </div>
-                  <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '5px' }}>185 aktif müşteri</div>
+                  <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '5px' }}>185 {t('activeCustomers')}</div>
                 </div>
                 
                 <div style={{ 
@@ -3666,10 +3666,10 @@ function App() {
                   borderLeft: '4px solid #22c55e'
                 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: '14px', fontWeight: '600' }}>Yeşil Tahviller</span>
+                    <span style={{ fontSize: '14px', fontWeight: '600' }}>{t('greenBonds')}</span>
                     <span style={{ fontSize: '16px', fontWeight: 'bold', color: '#22c55e' }}>€4.8B</span>
                   </div>
-                  <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '5px' }}>45 ihraç</div>
+                  <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '5px' }}>45 {t('issuances')}</div>
                 </div>
                 
                 <div style={{ 
@@ -3679,10 +3679,10 @@ function App() {
                   borderLeft: '4px solid #f59e0b'
                 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: '14px', fontWeight: '600' }}>Proje Finansmanı</span>
+                    <span style={{ fontSize: '14px', fontWeight: '600' }}>{t('projectFinancing')}</span>
                     <span style={{ fontSize: '16px', fontWeight: 'bold', color: '#f59e0b' }}>€2.1B</span>
                   </div>
-                  <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '5px' }}>12 büyük proje</div>
+                  <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '5px' }}>12 {t('largProjects')}</div>
                 </div>
                 
                 <div style={{ 
@@ -3692,43 +3692,43 @@ function App() {
                   borderLeft: '4px solid #ec4899'
                 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <span style={{ fontSize: '14px', fontWeight: '600' }}>ESG Fonları</span>
+                    <span style={{ fontSize: '14px', fontWeight: '600' }}>{t('esgFunds')}</span>
                     <span style={{ fontSize: '16px', fontWeight: 'bold', color: '#ec4899' }}>€2.7B</span>
                   </div>
-                  <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '5px' }}>8 fon, ortalama %15.2 getiri</div>
+                  <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '5px' }}>8 fon, {t('avgReturn')} %15.2</div>
                 </div>
               </div>
             </div>
             
             {/* Risk Analytics */}
             <div style={{ backgroundColor: 'white', padding: '25px', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
-              <h3 style={{ marginBottom: '20px', fontSize: '18px', color: '#dc2626' }}>⚡ Risk Analitiği</h3>
+              <h3 style={{ marginBottom: '20px', fontSize: '18px', color: '#dc2626' }}>⚡ {t('riskAnalytics')}</h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                 <div style={{ textAlign: 'center' }}>
                   <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '8px' }}>Climate VaR (1Y, 99%)</div>
                   <div style={{ fontSize: '36px', fontWeight: 'bold', color: '#dc2626', marginBottom: '5px' }}>
                     -€695M
                   </div>
-                  <div style={{ fontSize: '12px', color: '#dc2626' }}>Portföyün -2.8%'i</div>
+                  <div style={{ fontSize: '12px', color: '#dc2626' }}>{t('ofPortfolio')} -2.8%</div>
                 </div>
                 
                 <div style={{ padding: '15px', backgroundColor: '#fef2f2', borderRadius: '8px' }}>
-                  <h4 style={{ fontSize: '14px', margin: '0 0 10px 0', color: '#991b1b' }}>Sektörel Risk Dağılımı</h4>
+                  <h4 style={{ fontSize: '14px', margin: '0 0 10px 0', color: '#991b1b' }}>{t('sectoralRiskDistribution')}</h4>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                      <span style={{ fontSize: '12px' }}>Enerji</span>
+                      <span style={{ fontSize: '12px' }}>{t('energy')}</span>
                       <span style={{ fontSize: '12px', fontWeight: 'bold', color: '#dc2626' }}>-€280M</span>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                      <span style={{ fontSize: '12px' }}>Sanayi</span>
+                      <span style={{ fontSize: '12px' }}>{t('industry')}</span>
                       <span style={{ fontSize: '12px', fontWeight: 'bold', color: '#ea580c' }}>-€195M</span>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                      <span style={{ fontSize: '12px' }}>Ulaşım</span>
+                      <span style={{ fontSize: '12px' }}>{t('transport')}</span>
                       <span style={{ fontSize: '12px', fontWeight: 'bold', color: '#f59e0b' }}>-€145M</span>
                     </div>
                     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                      <span style={{ fontSize: '12px' }}>Diğer</span>
+                      <span style={{ fontSize: '12px' }}>{t('other')}</span>
                       <span style={{ fontSize: '12px', fontWeight: 'bold', color: '#a3a3a3' }}>-€75M</span>
                     </div>
                   </div>
@@ -3736,7 +3736,7 @@ function App() {
                 
                 <div style={{ padding: '12px', backgroundColor: '#dbeafe', borderRadius: '6px' }}>
                   <p style={{ margin: 0, fontSize: '12px', color: '#1e40af' }}>
-                    📈 <strong>Stress Test:</strong> 2°C senaryosunda portföy değerlemesi
+                    📈 <strong>{t('stressTest')}:</strong> 2°C {t('scenarioValuation')}
                   </p>
                 </div>
               </div>
@@ -3745,39 +3745,39 @@ function App() {
           
           {/* Regulatory Compliance */}
           <div style={{ backgroundColor: '#f8fafc', padding: '25px', borderRadius: '12px', marginBottom: '25px', border: '1px solid #e2e8f0' }}>
-            <h3 style={{ marginBottom: '20px', fontSize: '18px', color: '#1e293b' }}>📋 Düzenleyici Uyumluluk</h3>
+            <h3 style={{ marginBottom: '20px', fontSize: '18px', color: '#1e293b' }}>📋 {t('regulatoryCompliance')}</h3>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
               <div style={{ backgroundColor: 'white', padding: '20px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
-                <h4 style={{ fontSize: '16px', marginBottom: '15px', color: '#059669' }}>TCFD Raporlama</h4>
+                <h4 style={{ fontSize: '16px', marginBottom: '15px', color: '#059669' }}>{t('tcfdReportingFull')}</h4>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                  <span style={{ fontSize: '14px' }}>Yönetişim</span>
+                  <span style={{ fontSize: '14px' }}>{t('governance')}</span>
                   <span style={{ fontSize: '20px', color: '#059669' }}>✓</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                  <span style={{ fontSize: '14px' }}>Strateji</span>
+                  <span style={{ fontSize: '14px' }}>{t('strategy')}</span>
                   <span style={{ fontSize: '20px', color: '#f59e0b' }}>◐</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                  <span style={{ fontSize: '14px' }}>Risk Yönetimi</span>
+                  <span style={{ fontSize: '14px' }}>{t('riskManagement')}</span>
                   <span style={{ fontSize: '20px', color: '#059669' }}>✓</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: '14px' }}>Metrikler</span>
+                  <span style={{ fontSize: '14px' }}>{t('metrics')}</span>
                   <span style={{ fontSize: '20px', color: '#059669' }}>✓</span>
                 </div>
               </div>
               
               <div style={{ backgroundColor: 'white', padding: '20px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
-                <h4 style={{ fontSize: '16px', marginBottom: '15px', color: '#3b82f6' }}>EU Taxonomy</h4>
+                <h4 style={{ fontSize: '16px', marginBottom: '15px', color: '#3b82f6' }}>{t('euTaxonomy')}</h4>
                 <div style={{ marginBottom: '15px' }}>
                   <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#3b82f6' }}>32%</div>
-                  <div style={{ fontSize: '12px', color: '#6b7280' }}>Uyumlu yatırımlar</div>
+                  <div style={{ fontSize: '12px', color: '#6b7280' }}>{t('compliantInvestments')}</div>
                 </div>
-                <div style={{ fontSize: '12px', marginBottom: '8px' }}>Sectoral breakdown:</div>
+                <div style={{ fontSize: '12px', marginBottom: '8px' }}>{t('sectoralBreakdown')}:</div>
                 <div style={{ fontSize: '12px', color: '#6b7280' }}>
-                  • Yeşil enerji: 18%<br/>
-                  • Sürdürülebilir ulaşım: 8%<br/>
-                  • Çevreci binalar: 6%
+                  • {t('greenEnergy')}: 18%<br/>
+                  • {t('sustainableTransport')}: 8%<br/>
+                  • {t('greenBuildings')}: 6%
                 </div>
               </div>
               
@@ -3785,7 +3785,7 @@ function App() {
                 <h4 style={{ fontSize: '16px', marginBottom: '15px', color: '#8b5cf6' }}>SFDR Art. 8/9</h4>
                 <div style={{ marginBottom: '15px' }}>
                   <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#8b5cf6' }}>€4.2B</div>
-                  <div style={{ fontSize: '12px', color: '#6b7280' }}>Art. 8 fonlar</div>
+                  <div style={{ fontSize: '12px', color: '#6b7280' }}>{t('art8Funds')}</div>
                 </div>
                 <div style={{ marginBottom: '8px' }}>
                   <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#10b981' }}>€800M</div>

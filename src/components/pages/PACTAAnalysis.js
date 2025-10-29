@@ -492,7 +492,7 @@ const PACTAAnalysis = () => {
   const renderAnalysisResults = () => (
     <div>
       <div style={{ backgroundColor: 'white', padding: '30px', borderRadius: '12px', marginBottom: '30px' }}>
-        <h2 style={{ color: '#1e40af', marginBottom: '25px' }}>🎯 PACTA Analiz Sonuçları</h2>
+        <h2 style={{ color: '#1e40af', marginBottom: '25px' }}>🎯 {t('pactaAnalysisResults')}</h2>
         
         {/* Key Metrics */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px', marginBottom: '40px' }}>
@@ -504,13 +504,13 @@ const PACTAAnalysis = () => {
             border: '2px solid #3b82f6'
           }}>
             <h3 style={{ margin: '0 0 10px 0', fontSize: '14px', color: '#1e40af' }}>
-              Uyum Skoru
+              {t('alignmentScore')}
             </h3>
             <div style={{ fontSize: '36px', fontWeight: 'bold', color: '#1e40af' }}>
               {analysisResults?.alignmentScore || 65}%
             </div>
             <p style={{ margin: '8px 0 0 0', fontSize: '12px', color: '#6b7280' }}>
-              Sektör ortalaması: 58%
+              {t('sectorAverage')}: 58%
             </p>
           </div>
           
@@ -522,13 +522,13 @@ const PACTAAnalysis = () => {
             border: '2px solid #10b981'
           }}>
             <h3 style={{ margin: '0 0 10px 0', fontSize: '14px', color: '#065f46' }}>
-              İklim Senaryosu
+              {t('climateScenario')}
             </h3>
             <div style={{ fontSize: '28px', fontWeight: 'bold', color: '#065f46' }}>
               Below 2°C
             </div>
             <p style={{ margin: '8px 0 0 0', fontSize: '12px', color: '#6b7280' }}>
-              Paris Anlaşması uyumlu
+              {t('parisAgreementCompliant')}
             </p>
           </div>
           
@@ -540,13 +540,13 @@ const PACTAAnalysis = () => {
             border: '2px solid #f59e0b'
           }}>
             <h3 style={{ margin: '0 0 10px 0', fontSize: '14px', color: '#92400e' }}>
-              Sektör Performansı
+              {t('sectorPerformance')}
             </h3>
             <div style={{ fontSize: '36px', fontWeight: 'bold', color: '#92400e' }}>
               B+
             </div>
             <p style={{ margin: '8px 0 0 0', fontSize: '12px', color: '#6b7280' }}>
-              İyi seviye
+              {t('goodLevel')}
             </p>
           </div>
           
@@ -558,20 +558,20 @@ const PACTAAnalysis = () => {
             border: '2px solid #8b5cf6'
           }}>
             <h3 style={{ margin: '0 0 10px 0', fontSize: '14px', color: '#581c87' }}>
-              Risk Skorlu
+              {t('riskScore')}
             </h3>
             <div style={{ fontSize: '36px', fontWeight: 'bold', color: '#581c87' }}>
-              Düşük
+              {t('low')}
             </div>
             <p style={{ margin: '8px 0 0 0', fontSize: '12px', color: '#6b7280' }}>
-              Transition risk
+              {t('transitionRisk')}
             </p>
           </div>
         </div>
         
         {/* Recommendations */}
         <div style={{ backgroundColor: '#f8fafc', padding: '25px', borderRadius: '12px' }}>
-          <h3 style={{ marginBottom: '20px', color: '#1e40af' }}>💡 Öneriler</h3>
+          <h3 style={{ marginBottom: '20px', color: '#1e40af' }}>💡 {t('recommendations')}</h3>
           <ul style={{ margin: 0, paddingLeft: '20px' }}>
             {analysisResults?.recommendations?.map((rec, index) => (
               <li key={index} style={{ marginBottom: '10px', color: '#374151' }}>
@@ -584,7 +584,7 @@ const PACTAAnalysis = () => {
 
       {/* Benchmark Visualization */}
       <div style={{ backgroundColor: 'white', padding: '30px', borderRadius: '12px' }}>
-        <h2 style={{ color: '#1e40af', marginBottom: '25px' }}>📊 Benchmark Karşılaştırması</h2>
+        <h2 style={{ color: '#1e40af', marginBottom: '25px' }}>📊 {t('benchmarkComparison')}</h2>
         <PACTABenchmarkVisualizer 
           sectorData={{
             sector: selectedSector,
@@ -604,7 +604,7 @@ const PACTAAnalysis = () => {
           📊 PACTA Portfolio Analysis
         </h1>
         <p style={{ margin: 0, color: '#6b7280', fontSize: '18px' }}>
-          Paris Agreement Capital Transition Assessment - Kapsamlı Portföy İklim Uyumu Analizi
+          {t('pactaFullDescription')}
         </p>
       </div>
 
@@ -617,11 +617,11 @@ const PACTAAnalysis = () => {
         boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
-          {[
-            { step: 1, title: 'Şirket Bilgileri' },
-            { step: 2, title: 'Portföy Yükleme' },
-            { step: 3, title: 'Sektörel Veriler' },
-            { step: 4, title: 'Analiz Sonuçları' }
+          {
+            { step: 1, title: t('companyInformation') },
+            { step: 2, title: t('portfolioUpload') },
+            { step: 3, title: t('sectoralData') },
+            { step: 4, title: t('analysisResults') }
           ].map((item) => (
             <div
               key={item.step}
@@ -642,8 +642,8 @@ const PACTAAnalysis = () => {
                 {item.step}. {item.title}
               </div>
               <div style={{ fontSize: '12px' }}>
-                {currentStep > item.step ? '✅ Tamamlandı' : 
-                 currentStep === item.step ? '▶️ Aktif' : '⏳ Bekliyor'}
+                {currentStep > item.step ? `✅ ${t('progressCompleted')}` : 
+                 currentStep === item.step ? `▶️ ${t('progressActive')}` : `⏳ ${t('progressWaiting')}`}
               </div>
             </div>
           ))}
@@ -668,7 +668,7 @@ const PACTAAnalysis = () => {
             fontSize: '16px'
           }}
         >
-          ← Önceki
+          ← {t('previous')}
         </button>
 
         <button
@@ -691,8 +691,8 @@ const PACTAAnalysis = () => {
             fontWeight: '600'
           }}
         >
-          {currentStep === 3 ? '🔍 Analizi Başlat' : 
-           currentStep === 4 ? '✅ Tamamlandı' : 'Sonraki →'}
+          {currentStep === 3 ? `🔍 ${t('startAnalysis')}` : 
+           currentStep === 4 ? `✅ ${t('completed')}` : `${t('next')} →`}
         </button>
       </div>
     </div>
