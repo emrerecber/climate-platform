@@ -2330,10 +2330,10 @@ function App() {
           <div style={{ backgroundColor: 'white', padding: '30px', borderRadius: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
             {formStep === 1 && (
               <div>
-                <h2 style={{ marginBottom: '20px' }}>Şirket Bilgileri</h2>
+                <h2 style={{ marginBottom: '20px' }}>{t('companyInfo')}</h2>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
                   <div>
-                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Şirket Adı *</label>
+                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>{t('companyName')} *</label>
                     <input
                       type="text"
                       value={riskFormData.companyName}
@@ -2345,11 +2345,11 @@ function App() {
                         borderRadius: '8px',
                         fontSize: '14px'
                       }}
-                      placeholder="Örn: Türkiye İş Bankası"
+                      placeholder={t('companyNamePlaceholder')}
                     />
                   </div>
                   <div>
-                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Sektör *</label>
+                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>{t('sector')} *</label>
                     <select
                       value={riskFormData.sector}
                       onChange={(e) => handleFormChange('sector', e.target.value)}
@@ -2362,19 +2362,19 @@ function App() {
                         backgroundColor: 'white'
                       }}
                     >
-                      <option value="">Seçiniz</option>
-                      <option value="Finans">Finans</option>
-                      <option value="Enerji">Enerji</option>
-                      <option value="Sanayi">Sanayi</option>
-                      <option value="Altyapı">Altyapı</option>
-                      <option value="Otomotiv">Otomotiv</option>
-                      <option value="Telekomünikasyon">Telekomünikasyon</option>
-                      <option value="Dayanıklı Tüketim">Dayanıklı Tüketim</option>
-                      <option value="Lojistik">Lojistik</option>
+                      <option value="">{t('selectSector')}</option>
+                      <option value="Finans">{t('finance')}</option>
+                      <option value="Enerji">{t('energy')}</option>
+                      <option value="Sanayi">{t('industry')}</option>
+                      <option value="Altyapı">{t('infrastructure')}</option>
+                      <option value="Otomotiv">{t('automotive')}</option>
+                      <option value="Telekomünikasyon">{t('telecommunications')}</option>
+                      <option value="Dayanıklı Tüketim">{t('durableGoods')}</option>
+                      <option value="Lojistik">{t('logistics')}</option>
                     </select>
                   </div>
                   <div>
-                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Kredi Tutarı *</label>
+                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>{t('creditAmount')} *</label>
                     <input
                       type="number"
                       value={riskFormData.creditAmount}
@@ -2386,11 +2386,11 @@ function App() {
                         borderRadius: '8px',
                         fontSize: '14px'
                       }}
-                      placeholder="Örn: 10000000"
+                      placeholder={t('creditAmountPlaceholder')}
                     />
                   </div>
                   <div>
-                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Para Birimi</label>
+                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>{t('currency')}</label>
                     <select
                       value={riskFormData.currency}
                       onChange={(e) => handleFormChange('currency', e.target.value)}
@@ -2412,7 +2412,7 @@ function App() {
                     </select>
                   </div>
                   <div>
-                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Çalışan Sayısı</label>
+                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>{t('employeeCount')}</label>
                     <input
                       type="number"
                       value={riskFormData.employeeCount}
@@ -2424,11 +2424,11 @@ function App() {
                         borderRadius: '8px',
                         fontSize: '14px'
                       }}
-                      placeholder="Örn: 5000"
+                      placeholder={t('employeeCountPlaceholder')}
                     />
                   </div>
                   <div>
-                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>Yıllık Ciro (Milyon)</label>
+                    <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500' }}>{t('annualRevenue')}</label>
                     <input
                       type="number"
                       value={riskFormData.annualRevenue}
@@ -2440,7 +2440,7 @@ function App() {
                         borderRadius: '8px',
                         fontSize: '14px'
                       }}
-                      placeholder="Örn: 500"
+                      placeholder={t('annualRevenuePlaceholder')}
                     />
                   </div>
                 </div>
