@@ -4,33 +4,71 @@ import {
   XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer 
 } from 'recharts';
 import { useTranslation } from 'react-i18next';
+// Chart.js imports and registrations
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip as ChartTooltip,
+  Legend as ChartLegend,
+  ArcElement,
+  PointElement,
+  LineElement,
+  RadialLinearScale,
+  Filler
+} from 'chart.js';
+
 import './App.css';
 import RiskCalculator from './utils/riskCalculator';
 import EnhancedRiskCalculator from './utils/enhancedRiskCalculator';
 import FinancialProducts from './utils/financialProducts';
+import FinancialAnalysis from './utils/financialAnalysis';
 import RiskReport from './components/RiskReport';
 import HomePage from './components/pages/HomePage';
 import LoginPage from './components/pages/LoginPage';
 import PACTADataForm from './components/PACTADataForm';
 import LanguageSwitcher from './components/LanguageSwitcher';
+import FinancialDataForm from './components/FinancialDataForm';
+import FinancialReport from './components/FinancialReport';
+import PortfolioOptimization from './components/pages/PortfolioOptimization';
+import RegulatoryReports from './components/pages/RegulatoryReports';
+import PACTAAnalysis from './components/pages/PACTAAnalysis';
+import EnhancedRiskAnalysis from './components/EnhancedRiskAnalysis';
+
+// Register Chart.js components
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  ChartTooltip,
+  ChartLegend,
+  ArcElement,
+  PointElement,
+  LineElement,
+  RadialLinearScale,
+  Filler
+);
 
 // Genişletilmiş veri seti - Excel'deki tüm şirketler
 const portfolioData = [
-  { id: 442279, name: "TÜRKİYE İŞ BANKASI", sector: "Finans", loan: 9000000, currency: "EUR", transitionRisk: 1.22, physicalRisk: 2.19, riskCategory: "Medium" },
-  { id: 442280, name: "GARANTİ BANKASI", sector: "Finans", loan: 4050000, currency: "EUR", transitionRisk: 1.22, physicalRisk: 2.19, riskCategory: "Medium" },
-  { id: 442281, name: "AKBANK", sector: "Finans", loan: 4500000, currency: "EUR", transitionRisk: 1.86, physicalRisk: 2.19, riskCategory: "Medium" },
-  { id: 442282, name: "ZİRAAT BANKASI", sector: "Finans", loan: 13500000, currency: "EUR", transitionRisk: 2.04, physicalRisk: 2.19, riskCategory: "Medium" },
-  { id: 442283, name: "DENİZBANK", sector: "Finans", loan: 37500000, currency: "CNY", transitionRisk: 1.94, physicalRisk: 2.19, riskCategory: "Medium" },
-  { id: 442284, name: "ÇANAKKALE OTOYOL", sector: "Altyapı", loan: 31021981, currency: "EUR", transitionRisk: 1.76, physicalRisk: 1.90, riskCategory: "Medium" },
-  { id: 442285, name: "TÜPRAŞ", sector: "Enerji", loan: 250000000, currency: "TRY", transitionRisk: 1.88, physicalRisk: 2.12, riskCategory: "Medium" },
-  { id: 442286, name: "SOCAR TURKEY", sector: "Enerji", loan: 4500000000, currency: "USD", transitionRisk: 2.74, physicalRisk: 2.50, riskCategory: "High" },
-  { id: 442287, name: "FORD OTOSAN", sector: "Otomotiv", loan: 8181818, currency: "EUR", transitionRisk: 1.94, physicalRisk: 2.15, riskCategory: "Medium" },
-  { id: 442288, name: "ŞİŞECAM", sector: "Sanayi", loan: 4000000, currency: "EUR", transitionRisk: 2.40, physicalRisk: 2.06, riskCategory: "High" },
-  { id: 442289, name: "TÜRK TELEKOM", sector: "Telekomünikasyon", loan: 17500000, currency: "EUR", transitionRisk: 1.78, physicalRisk: 2.19, riskCategory: "Medium" },
-  { id: 442290, name: "CHERY OTOMOBİL", sector: "Otomotiv", loan: 200000000, currency: "TRY", transitionRisk: 1.70, physicalRisk: 2.50, riskCategory: "Medium" },
-  { id: 442291, name: "BEKO", sector: "Dayanıklı Tüketim", loan: 2500000, currency: "EUR", transitionRisk: 1.63, physicalRisk: 1.97, riskCategory: "Medium" },
-  { id: 442292, name: "ENTEK ELEKTRİK", sector: "Enerji", loan: 295000000, currency: "TRY", transitionRisk: 1.24, physicalRisk: 2.50, riskCategory: "Medium" },
-  { id: 442293, name: "KUMPORT", sector: "Lojistik", loan: 10000000, currency: "USD", transitionRisk: 1.70, physicalRisk: 2.50, riskCategory: "Medium" }
+  { id: 442279, name: "TÜRKİYE İŞ BANKASI", sector: "finance", loan: 9000000, currency: "EUR", transitionRisk: 1.22, physicalRisk: 2.19, riskCategory: "Medium" },
+  { id: 442280, name: "GARANTİ BANKASI", sector: "finance", loan: 4050000, currency: "EUR", transitionRisk: 1.22, physicalRisk: 2.19, riskCategory: "Medium" },
+  { id: 442281, name: "AKBANK", sector: "finance", loan: 4500000, currency: "EUR", transitionRisk: 1.86, physicalRisk: 2.19, riskCategory: "Medium" },
+  { id: 442282, name: "ZİRAAT BANKASI", sector: "finance", loan: 13500000, currency: "EUR", transitionRisk: 2.04, physicalRisk: 2.19, riskCategory: "Medium" },
+  { id: 442283, name: "DENİZBANK", sector: "finance", loan: 37500000, currency: "CNY", transitionRisk: 1.94, physicalRisk: 2.19, riskCategory: "Medium" },
+  { id: 442284, name: "ÇANAKKALE OTOYOL", sector: "infrastructure", loan: 31021981, currency: "EUR", transitionRisk: 1.76, physicalRisk: 1.90, riskCategory: "Medium" },
+  { id: 442285, name: "TÜPRAŞ", sector: "energy", loan: 250000000, currency: "TRY", transitionRisk: 1.88, physicalRisk: 2.12, riskCategory: "Medium" },
+  { id: 442286, name: "SOCAR TURKEY", sector: "energy", loan: 4500000000, currency: "USD", transitionRisk: 2.74, physicalRisk: 2.50, riskCategory: "High" },
+  { id: 442287, name: "FORD OTOSAN", sector: "automotive", loan: 8181818, currency: "EUR", transitionRisk: 1.94, physicalRisk: 2.15, riskCategory: "Medium" },
+  { id: 442288, name: "ŞİŞECAM", sector: "industry", loan: 4000000, currency: "EUR", transitionRisk: 2.40, physicalRisk: 2.06, riskCategory: "High" },
+  { id: 442289, name: "TÜRK TELEKOM", sector: "telecommunications", loan: 17500000, currency: "EUR", transitionRisk: 1.78, physicalRisk: 2.19, riskCategory: "Medium" },
+  { id: 442290, name: "CHERY OTOMOBİL", sector: "automotive", loan: 200000000, currency: "TRY", transitionRisk: 1.70, physicalRisk: 2.50, riskCategory: "Medium" },
+  { id: 442291, name: "BEKO", sector: "durableGoods", loan: 2500000, currency: "EUR", transitionRisk: 1.63, physicalRisk: 1.97, riskCategory: "Medium" },
+  { id: 442292, name: "ENTEK ELEKTRİK", sector: "energy", loan: 295000000, currency: "TRY", transitionRisk: 1.24, physicalRisk: 2.50, riskCategory: "Medium" },
+  { id: 442293, name: "KUMPORT", sector: "logistics", loan: 10000000, currency: "USD", transitionRisk: 1.70, physicalRisk: 2.50, riskCategory: "Medium" }
 ];
 
 const buttonStyle = {
@@ -56,8 +94,14 @@ function App() {
   const [selectedMaturity, setSelectedMaturity] = useState('2030_2039');
   const [selectedProductType, setSelectedProductType] = useState('sme_loan');
   
+  // Financial system states
+  const [showFinancialForm, setShowFinancialForm] = useState(false);
+  const [showFinancialReport, setShowFinancialReport] = useState(false);
+  const [financialAnalysisData, setFinancialAnalysisData] = useState(null);
+  
   // Enhanced calculators
   const enhancedCalculator = new EnhancedRiskCalculator();
+  const financialAnalysis = new FinancialAnalysis();
   const financialProducts = new FinancialProducts(enhancedCalculator);
   const [riskFormData, setRiskFormData] = useState({
     companyName: '',
@@ -269,53 +313,314 @@ function App() {
     setRiskFormData({ ...riskFormData, [field]: value });
   };
 
+  const handleFinancialFormSubmit = (data) => {
+    const analysisResult = financialAnalysis.generateComprehensiveAnalysis(data);
+    setFinancialAnalysisData(analysisResult);
+    setShowFinancialForm(false);
+    setShowFinancialReport(true);
+  };
+
+  const handleFinancialFormCancel = () => {
+    setShowFinancialForm(false);
+  };
+
+  const handleFinancialReportClose = () => {
+    setShowFinancialReport(false);
+    setFinancialAnalysisData(null);
+  };
+
+  const handleExportPDF = async () => {
+    if (!financialAnalysisData) {
+      alert('No financial data available for export');
+      return;
+    }
+    
+    try {
+      const { exportFinancialReportToPDF } = await import('./utils/exportUtils');
+      const result = await exportFinancialReportToPDF(financialAnalysisData, financialAnalysisData.entityInfo.name);
+      
+      if (result.success) {
+        alert(`PDF exported successfully as: ${result.fileName}`);
+      } else {
+        alert(`PDF export failed: ${result.error}`);
+      }
+    } catch (error) {
+      console.error('Export error:', error);
+      alert('PDF export failed. Please try again.');
+    }
+  };
+
+  const handleExportExcel = async () => {
+    if (!financialAnalysisData) {
+      alert('No financial data available for export');
+      return;
+    }
+    
+    try {
+      const { exportFinancialReportToExcel } = await import('./utils/exportUtils');
+      const result = exportFinancialReportToExcel(financialAnalysisData, financialAnalysisData.entityInfo.name);
+      
+      if (result.success) {
+        alert(`Excel file exported successfully as: ${result.fileName}`);
+      } else {
+        alert(`Excel export failed: ${result.error}`);
+      }
+    } catch (error) {
+      console.error('Export error:', error);
+      alert('Excel export failed. Please try again.');
+    }
+  };
+
   const renderContent = () => {
     if (activeTab === 'dashboard') {
+      // Enhanced dashboard data calculations
+      const dashboardMetrics = {
+        totalPortfolioValue: totalLoan,
+        portfolioGrowth: 8.5, // YoY growth percentage
+        avgCarbonIntensity: portfolioData.reduce((sum, c) => sum + (c.transitionRisk * 45), 0) / portfolioData.length,
+        climateVaR: totalLoan * 0.125, // Climate Value at Risk
+        esgScore: portfolioData.reduce((sum, c) => sum + (c.transitionRisk < 1.5 ? 85 : c.transitionRisk < 2.5 ? 65 : 45), 0) / portfolioData.length,
+        greenFinanceRatio: 28.5, // Percentage of green financing
+        tcfdCompliance: 78.5, // TCFD compliance percentage
+        netZeroProgress: 34.2 // Progress towards net zero targets
+      };
+      
+      // Monthly performance data
+      const monthlyPerformanceData = [
+        { month: 'Jan', portfolio: 25.8, benchmark: 24.2, carbon: 145.2 },
+        { month: 'Feb', portfolio: 26.2, benchmark: 24.6, carbon: 142.1 },
+        { month: 'Mar', portfolio: 25.9, benchmark: 24.1, carbon: 138.9 },
+        { month: 'Apr', portfolio: 26.8, benchmark: 25.2, carbon: 135.7 },
+        { month: 'May', portfolio: 27.1, benchmark: 25.8, carbon: 132.4 },
+        { month: 'Jun', portfolio: 27.5, benchmark: 26.0, carbon: 129.6 }
+      ];
+      
+      // ESG breakdown data
+      const esgBreakdownData = [
+        { component: 'Environmental', current: 72, target: 85, color: '#10b981' },
+        { component: 'Social', current: 68, target: 80, color: '#3b82f6' },
+        { component: 'Governance', current: 81, target: 90, color: '#8b5cf6' }
+      ];
+      
+      // Risk alerts and notifications
+      const riskAlerts = [
+        { type: 'high', message: 'SOCAR Turkey risk seviyesi artış gösteriyor', priority: 1, date: '2024-10-06' },
+        { type: 'medium', message: 'Enerji sektöründe karbon fiyat risk artışı', priority: 2, date: '2024-10-05' },
+        { type: 'info', message: 'TÜPRAŞ ESG skoru iyileştirme gösterdi', priority: 3, date: '2024-10-04' },
+        { type: 'medium', message: 'İstanbul bölgesinde sel riski uyarısı', priority: 2, date: '2024-10-03' }
+      ];
+      
+      // Upcoming regulatory deadlines
+      const regulatoryDeadlines = [
+        { regulation: 'TCFD Annual Report', deadline: '2024-12-31', status: 'pending', daysLeft: 85 },
+        { regulation: 'EU Taxonomy Disclosure', deadline: '2024-11-15', status: 'in-progress', daysLeft: 39 },
+        { regulation: 'SFDR Quarterly Report', deadline: '2024-10-31', status: 'pending', daysLeft: 24 },
+        { regulation: 'Carbon Footprint Assessment', deadline: '2024-12-15', status: 'planning', daysLeft: 69 }
+      ];
+      
       return (
         <div>
           <div style={{ marginBottom: '30px' }}>
-            <h1 style={{ marginBottom: '8px' }}>{t('climateRiskPlatform')}</h1>
-            <p style={{ color: '#666' }}>{t('lastUpdate')}: {new Date().toLocaleDateString('tr-TR')}</p>
+            <h1 style={{ marginBottom: '8px', color: '#1e40af' }}>📈 {t('climateRiskPlatform')}</h1>
+            <p style={{ color: '#666' }}>{t('lastUpdate')}: {new Date().toLocaleDateString('tr-TR')} • Real-time data with advanced analytics</p>
           </div>
           
-          {/* Ana Göstergeler */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '15px', marginBottom: '30px' }}>
-            <div style={{ backgroundColor: '#5b5ce6', color: 'white', padding: '20px', borderRadius: '12px', textAlign: 'center' }}>
-              <h3 style={{ margin: 0, fontSize: '14px', opacity: 0.9 }}>{t('totalPortfolio')}</h3>
-              <p style={{ margin: '10px 0 0 0', fontSize: '28px', fontWeight: 'bold' }}>
-                €{(totalLoan / 1000000000).toFixed(1)}B
-              </p>
-              <span style={{ fontSize: '12px' }}>15 {t('companies')}</span>
+          {/* Enhanced Key Performance Indicators */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '15px', marginBottom: '30px' }}>
+            <div style={{ 
+              background: 'linear-gradient(135deg, #5b5ce6 0%, #4338ca 100%)', 
+              color: 'white', 
+              padding: '20px', 
+              borderRadius: '12px', 
+              textAlign: 'center',
+              position: 'relative',
+              overflow: 'hidden'
+            }}>
+              <div style={{ position: 'relative', zIndex: 1 }}>
+                <h3 style={{ margin: 0, fontSize: '14px', opacity: 0.9, fontWeight: '600' }}>{t('totalPortfolio')}</h3>
+                <p style={{ margin: '10px 0 5px 0', fontSize: '28px', fontWeight: 'bold' }}>
+                  €{(dashboardMetrics.totalPortfolioValue / 1000000000).toFixed(1)}B
+                </p>
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '5px', fontSize: '12px' }}>
+                  <span>15 {t('companies')}</span>
+                  <span style={{ color: '#22c55e', fontWeight: 'bold' }}>↑{dashboardMetrics.portfolioGrowth}%</span>
+                </div>
+              </div>
+              <div style={{ position: 'absolute', top: '-10px', right: '-10px', fontSize: '60px', opacity: 0.1 }}>💼</div>
             </div>
             
-            <div style={{ backgroundColor: '#22c55e', color: 'white', padding: '20px', borderRadius: '12px', textAlign: 'center' }}>
-              <h3 style={{ margin: 0, fontSize: '14px', opacity: 0.9 }}>{t('lowRisk')}</h3>
-              <p style={{ margin: '10px 0 0 0', fontSize: '28px', fontWeight: 'bold' }}>
-                {portfolioData.filter(c => c.transitionRisk < 1.5).length}
-              </p>
-              <span style={{ fontSize: '12px' }}>{t('companies')}</span>
+            <div style={{ 
+              background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)', 
+              color: 'white', 
+              padding: '20px', 
+              borderRadius: '12px', 
+              textAlign: 'center',
+              position: 'relative',
+              overflow: 'hidden'
+            }}>
+              <div style={{ position: 'relative', zIndex: 1 }}>
+                <h3 style={{ margin: 0, fontSize: '14px', opacity: 0.9, fontWeight: '600' }}>ESG Skoru</h3>
+                <p style={{ margin: '10px 0 5px 0', fontSize: '28px', fontWeight: 'bold' }}>
+                  {dashboardMetrics.esgScore.toFixed(0)}
+                </p>
+                <div style={{ fontSize: '12px', opacity: 0.9 }}>Portföy Ortalaması</div>
+              </div>
+              <div style={{ position: 'absolute', top: '-10px', right: '-10px', fontSize: '60px', opacity: 0.1 }}>🌱</div>
             </div>
             
-            <div style={{ backgroundColor: '#f59e0b', color: 'white', padding: '20px', borderRadius: '12px', textAlign: 'center' }}>
-              <h3 style={{ margin: 0, fontSize: '14px', opacity: 0.9 }}>{t('mediumRisk')}</h3>
-              <p style={{ margin: '10px 0 0 0', fontSize: '28px', fontWeight: 'bold' }}>
-                {portfolioData.filter(c => c.transitionRisk >= 1.5 && c.transitionRisk < 2.5).length}
-              </p>
-              <span style={{ fontSize: '12px' }}>{t('companies')}</span>
+            <div style={{ 
+              background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)', 
+              color: 'white', 
+              padding: '20px', 
+              borderRadius: '12px', 
+              textAlign: 'center',
+              position: 'relative',
+              overflow: 'hidden'
+            }}>
+              <div style={{ position: 'relative', zIndex: 1 }}>
+                <h3 style={{ margin: 0, fontSize: '14px', opacity: 0.9, fontWeight: '600' }}>Climate VaR</h3>
+                <p style={{ margin: '10px 0 5px 0', fontSize: '28px', fontWeight: 'bold' }}>
+                  €{(dashboardMetrics.climateVaR / 1000000000).toFixed(1)}B
+                </p>
+                <div style={{ fontSize: '12px', opacity: 0.9 }}>Risk Altındaki Değer</div>
+              </div>
+              <div style={{ position: 'absolute', top: '-10px', right: '-10px', fontSize: '60px', opacity: 0.1 }}>⚠️</div>
             </div>
             
-            <div style={{ backgroundColor: '#ef4444', color: 'white', padding: '20px', borderRadius: '12px', textAlign: 'center' }}>
-              <h3 style={{ margin: 0, fontSize: '14px', opacity: 0.9 }}>{t('highRisk')}</h3>
-              <p style={{ margin: '10px 0 0 0', fontSize: '28px', fontWeight: 'bold' }}>{highRiskCount}</p>
-              <span style={{ fontSize: '12px' }}>{t('companies')}</span>
+            <div style={{ 
+              background: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)', 
+              color: 'white', 
+              padding: '20px', 
+              borderRadius: '12px', 
+              textAlign: 'center',
+              position: 'relative',
+              overflow: 'hidden'
+            }}>
+              <div style={{ position: 'relative', zIndex: 1 }}>
+                <h3 style={{ margin: 0, fontSize: '14px', opacity: 0.9, fontWeight: '600' }}>Karbon Yoğunluğu</h3>
+                <p style={{ margin: '10px 0 5px 0', fontSize: '28px', fontWeight: 'bold' }}>
+                  {dashboardMetrics.avgCarbonIntensity.toFixed(0)}
+                </p>
+                <div style={{ fontSize: '12px', opacity: 0.9 }}>tCO₂/€M</div>
+              </div>
+              <div style={{ position: 'absolute', top: '-10px', right: '-10px', fontSize: '60px', opacity: 0.1 }}>🌫️</div>
             </div>
             
-            <div style={{ backgroundColor: '#06b6d4', color: 'white', padding: '20px', borderRadius: '12px', textAlign: 'center' }}>
-              <h3 style={{ margin: 0, fontSize: '14px', opacity: 0.9 }}>{t('avgRiskScore')}</h3>
-              <p style={{ margin: '10px 0 0 0', fontSize: '28px', fontWeight: 'bold' }}>
-                {avgTransitionRisk.toFixed(2)}
-              </p>
-              <span style={{ fontSize: '12px' }}>{t('transitionRisk')}</span>
+            <div style={{ 
+              background: 'linear-gradient(135deg, #06b6d4 0%, #0891b2 100%)', 
+              color: 'white', 
+              padding: '20px', 
+              borderRadius: '12px', 
+              textAlign: 'center',
+              position: 'relative',
+              overflow: 'hidden'
+            }}>
+              <div style={{ position: 'relative', zIndex: 1 }}>
+                <h3 style={{ margin: 0, fontSize: '14px', opacity: 0.9, fontWeight: '600' }}>Yeşil Finans</h3>
+                <p style={{ margin: '10px 0 5px 0', fontSize: '28px', fontWeight: 'bold' }}>
+                  {dashboardMetrics.greenFinanceRatio.toFixed(1)}%
+                </p>
+                <div style={{ fontSize: '12px', opacity: 0.9 }}>Portföy Oranı</div>
+              </div>
+              <div style={{ position: 'absolute', top: '-10px', right: '-10px', fontSize: '60px', opacity: 0.1 }}>🌍</div>
+            </div>
+
+            <div style={{ 
+              background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)', 
+              color: 'white', 
+              padding: '20px', 
+              borderRadius: '12px', 
+              textAlign: 'center',
+              position: 'relative',
+              overflow: 'hidden'
+            }}>
+              <div style={{ position: 'relative', zIndex: 1 }}>
+                <h3 style={{ margin: 0, fontSize: '14px', opacity: 0.9, fontWeight: '600' }}>Net Zero İlerleme</h3>
+                <p style={{ margin: '10px 0 5px 0', fontSize: '28px', fontWeight: 'bold' }}>
+                  {dashboardMetrics.netZeroProgress.toFixed(1)}%
+                </p>
+                <div style={{ fontSize: '12px', opacity: 0.9 }}>2050 Hedefine</div>
+              </div>
+              <div style={{ position: 'absolute', top: '-10px', right: '-10px', fontSize: '60px', opacity: 0.1 }}>🎯</div>
+            </div>
+          </div>
+
+          {/* Risk Alerts Section */}
+          <div style={{ backgroundColor: 'white', padding: '20px', borderRadius: '12px', marginBottom: '30px', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+              <h3 style={{ margin: 0, fontSize: '18px', color: '#374151' }}>🚨 Risk Uyarıları & Bildirimler</h3>
+              <div style={{ display: 'flex', gap: '5px' }}>
+                <span style={{ padding: '4px 8px', backgroundColor: '#fee2e2', color: '#991b1b', borderRadius: '12px', fontSize: '12px', fontWeight: 'bold' }}>
+                  {riskAlerts.filter(a => a.type === 'high').length} Yüksek
+                </span>
+                <span style={{ padding: '4px 8px', backgroundColor: '#fef3c7', color: '#92400e', borderRadius: '12px', fontSize: '12px', fontWeight: 'bold' }}>
+                  {riskAlerts.filter(a => a.type === 'medium').length} Orta
+                </span>
+              </div>
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '15px' }}>
+              {riskAlerts.slice(0, 4).map((alert, idx) => (
+                <div key={idx} style={{
+                  padding: '12px',
+                  backgroundColor: alert.type === 'high' ? '#fef2f2' : alert.type === 'medium' ? '#fffbeb' : '#f0f9ff',
+                  borderRadius: '8px',
+                  borderLeft: `4px solid ${alert.type === 'high' ? '#ef4444' : alert.type === 'medium' ? '#f59e0b' : '#3b82f6'}`,
+                  fontSize: '14px'
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
+                    <span style={{ flex: 1, lineHeight: '1.4' }}>{alert.message}</span>
+                    <span style={{ fontSize: '12px', color: '#6b7280', marginLeft: '10px' }}>{alert.date}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Performance Dashboard */}
+          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '20px', marginBottom: '30px' }}>
+            <div style={{ backgroundColor: 'white', padding: '25px', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
+              <h3 style={{ marginBottom: '20px', fontSize: '18px', color: '#374151' }}>📈 Portföy Performans Trendi</h3>
+              <ResponsiveContainer width="100%" height={300}>
+                <LineChart data={monthlyPerformanceData}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                  <XAxis dataKey="month" />
+                  <YAxis yAxisId="left" orientation="left" />
+                  <YAxis yAxisId="right" orientation="right" />
+                  <Tooltip />
+                  <Legend />
+                  <Line yAxisId="left" type="monotone" dataKey="portfolio" stroke="#5b5ce6" strokeWidth={3} name="Portföy Getiri (%)" dot={{ fill: '#5b5ce6', strokeWidth: 2, r: 6 }} />
+                  <Line yAxisId="left" type="monotone" dataKey="benchmark" stroke="#6b7280" strokeWidth={2} strokeDasharray="5 5" name="Benchmark (%)" />
+                  <Line yAxisId="right" type="monotone" dataKey="carbon" stroke="#ef4444" strokeWidth={2} name="Karbon Yoğunluk" dot={{ fill: '#ef4444', strokeWidth: 2, r: 4 }} />
+                </LineChart>
+              </ResponsiveContainer>
+              <div style={{ marginTop: '15px', padding: '10px', backgroundColor: '#f8fafc', borderRadius: '6px', fontSize: '14px', color: '#475569' }}>
+                📊 Portföy son 6 ayda benchmark'tan %5.8 daha iyi performans gösterirken karbon yoğunluk %11.2 azaldı.
+              </div>
+            </div>
+
+            <div style={{ backgroundColor: 'white', padding: '25px', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
+              <h3 style={{ marginBottom: '20px', fontSize: '18px', color: '#374151' }}>📋 Düzenleyici Takvim</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {regulatoryDeadlines.map((deadline, idx) => (
+                  <div key={idx} style={{
+                    padding: '12px',
+                    backgroundColor: deadline.daysLeft <= 30 ? '#fef2f2' : deadline.daysLeft <= 60 ? '#fffbeb' : '#f0fdf4',
+                    borderRadius: '8px',
+                    borderLeft: `4px solid ${deadline.daysLeft <= 30 ? '#ef4444' : deadline.daysLeft <= 60 ? '#f59e0b' : '#22c55e'}`
+                  }}>
+                    <div style={{ fontSize: '14px', fontWeight: '600', marginBottom: '4px' }}>{deadline.regulation}</div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', color: '#6b7280' }}>
+                      <span>{deadline.deadline}</span>
+                      <span style={{ 
+                        fontWeight: 'bold',
+                        color: deadline.daysLeft <= 30 ? '#dc2626' : deadline.daysLeft <= 60 ? '#d97706' : '#16a34a'
+                      }}>
+                        {deadline.daysLeft} gün
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
@@ -743,17 +1048,34 @@ function App() {
     }
 
     if (activeTab === 'analysis') {
-      // Heat map için veri hazırlama
-      const heatMapData = portfolioData.map(company => ({
-        name: company.name,
-        sector: company.sector,
-        transitionRisk: company.transitionRisk,
-        physicalRisk: company.physicalRisk,
-        totalRisk: ((company.transitionRisk + company.physicalRisk) / 2).toFixed(2),
-        loan: company.loan
-      })).sort((a, b) => b.totalRisk - a.totalRisk);
+      return <EnhancedRiskAnalysis />;
+    }
 
-      // Sektörel özet
+    if (activeTab === 'analysis_old') {
+      // Enhanced heat map with additional risk metrics
+      const heatMapData = portfolioData.map(company => {
+        const totalRisk = ((company.transitionRisk + company.physicalRisk) / 2).toFixed(2);
+        const riskAdjustedLoan = company.loan * parseFloat(totalRisk);
+        const carbonIntensity = company.transitionRisk * 45; // Simulated carbon intensity
+        const climateVaR = riskAdjustedLoan * 0.15; // Climate Value at Risk estimate
+        
+        return {
+          name: company.name,
+          sector: company.sector,
+          transitionRisk: company.transitionRisk,
+          physicalRisk: company.physicalRisk,
+          totalRisk,
+          loan: company.loan,
+          riskAdjustedLoan,
+          carbonIntensity: carbonIntensity.toFixed(1),
+          climateVaR: climateVaR,
+          esgScore: company.transitionRisk < 1.5 ? 85 : company.transitionRisk < 2.5 ? 65 : 45,
+          tcfdCompliance: company.transitionRisk < 2 ? 'High' : company.transitionRisk < 2.5 ? 'Medium' : 'Low',
+          stranded: company.transitionRisk > 2.5 ? 'High Risk' : 'Low Risk'
+        };
+      }).sort((a, b) => b.totalRisk - a.totalRisk);
+
+      // Enhanced sector summary with additional metrics
       const sectorSummary = Object.entries(portfolioData.reduce((acc, company) => {
         if (!acc[company.sector]) {
           acc[company.sector] = {
@@ -761,14 +1083,19 @@ function App() {
             totalLoan: 0,
             avgTransition: 0,
             avgPhysical: 0,
-            companies: []
+            companies: [],
+            totalCarbon: 0,
+            totalVaR: 0
           };
         }
+        const companyData = heatMapData.find(h => h.name === company.name);
         acc[company.sector].count++;
         acc[company.sector].totalLoan += company.loan;
         acc[company.sector].avgTransition += company.transitionRisk;
         acc[company.sector].avgPhysical += company.physicalRisk;
         acc[company.sector].companies.push(company.name);
+        acc[company.sector].totalCarbon += parseFloat(companyData.carbonIntensity);
+        acc[company.sector].totalVaR += companyData.climateVaR;
         return acc;
       }, {})).map(([sector, data]) => ({
         sector,
@@ -777,31 +1104,70 @@ function App() {
         avgTransition: (data.avgTransition / data.count).toFixed(2),
         avgPhysical: (data.avgPhysical / data.count).toFixed(2),
         avgTotal: ((data.avgTransition + data.avgPhysical) / (2 * data.count)).toFixed(2),
-        companies: data.companies
+        companies: data.companies,
+        avgCarbon: (data.totalCarbon / data.count).toFixed(1),
+        totalVaR: data.totalVaR,
+        riskWeight: ((data.avgTransition + data.avgPhysical) / 2 * data.totalLoan / 1000000000).toFixed(2)
       }));
+      
+      // Risk trend simulation data
+      const riskTrendData = [
+        { year: '2020', portfolio: 2.15, transition: 1.95, physical: 2.35, benchmark: 2.25 },
+        { year: '2021', portfolio: 2.08, transition: 1.88, physical: 2.28, benchmark: 2.20 },
+        { year: '2022', portfolio: 2.02, transition: 1.82, physical: 2.22, benchmark: 2.15 },
+        { year: '2023', portfolio: 1.96, transition: 1.75, physical: 2.17, benchmark: 2.10 },
+        { year: '2024', portfolio: 1.91, transition: 1.70, physical: 2.12, benchmark: 2.05 },
+        { year: '2025P', portfolio: 1.85, transition: 1.65, physical: 2.05, benchmark: 2.00 }
+      ];
+      
+      // Climate scenario analysis
+      const scenarioAnalysis = [
+        { scenario: 'Current Policies (3°C)', riskMultiplier: 1.0, portfolioImpact: 0, description: 'Baseline scenario' },
+        { scenario: 'Stated Policies (2.5°C)', riskMultiplier: 1.15, portfolioImpact: -2.8, description: 'Mild transition stress' },
+        { scenario: 'Below 2°C Scenario', riskMultiplier: 1.35, portfolioImpact: -8.5, description: 'Moderate transition stress' },
+        { scenario: 'Net Zero 2050 (1.5°C)', riskMultiplier: 1.65, portfolioImpact: -15.2, description: 'Severe transition stress' }
+      ];
+      
+      // Geographic risk distribution
+      const geoRiskData = [
+        { region: 'İstanbul', companies: 8, avgRisk: 1.95, physicalRisk: 'Medium', floodRisk: 'High' },
+        { region: 'Ankara', companies: 3, avgRisk: 1.78, physicalRisk: 'Low', floodRisk: 'Low' },
+        { region: 'İzmir', companies: 2, avgRisk: 2.12, physicalRisk: 'Medium', floodRisk: 'Medium' },
+        { region: 'Bursa', companies: 2, avgRisk: 1.85, physicalRisk: 'Low', floodRisk: 'Medium' }
+      ];
+      
+      // ESG integration metrics
+      const esgMetrics = {
+        avgScore: heatMapData.reduce((sum, company) => sum + company.esgScore, 0) / heatMapData.length,
+        highPerformers: heatMapData.filter(c => c.esgScore >= 80).length,
+        lowPerformers: heatMapData.filter(c => c.esgScore < 50).length,
+        tcfdCompliant: heatMapData.filter(c => c.tcfdCompliance === 'High').length,
+        strandedAssets: heatMapData.filter(c => c.stranded === 'High Risk').reduce((sum, c) => sum + c.loan, 0)
+      };
 
       return (
         <div>
           <div style={{ marginBottom: '30px' }}>
-            <h1 style={{ marginBottom: '8px' }}>Risk Analizi</h1>
-            <p style={{ color: '#666' }}>İklim riski heat map ve sektörel analiz</p>
+            <h1 style={{ marginBottom: '8px', color: '#dc2626' }}>🌡️ {t('riskAnalysis') || 'İklim Risk Analizi'}</h1>
+            <p style={{ color: '#666' }}>Kapsamlı iklim riski değerlendirmesi, senaryo analizi ve portföy optimizasyon önerileri</p>
           </div>
 
-          {/* Risk Özet Kartları */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px', marginBottom: '30px' }}>
+          {/* Enhanced Risk Summary Cards */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '20px', marginBottom: '30px' }}>
             <div style={{
               backgroundColor: 'white',
               padding: '20px',
               borderRadius: '12px',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-              background: 'linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%)'
+              boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+              background: 'linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%)',
+              border: '1px solid #fecaca'
             }}>
-              <h3 style={{ margin: '0 0 10px 0', fontSize: '14px', color: '#991b1b' }}>En Riskli Sektör</h3>
+              <h3 style={{ margin: '0 0 10px 0', fontSize: '14px', color: '#991b1b', fontWeight: '600' }}>En Riskli Sektör</h3>
               <p style={{ margin: '0', fontSize: '24px', fontWeight: 'bold', color: '#dc2626' }}>
                 {sectorSummary.sort((a, b) => b.avgTotal - a.avgTotal)[0].sector}
               </p>
               <p style={{ margin: '5px 0 0 0', fontSize: '12px', color: '#7f1d1d' }}>
-                Ort. Risk: {sectorSummary.sort((a, b) => b.avgTotal - a.avgTotal)[0].avgTotal}
+                Ort. Risk: {sectorSummary.sort((a, b) => b.avgTotal - a.avgTotal)[0].avgTotal} • €{(sectorSummary.sort((a, b) => b.avgTotal - a.avgTotal)[0].totalLoan / 1000000000).toFixed(1)}B
               </p>
             </div>
 
@@ -809,15 +1175,16 @@ function App() {
               backgroundColor: 'white',
               padding: '20px',
               borderRadius: '12px',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-              background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)'
+              boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+              background: 'linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%)',
+              border: '1px solid #bbf7d0'
             }}>
-              <h3 style={{ margin: '0 0 10px 0', fontSize: '14px', color: '#14532d' }}>En Güvenli Sektör</h3>
+              <h3 style={{ margin: '0 0 10px 0', fontSize: '14px', color: '#14532d', fontWeight: '600' }}>Climate VaR</h3>
               <p style={{ margin: '0', fontSize: '24px', fontWeight: 'bold', color: '#15803d' }}>
-                {sectorSummary.sort((a, b) => a.avgTotal - b.avgTotal)[0].sector}
+                €{(heatMapData.reduce((sum, c) => sum + c.climateVaR, 0) / 1000000000).toFixed(1)}B
               </p>
               <p style={{ margin: '5px 0 0 0', fontSize: '12px', color: '#14532d' }}>
-                Ort. Risk: {sectorSummary.sort((a, b) => a.avgTotal - b.avgTotal)[0].avgTotal}
+                Portföyün %{((heatMapData.reduce((sum, c) => sum + c.climateVaR, 0) / totalLoan) * 100).toFixed(1)}'i
               </p>
             </div>
 
@@ -825,15 +1192,16 @@ function App() {
               backgroundColor: 'white',
               padding: '20px',
               borderRadius: '12px',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-              background: 'linear-gradient(135deg, #fefce8 0%, #fef3c7 100%)'
+              boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+              background: 'linear-gradient(135deg, #fefce8 0%, #fef3c7 100%)',
+              border: '1px solid #fde68a'
             }}>
-              <h3 style={{ margin: '0 0 10px 0', fontSize: '14px', color: '#713f12' }}>Risk Altındaki Kredi</h3>
+              <h3 style={{ margin: '0 0 10px 0', fontSize: '14px', color: '#713f12', fontWeight: '600' }}>Stranded Assets</h3>
               <p style={{ margin: '0', fontSize: '24px', fontWeight: 'bold', color: '#a16207' }}>
-                €{(portfolioData.filter(c => c.riskCategory === 'High').reduce((sum, c) => sum + c.loan, 0) / 1000000000).toFixed(1)}B
+                €{(esgMetrics.strandedAssets / 1000000000).toFixed(1)}B
               </p>
               <p style={{ margin: '5px 0 0 0', fontSize: '12px', color: '#713f12' }}>
-                Toplam portföyün %{((portfolioData.filter(c => c.riskCategory === 'High').reduce((sum, c) => sum + c.loan, 0) / totalLoan) * 100).toFixed(0)}'ı
+                Yüksek geçiş riski
               </p>
             </div>
 
@@ -841,23 +1209,169 @@ function App() {
               backgroundColor: 'white',
               padding: '20px',
               borderRadius: '12px',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
-              background: 'linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%)'
+              boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+              background: 'linear-gradient(135deg, #f0f9ff 0%, #dbeafe 100%)',
+              border: '1px solid #93c5fd'
             }}>
-              <h3 style={{ margin: '0 0 10px 0', fontSize: '14px', color: '#4c1d95' }}>Risk Dağılımı</h3>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <div style={{ flex: 1 }}>
-                  <div style={{ display: 'flex', height: '8px', borderRadius: '4px', overflow: 'hidden' }}>
-                    <div style={{ width: '20%', backgroundColor: '#22c55e' }}></div>
-                    <div style={{ width: '65%', backgroundColor: '#fbbf24' }}></div>
-                    <div style={{ width: '15%', backgroundColor: '#ef4444' }}></div>
+              <h3 style={{ margin: '0 0 10px 0', fontSize: '14px', color: '#1e3a8a', fontWeight: '600' }}>ESG Skoru</h3>
+              <p style={{ margin: '0', fontSize: '24px', fontWeight: 'bold', color: '#1d4ed8' }}>
+                {esgMetrics.avgScore.toFixed(0)}
+              </p>
+              <p style={{ margin: '5px 0 0 0', fontSize: '12px', color: '#1e3a8a' }}>
+                Portföy ortalaması
+              </p>
+            </div>
+
+            <div style={{
+              backgroundColor: 'white',
+              padding: '20px',
+              borderRadius: '12px',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+              background: 'linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%)',
+              border: '1px solid #c4b5fd'
+            }}>
+              <h3 style={{ margin: '0 0 10px 0', fontSize: '14px', color: '#4c1d95', fontWeight: '600' }}>TCFD Uyum</h3>
+              <p style={{ margin: '0', fontSize: '24px', fontWeight: 'bold', color: '#7c3aed' }}>
+                {esgMetrics.tcfdCompliant}
+              </p>
+              <p style={{ margin: '5px 0 0 0', fontSize: '12px', color: '#4c1d95' }}>
+                Yüksek uyumlu şirket
+              </p>
+            </div>
+          </div>
+
+          {/* Risk Trend Analysis */}
+          <div style={{ backgroundColor: 'white', padding: '25px', borderRadius: '12px', marginBottom: '30px', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
+            <h3 style={{ marginBottom: '20px', fontSize: '18px', color: '#374151' }}>📈 Risk Trendi ve Benchmark Karşılaştırması</h3>
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={riskTrendData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                <XAxis dataKey="year" />
+                <YAxis domain={[1.5, 2.5]} />
+                <Tooltip />
+                <Legend />
+                <Line type="monotone" dataKey="portfolio" stroke="#dc2626" strokeWidth={3} name="Portföy Riski" dot={{ fill: '#dc2626', strokeWidth: 2, r: 6 }} />
+                <Line type="monotone" dataKey="transition" stroke="#f59e0b" strokeWidth={2} name="Geçiş Riski" />
+                <Line type="monotone" dataKey="physical" stroke="#3b82f6" strokeWidth={2} name="Fiziksel Risk" />
+                <Line type="monotone" dataKey="benchmark" stroke="#6b7280" strokeWidth={2} strokeDasharray="5 5" name="Sektör Benchmark" />
+              </LineChart>
+            </ResponsiveContainer>
+            <div style={{ marginTop: '15px', padding: '15px', backgroundColor: '#f8fafc', borderRadius: '8px', fontSize: '14px', color: '#475569' }}>
+              📊 <strong>Analiz:</strong> Portföy risk seviyesi son 5 yılda %12.6 azalmış ve sektör benchmark'ından %6.8 daha iyi performans göstermektedir.
+            </div>
+          </div>
+
+          {/* Climate Scenario Analysis */}
+          <div style={{ backgroundColor: 'white', padding: '25px', borderRadius: '12px', marginBottom: '30px', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
+            <h3 style={{ marginBottom: '20px', fontSize: '18px', color: '#374151' }}>🌍 İklim Senaryosu Analizi</h3>
+            <div style={{ overflowX: 'auto' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+                <thead>
+                  <tr style={{ backgroundColor: '#f8fafc' }}>
+                    <th style={{ padding: '12px', textAlign: 'left', fontSize: '14px', fontWeight: '600', borderBottom: '2px solid #e2e8f0' }}>Senaryo</th>
+                    <th style={{ padding: '12px', textAlign: 'center', fontSize: '14px', fontWeight: '600', borderBottom: '2px solid #e2e8f0' }}>Risk Çarpanı</th>
+                    <th style={{ padding: '12px', textAlign: 'center', fontSize: '14px', fontWeight: '600', borderBottom: '2px solid #e2e8f0' }}>Portföy Etkisi</th>
+                    <th style={{ padding: '12px', textAlign: 'center', fontSize: '14px', fontWeight: '600', borderBottom: '2px solid #e2e8f0' }}>Değer Etkisi</th>
+                    <th style={{ padding: '12px', textAlign: 'left', fontSize: '14px', fontWeight: '600', borderBottom: '2px solid #e2e8f0' }}>Açıklama</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {scenarioAnalysis.map((scenario, idx) => (
+                    <tr key={idx} style={{ borderBottom: '1px solid #e2e8f0' }}>
+                      <td style={{ padding: '12px', fontWeight: '500' }}>{scenario.scenario}</td>
+                      <td style={{ padding: '12px', textAlign: 'center', fontWeight: 'bold', color: scenario.riskMultiplier > 1.3 ? '#dc2626' : scenario.riskMultiplier > 1.1 ? '#f59e0b' : '#16a34a' }}>
+                        {scenario.riskMultiplier.toFixed(2)}x
+                      </td>
+                      <td style={{ padding: '12px', textAlign: 'center', fontWeight: 'bold', color: scenario.portfolioImpact < -10 ? '#dc2626' : scenario.portfolioImpact < -5 ? '#f59e0b' : '#16a34a' }}>
+                        {scenario.portfolioImpact}%
+                      </td>
+                      <td style={{ padding: '12px', textAlign: 'center', fontWeight: 'bold', color: scenario.portfolioImpact < -10 ? '#dc2626' : scenario.portfolioImpact < -5 ? '#f59e0b' : '#16a34a' }}>
+                        €{((totalLoan * scenario.portfolioImpact) / 100 / 1000000000).toFixed(1)}B
+                      </td>
+                      <td style={{ padding: '12px', fontSize: '14px', color: '#6b7280' }}>{scenario.description}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div style={{ marginTop: '15px', padding: '15px', backgroundColor: '#fef3c7', borderRadius: '8px', fontSize: '14px', color: '#92400e', borderLeft: '4px solid #f59e0b' }}>
+              ⚠️ <strong>Uyarı:</strong> Net Zero 2050 senaryosunda portföy değerinde €{((totalLoan * -15.2) / 100 / 1000000000).toFixed(1)}B potansiyel kayıp öngörülmektedir.
+            </div>
+          </div>
+
+          {/* Geographic Risk Distribution */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '30px' }}>
+            <div style={{ backgroundColor: 'white', padding: '25px', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
+              <h3 style={{ marginBottom: '20px', fontSize: '18px', color: '#374151' }}>🗺️ Coğrafi Risk Dağılımı</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                {geoRiskData.map((geo, idx) => (
+                  <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '12px', backgroundColor: '#f8fafc', borderRadius: '8px' }}>
+                    <div>
+                      <div style={{ fontWeight: '600', fontSize: '16px' }}>{geo.region}</div>
+                      <div style={{ fontSize: '12px', color: '#6b7280' }}>{geo.companies} şirket • Risk: {geo.avgRisk}</div>
+                    </div>
+                    <div style={{ display: 'flex', gap: '8px' }}>
+                      <span style={{
+                        padding: '4px 8px',
+                        borderRadius: '12px',
+                        fontSize: '11px',
+                        fontWeight: 'bold',
+                        backgroundColor: geo.physicalRisk === 'High' ? '#fee2e2' : geo.physicalRisk === 'Medium' ? '#fef3c7' : '#dcfce7',
+                        color: geo.physicalRisk === 'High' ? '#991b1b' : geo.physicalRisk === 'Medium' ? '#713f12' : '#14532d'
+                      }}>
+                        {geo.physicalRisk}
+                      </span>
+                      <span style={{
+                        padding: '4px 8px',
+                        borderRadius: '12px',
+                        fontSize: '11px',
+                        fontWeight: 'bold',
+                        backgroundColor: geo.floodRisk === 'High' ? '#dbeafe' : geo.floodRisk === 'Medium' ? '#e0f2fe' : '#f0f9ff',
+                        color: geo.floodRisk === 'High' ? '#1e3a8a' : geo.floodRisk === 'Medium' ? '#0c4a6e' : '#075985'
+                      }}>
+                        Sel: {geo.floodRisk}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ backgroundColor: 'white', padding: '25px', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
+              <h3 style={{ marginBottom: '20px', fontSize: '18px', color: '#374151' }}>📊 ESG Entegrasyon Metrikleri</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: '14px', fontWeight: '500' }}>Ortalama ESG Skoru</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    <div style={{ width: '100px', height: '8px', backgroundColor: '#e5e7eb', borderRadius: '4px' }}>
+                      <div style={{ width: `${esgMetrics.avgScore}%`, height: '100%', backgroundColor: '#10b981', borderRadius: '4px' }}></div>
+                    </div>
+                    <span style={{ fontSize: '16px', fontWeight: 'bold', color: '#10b981' }}>{esgMetrics.avgScore.toFixed(0)}</span>
                   </div>
                 </div>
-                <span style={{ fontSize: '12px', fontWeight: '500', color: '#4c1d95' }}>20/65/15</span>
+                
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: '14px', fontWeight: '500' }}>Yüksek ESG Performansı (≥80)</span>
+                  <span style={{ fontSize: '18px', fontWeight: 'bold', color: '#10b981' }}>{esgMetrics.highPerformers} şirket</span>
+                </div>
+                
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: '14px', fontWeight: '500' }}>Düşük ESG Performansı (&lt;50)</span>
+                  <span style={{ fontSize: '18px', fontWeight: 'bold', color: '#dc2626' }}>{esgMetrics.lowPerformers} şirket</span>
+                </div>
+                
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: '14px', fontWeight: '500' }}>TCFD Yüksek Uyum</span>
+                  <span style={{ fontSize: '18px', fontWeight: 'bold', color: '#3b82f6' }}>{esgMetrics.tcfdCompliant} şirket</span>
+                </div>
+                
+                <div style={{ padding: '15px', backgroundColor: '#f0fdf4', borderRadius: '8px', marginTop: '10px' }}>
+                  <div style={{ fontSize: '12px', color: '#15803d', marginBottom: '5px' }}>💡 Öneri</div>
+                  <div style={{ fontSize: '14px', color: '#166534' }}>
+                    ESG performansı düşük {esgMetrics.lowPerformers} şirkette iyileştirme programı uygulanması önerilir.
+                  </div>
+                </div>
               </div>
-              <p style={{ margin: '5px 0 0 0', fontSize: '12px', color: '#4c1d95' }}>
-                Düşük/Orta/Yüksek
-              </p>
             </div>
           </div>
 
@@ -1531,6 +2045,80 @@ function App() {
                   <div style={{ fontSize: '14px', fontWeight: '500', marginBottom: '4px' }}>Stres Testi</div>
                   <div style={{ fontSize: '12px', color: '#4b5563' }}>2°C ve 4°C senaryolarında düzenli değerlendirme</div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    if (activeTab === 'financialAnalysis') {
+      return (
+        <div>
+          <div style={{ marginBottom: '30px' }}>
+            <h1 style={{ marginBottom: '8px' }}>{t('financialAnalysisDashboard')}</h1>
+            <p style={{ color: '#666' }}>{t('comprehensiveFinancialAnalysis')}</p>
+          </div>
+
+          {/* Financial Dashboard Content */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', marginBottom: '30px' }}>
+            <div style={{
+              backgroundColor: '#f8fafc',
+              padding: '25px',
+              borderRadius: '12px',
+              textAlign: 'center',
+              border: '2px dashed #cbd5e1',
+              cursor: 'pointer'
+            }}
+            onClick={() => setShowFinancialForm(true)}
+            >
+              <div style={{ fontSize: '48px', marginBottom: '15px' }}>📊</div>
+              <h3 style={{ marginBottom: '10px', color: '#1e293b' }}>{t('newFinancialAnalysis')}</h3>
+              <p style={{ color: '#64748b', margin: 0 }}>{t('startFinancialAssessment')}</p>
+            </div>
+
+            <div style={{
+              backgroundColor: '#f0f9ff',
+              padding: '25px',
+              borderRadius: '12px',
+              textAlign: 'center'
+            }}>
+              <div style={{ fontSize: '36px', marginBottom: '15px', color: '#0ea5e9' }}>47</div>
+              <h4 style={{ marginBottom: '5px', color: '#0f172a' }}>{t('totalAnalyses')}</h4>
+              <p style={{ color: '#64748b', margin: 0, fontSize: '14px' }}>{t('thisMonth')}</p>
+            </div>
+
+            <div style={{
+              backgroundColor: '#f0fdf4',
+              padding: '25px',
+              borderRadius: '12px',
+              textAlign: 'center'
+            }}>
+              <div style={{ fontSize: '36px', marginBottom: '15px', color: '#22c55e' }}>8.4</div>
+              <h4 style={{ marginBottom: '5px', color: '#0f172a' }}>{t('avgHealthScore')}</h4>
+              <p style={{ color: '#64748b', margin: 0, fontSize: '14px' }}>/10</p>
+            </div>
+          </div>
+
+          {/* Recent Analyses Table */}
+          <div style={{
+            backgroundColor: 'white',
+            borderRadius: '12px',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.08)',
+            overflow: 'hidden'
+          }}>
+            <div style={{ padding: '25px 30px', borderBottom: '1px solid #e2e8f0' }}>
+              <h3 style={{ margin: 0, fontSize: '18px', color: '#1e293b' }}>{t('recentFinancialAnalyses')}</h3>
+            </div>
+            <div style={{ padding: '20px' }}>
+              <div style={{
+                textAlign: 'center',
+                padding: '40px 20px',
+                color: '#64748b'
+              }}>
+                <div style={{ fontSize: '64px', marginBottom: '20px' }}>📈</div>
+                <p style={{ fontSize: '18px', marginBottom: '10px' }}>{t('noAnalysesYet')}</p>
+                <p style={{ fontSize: '14px', margin: 0 }}>{t('clickNewAnalysisToStart')}</p>
               </div>
             </div>
           </div>
@@ -2937,61 +3525,17 @@ function App() {
                     />
                   </div>
                 </div>
-                
-                {/* PACTA Skoru Önizleme */}
-                <div style={{
-                  backgroundColor: '#f8fafc',
-                  padding: '25px',
-                  borderRadius: '12px',
-                  border: '2px solid #e2e8f0'
-                }}>
-                  <h3 style={{ fontSize: '18px', marginBottom: '20px', color: '#1e293b' }}>📊 PACTA Skoru Önizleme</h3>
-                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px' }}>
-                    <div style={{ textAlign: 'center', padding: '15px', backgroundColor: 'white', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-                      <p style={{ margin: '0 0 8px 0', fontSize: '13px', color: '#64748b', fontWeight: '500' }}>Teknoloji Uyumu</p>
-                      <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#f59e0b' }}>65%</div>
-                      <p style={{ margin: '5px 0 0 0', fontSize: '11px', color: '#6b7280' }}>Sektör ortalaması</p>
-                    </div>
-                    <div style={{ textAlign: 'center', padding: '15px', backgroundColor: 'white', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-                      <p style={{ margin: '0 0 8px 0', fontSize: '13px', color: '#64748b', fontWeight: '500' }}>Senaryo Sapması</p>
-                      <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#ef4444' }}>-12%</div>
-                      <p style={{ margin: '5px 0 0 0', fontSize: '11px', color: '#6b7280' }}>2°C senaryosu</p>
-                    </div>
-                    <div style={{ textAlign: 'center', padding: '15px', backgroundColor: 'white', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-                      <p style={{ margin: '0 0 8px 0', fontSize: '13px', color: '#64748b', fontWeight: '500' }}>2030 Hazırlık</p>
-                      <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#10b981' }}>B+</div>
-                      <p style={{ margin: '5px 0 0 0', fontSize: '11px', color: '#6b7280' }}>İyi seviye</p>
-                    </div>
-                    <div style={{ textAlign: 'center', padding: '15px', backgroundColor: 'white', borderRadius: '8px', border: '1px solid #e2e8f0' }}>
-                      <p style={{ margin: '0 0 8px 0', fontSize: '13px', color: '#64748b', fontWeight: '500' }}>Paris Uyumu</p>
-                      <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#8b5cf6' }}>2.1°C</div>
-                      <p style={{ margin: '5px 0 0 0', fontSize: '11px', color: '#6b7280' }}>Küresel ısınma</p>
-                    </div>
-                  </div>
-                  <div style={{ marginTop: '15px', padding: '12px', backgroundColor: '#dbeafe', borderRadius: '6px' }}>
-                    <p style={{ margin: 0, fontSize: '13px', color: '#1e40af' }}>
-                      💡 <strong>Önizleme:</strong> Bu skorlar mevcut verilerinize dayanarak hesaplanmıştır. 
-                      Detaylı PACTA analizi için formu tamamlayın.
-                    </p>
-                  </div>
-                </div>
               </div>
             )}
 
             {/* Butonlar */}
             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '40px' }}>
               <button 
-                onClick={() => {
-                  if (formStep === 6) {
-                    setFormStep(5);
-                  } else {
-                    setFormStep(formStep > 1 ? formStep - 1 : 1);
-                  }
-                }} 
+                onClick={() => setFormStep(formStep > 1 ? formStep - 1 : 1)} 
                 style={buttonStyle}
                 disabled={formStep === 1}
               >
-                Geri
+                {t('back')}
               </button>
               
               <div style={{ display: 'flex', gap: '10px' }}>
@@ -3000,34 +3544,10 @@ function App() {
                     onClick={() => setFormStep(formStep + 1)}
                     style={{...buttonStyle, backgroundColor: '#0066cc'}}
                   >
-                    İleri
+                    {t('next')}
                   </button>
                 ) : formStep === 5 ? (
-                  <button 
-                    onClick={() => setFormStep(6)} 
-                    style={{
-                      ...buttonStyle, 
-                      backgroundColor: '#0066cc',
-                      fontSize: '16px',
-                      fontWeight: '600',
-                      padding: '12px 24px'
-                    }}
-                  >
-                    🌍 PACTA Analizi →
-                  </button>
-                ) : formStep === 6 ? (
                   <>
-                    <button 
-                      onClick={() => setFormStep(5)}
-                      style={{
-                        ...buttonStyle, 
-                        backgroundColor: '#6c757d',
-                        padding: '12px 20px'
-                      }}
-                    >
-                      ← Geri
-                    </button>
-                    
                     <button 
                       onClick={submitForm}
                       style={{
@@ -3038,12 +3558,294 @@ function App() {
                         padding: '12px 24px'
                       }}
                     >
-                      ✓ Tam Değerlendirmeyi Tamamla
+                      ✓ {t('completeAssessment')}
+                    </button>
+                    
+                    <button 
+                      onClick={() => setActiveTab('pacta')}
+                      style={{
+                        ...buttonStyle, 
+                        backgroundColor: '#3b82f6',
+                        fontSize: '16px',
+                        fontWeight: '600',
+                        padding: '12px 24px',
+                        marginLeft: '10px'
+                      }}
+                    >
+                      📊 {t('continueToPACTA')}
                     </button>
                   </>
                 ) : null}
               </div>
             </div>
+          </div>
+        </div>
+      );
+    }
+
+    if (activeTab === 'pacta') {
+      return <PACTAAnalysis />;
+    }
+
+    if (activeTab === 'portfolioOptimization') {
+      return <PortfolioOptimization />;
+    }
+
+    if (activeTab === 'regulatoryReports') {
+      return <RegulatoryReports />;
+    }
+
+    if (activeTab === 'financialProducts') {
+      return (
+        <div>
+          <div style={{ marginBottom: '30px' }}>
+            <h1 style={{ marginBottom: '8px', color: '#1e40af' }}>🏦 {t('financialProducts')}</h1>
+            <p style={{ color: '#666' }}>{t('financialProductsDescription')}</p>
+          </div>
+          
+          {/* Financial KPIs Dashboard */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '20px', marginBottom: '30px' }}>
+            <div style={{ backgroundColor: '#3b82f6', color: 'white', padding: '25px', borderRadius: '12px', textAlign: 'center' }}>
+              <h3 style={{ margin: 0, fontSize: '14px', opacity: 0.9 }}>{t('totalAuM')}</h3>
+              <p style={{ margin: '10px 0 0 0', fontSize: '32px', fontWeight: 'bold' }}>
+                €24.8B
+              </p>
+              <span style={{ fontSize: '12px' }}>{t('annualIncrease')}</span>
+            </div>
+            
+            <div style={{ backgroundColor: '#10b981', color: 'white', padding: '25px', borderRadius: '12px', textAlign: 'center' }}>
+              <h3 style={{ margin: 0, fontSize: '14px', opacity: 0.9 }}>{t('greenPortfolio')}</h3>
+              <p style={{ margin: '10px 0 0 0', fontSize: '32px', fontWeight: 'bold' }}>
+                €7.2B
+              </p>
+              <span style={{ fontSize: '12px' }}>{t('ofTotal')}</span>
+            </div>
+            
+            <div style={{ backgroundColor: '#f59e0b', color: 'white', padding: '25px', borderRadius: '12px', textAlign: 'center' }}>
+              <h3 style={{ margin: 0, fontSize: '14px', opacity: 0.9 }}>Carbon VaR</h3>
+              <p style={{ margin: '10px 0 0 0', fontSize: '32px', fontWeight: 'bold' }}>
+                -2.8%
+              </p>
+              <span style={{ fontSize: '12px' }}>99% confidence</span>
+            </div>
+            
+            <div style={{ backgroundColor: '#8b5cf6', color: 'white', padding: '25px', borderRadius: '12px', textAlign: 'center' }}>
+              <h3 style={{ margin: 0, fontSize: '14px', opacity: 0.9 }}>TCFD Score</h3>
+              <p style={{ margin: '10px 0 0 0', fontSize: '32px', fontWeight: 'bold' }}>
+                A-
+              </p>
+              <span style={{ fontSize: '12px' }}>CDP Finance</span>
+            </div>
+          </div>
+          
+          {/* Financial Products Grid */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '25px', marginBottom: '30px' }}>
+            {/* Loan Portfolio */}
+            <div style={{ backgroundColor: 'white', padding: '25px', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
+              <h3 style={{ marginBottom: '20px', fontSize: '18px', color: '#1e40af' }}>💼 Kredi Portföyü</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+                <div style={{ 
+                  padding: '15px', 
+                  backgroundColor: '#f8fafc', 
+                  borderRadius: '8px',
+                  borderLeft: '4px solid #3b82f6'
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: '14px', fontWeight: '600' }}>Kurumsal Krediler</span>
+                    <span style={{ fontSize: '16px', fontWeight: 'bold', color: '#3b82f6' }}>€15.2B</span>
+                  </div>
+                  <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '5px' }}>185 aktif müşteri</div>
+                </div>
+                
+                <div style={{ 
+                  padding: '15px', 
+                  backgroundColor: '#f0fdf4', 
+                  borderRadius: '8px',
+                  borderLeft: '4px solid #22c55e'
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: '14px', fontWeight: '600' }}>Yeşil Tahviller</span>
+                    <span style={{ fontSize: '16px', fontWeight: 'bold', color: '#22c55e' }}>€4.8B</span>
+                  </div>
+                  <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '5px' }}>45 ihraç</div>
+                </div>
+                
+                <div style={{ 
+                  padding: '15px', 
+                  backgroundColor: '#fef3c7', 
+                  borderRadius: '8px',
+                  borderLeft: '4px solid #f59e0b'
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: '14px', fontWeight: '600' }}>Proje Finansmanı</span>
+                    <span style={{ fontSize: '16px', fontWeight: 'bold', color: '#f59e0b' }}>€2.1B</span>
+                  </div>
+                  <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '5px' }}>12 büyük proje</div>
+                </div>
+                
+                <div style={{ 
+                  padding: '15px', 
+                  backgroundColor: '#fdf2f8', 
+                  borderRadius: '8px',
+                  borderLeft: '4px solid #ec4899'
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: '14px', fontWeight: '600' }}>ESG Fonları</span>
+                    <span style={{ fontSize: '16px', fontWeight: 'bold', color: '#ec4899' }}>€2.7B</span>
+                  </div>
+                  <div style={{ fontSize: '12px', color: '#6b7280', marginTop: '5px' }}>8 fon, ortalama %15.2 getiri</div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Risk Analytics */}
+            <div style={{ backgroundColor: 'white', padding: '25px', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
+              <h3 style={{ marginBottom: '20px', fontSize: '18px', color: '#dc2626' }}>⚡ Risk Analitiği</h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '8px' }}>Climate VaR (1Y, 99%)</div>
+                  <div style={{ fontSize: '36px', fontWeight: 'bold', color: '#dc2626', marginBottom: '5px' }}>
+                    -€695M
+                  </div>
+                  <div style={{ fontSize: '12px', color: '#dc2626' }}>Portföyün -2.8%'i</div>
+                </div>
+                
+                <div style={{ padding: '15px', backgroundColor: '#fef2f2', borderRadius: '8px' }}>
+                  <h4 style={{ fontSize: '14px', margin: '0 0 10px 0', color: '#991b1b' }}>Sektörel Risk Dağılımı</h4>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <span style={{ fontSize: '12px' }}>Enerji</span>
+                      <span style={{ fontSize: '12px', fontWeight: 'bold', color: '#dc2626' }}>-€280M</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <span style={{ fontSize: '12px' }}>Sanayi</span>
+                      <span style={{ fontSize: '12px', fontWeight: 'bold', color: '#ea580c' }}>-€195M</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <span style={{ fontSize: '12px' }}>Ulaşım</span>
+                      <span style={{ fontSize: '12px', fontWeight: 'bold', color: '#f59e0b' }}>-€145M</span>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <span style={{ fontSize: '12px' }}>Diğer</span>
+                      <span style={{ fontSize: '12px', fontWeight: 'bold', color: '#a3a3a3' }}>-€75M</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div style={{ padding: '12px', backgroundColor: '#dbeafe', borderRadius: '6px' }}>
+                  <p style={{ margin: 0, fontSize: '12px', color: '#1e40af' }}>
+                    📈 <strong>Stress Test:</strong> 2°C senaryosunda portföy değerlemesi
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Regulatory Compliance */}
+          <div style={{ backgroundColor: '#f8fafc', padding: '25px', borderRadius: '12px', marginBottom: '25px', border: '1px solid #e2e8f0' }}>
+            <h3 style={{ marginBottom: '20px', fontSize: '18px', color: '#1e293b' }}>📋 Düzenleyici Uyumluluk</h3>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
+              <div style={{ backgroundColor: 'white', padding: '20px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
+                <h4 style={{ fontSize: '16px', marginBottom: '15px', color: '#059669' }}>TCFD Raporlama</h4>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                  <span style={{ fontSize: '14px' }}>Yönetişim</span>
+                  <span style={{ fontSize: '20px', color: '#059669' }}>✓</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                  <span style={{ fontSize: '14px' }}>Strateji</span>
+                  <span style={{ fontSize: '20px', color: '#f59e0b' }}>◐</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                  <span style={{ fontSize: '14px' }}>Risk Yönetimi</span>
+                  <span style={{ fontSize: '20px', color: '#059669' }}>✓</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontSize: '14px' }}>Metrikler</span>
+                  <span style={{ fontSize: '20px', color: '#059669' }}>✓</span>
+                </div>
+              </div>
+              
+              <div style={{ backgroundColor: 'white', padding: '20px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
+                <h4 style={{ fontSize: '16px', marginBottom: '15px', color: '#3b82f6' }}>EU Taxonomy</h4>
+                <div style={{ marginBottom: '15px' }}>
+                  <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#3b82f6' }}>32%</div>
+                  <div style={{ fontSize: '12px', color: '#6b7280' }}>Uyumlu yatırımlar</div>
+                </div>
+                <div style={{ fontSize: '12px', marginBottom: '8px' }}>Sectoral breakdown:</div>
+                <div style={{ fontSize: '12px', color: '#6b7280' }}>
+                  • Yeşil enerji: 18%<br/>
+                  • Sürdürülebilir ulaşım: 8%<br/>
+                  • Çevreci binalar: 6%
+                </div>
+              </div>
+              
+              <div style={{ backgroundColor: 'white', padding: '20px', borderRadius: '8px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
+                <h4 style={{ fontSize: '16px', marginBottom: '15px', color: '#8b5cf6' }}>SFDR Art. 8/9</h4>
+                <div style={{ marginBottom: '15px' }}>
+                  <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#8b5cf6' }}>€4.2B</div>
+                  <div style={{ fontSize: '12px', color: '#6b7280' }}>Art. 8 fonlar</div>
+                </div>
+                <div style={{ marginBottom: '8px' }}>
+                  <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#10b981' }}>€800M</div>
+                  <div style={{ fontSize: '12px', color: '#6b7280' }}>Art. 9 fonlar</div>
+                </div>
+                <div style={{ fontSize: '12px', color: '#6b7280' }}>PAI compliance: 95%</div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Action Buttons */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
+            <button
+              style={{
+                padding: '20px',
+                backgroundColor: '#3b82f6',
+                color: 'white',
+                border: 'none',
+                borderRadius: '12px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                fontWeight: '600',
+                textAlign: 'center'
+              }}
+              onClick={() => setActiveTab('financialAnalysis')}
+            >
+              📈 Finansal Risk Değerlendirmesi
+            </button>
+            
+            <button
+              style={{
+                padding: '20px',
+                backgroundColor: '#10b981',
+                color: 'white',
+                border: 'none',
+                borderRadius: '12px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                fontWeight: '600',
+                textAlign: 'center'
+              }}
+              onClick={() => setActiveTab('portfolioOptimization')}
+            >
+              📅 Portföy Optimizasyonu
+            </button>
+            
+            <button
+              style={{
+                padding: '20px',
+                backgroundColor: '#8b5cf6',
+                color: 'white',
+                border: 'none',
+                borderRadius: '12px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                fontWeight: '600',
+                textAlign: 'center'
+              }}
+              onClick={() => setActiveTab('regulatoryReports')}
+            >
+              📄 Düzenleyici Raporlar
+            </button>
           </div>
         </div>
       );
@@ -3124,13 +3926,46 @@ function App() {
           <button 
             onClick={() => setActiveTab('riskForm')}
             style={{ 
-              width: '100%', padding: '12px',
+              width: '100%', padding: '12px', marginBottom: '10px',
               backgroundColor: activeTab === 'riskForm' ? '#0066cc' : 'transparent',
               color: 'white', border: 'none', cursor: 'pointer',
               textAlign: 'left', fontSize: '16px', borderRadius: '4px'
             }}
           >
             📋 {t('riskAssessmentForm')}
+          </button>
+          <button 
+            onClick={() => setActiveTab('financialAnalysis')}
+            style={{ 
+              width: '100%', padding: '12px', marginBottom: '10px',
+              backgroundColor: activeTab === 'financialAnalysis' ? '#0066cc' : 'transparent',
+              color: 'white', border: 'none', cursor: 'pointer',
+              textAlign: 'left', fontSize: '16px', borderRadius: '4px'
+            }}
+          >
+            💰 {t('financialAnalysis')}
+          </button>
+          <button 
+            onClick={() => setActiveTab('pacta')}
+            style={{ 
+              width: '100%', padding: '12px', marginBottom: '10px',
+              backgroundColor: activeTab === 'pacta' ? '#0066cc' : 'transparent',
+              color: 'white', border: 'none', cursor: 'pointer',
+              textAlign: 'left', fontSize: '16px', borderRadius: '4px'
+            }}
+          >
+            📊 {t('pactaAnalysis')}
+          </button>
+          <button 
+            onClick={() => setActiveTab('financialProducts')}
+            style={{ 
+              width: '100%', padding: '12px',
+              backgroundColor: activeTab === 'financialProducts' ? '#0066cc' : 'transparent',
+              color: 'white', border: 'none', cursor: 'pointer',
+              textAlign: 'left', fontSize: '16px', borderRadius: '4px'
+            }}
+          >
+            🏦 {t('financialProducts')}
           </button>
         </nav>
         
@@ -3170,6 +4005,22 @@ function App() {
             setShowReport(false);
             setReportData(null);
           }}
+        />
+      )}
+      
+      {showFinancialForm && (
+        <FinancialDataForm 
+          onSubmit={handleFinancialFormSubmit}
+          onCancel={handleFinancialFormCancel}
+        />
+      )}
+      
+      {showFinancialReport && financialAnalysisData && (
+        <FinancialReport 
+          analysisData={financialAnalysisData}
+          onClose={handleFinancialReportClose}
+          onExportPDF={handleExportPDF}
+          onExportExcel={handleExportExcel}
         />
       )}
     </div>

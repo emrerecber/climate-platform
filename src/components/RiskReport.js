@@ -202,8 +202,14 @@ const RiskReport = ({ company, scores, enhanced, productSpecific, settings, onCl
             }}>
               <h3 style={{ marginBottom: '15px', fontSize: '16px' }}>🌡️ NGFS Senaryo Karşılaştırması ve Step H Matrix</h3>
               <ScenarioComparisonDashboard 
-                selectedScenarios={[enhanced.scenario?.toLowerCase() || 'orderly', 'disorderly', 'hothouse']}
-                sectorData={company.sector}
+                selectedScenarios={[
+                  (enhanced.scenario && enhanced.scenario.toLowerCase()) || 
+                  (settings?.scenario && settings.scenario.toLowerCase()) || 
+                  'orderly', 
+                  'disorderly', 
+                  'hothouse'
+                ].filter(s => s && ['orderly', 'disorderly', 'hothouse'].includes(s))}
+                sectorData={company?.sector}
                 maturityPeriod={settings?.maturity}
               />
             </div>
@@ -286,7 +292,7 @@ const RiskReport = ({ company, scores, enhanced, productSpecific, settings, onCl
                   </div>
                 </div>
               </div>
-            )
+            )}
             
             {/* PACTA Technology Alignment Analysis */}
             <div style={{

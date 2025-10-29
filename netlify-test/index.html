@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Climate Platform - Test</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        .container {
+            text-align: center;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .status {
+            background: rgba(16, 185, 129, 0.3);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 30px 0;
+            border: 2px solid rgba(16, 185, 129, 0.5);
+        }
+        .features {
+            text-align: left;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        .features li {
+            margin: 10px 0;
+            font-size: 1.1em;
+        }
+        .info {
+            margin-top: 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="pulse">🌍 İklim Risk Analizi Platformu</h1>
+        
+        <div class="status">
+            <h2>✅ Netlify Deployment BAŞARILI!</h2>
+            <p>Platform çalışıyor ve kullanıma hazır!</p>
+        </div>
+        
+        <div class="features">
+            <h3>📊 Platform Özellikleri:</h3>
+            <ul>
+                <li>✅ 10-Adım Assessment Formu</li>
+                <li>✅ 89+ Excel Field Entegrasyonu</li>
+                <li>✅ 3 Risk Hesaplama Motoru</li>
+                <li>✅ Türkçe/İngilizce Dil Desteği</li>
+                <li>✅ Responsive Tasarım</li>
+                <li>✅ TCFD Uyumlu Metodoloji</li>
+                <li>✅ NGFS Senaryo Desteği</li>
+            </ul>
+        </div>
+
+        <div class="info">
+            <p><strong>Versiyon:</strong> 2.0</p>
+            <p><strong>Deploy Tarihi:</strong> <span id="date"></span></p>
+            <p><strong>Durum:</strong> <span style="color: #10b981;">● Online</span></p>
+        </div>
+    </div>
+
+    <script>
+        // Tarih gösterimi
+        document.getElementById('date').textContent = new Date().toLocaleDateString('tr-TR', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+        
+        // Console log
+        console.log('🌍 Climate Platform - Test page loaded successfully!');
+        console.log('📊 All systems operational!');
+        console.log('🚀 Ready for full deployment!');
+        
+        // Test JavaScript çalışması
+        setTimeout(() => {
+            console.log('✅ JavaScript execution confirmed!');
+        }, 1000);
+        
+        // Sayfa yüklenme bilgisi
+        window.addEventListener('load', () => {
+            console.log('🎯 Page fully loaded and ready!');
+        });
+    </script>
+</body>
+</html>

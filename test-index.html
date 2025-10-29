@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Climate Platform - Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+        .status {
+            background: rgba(255,255,255,0.2);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .success {
+            background: rgba(16, 185, 129, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <h1>🌍 İklim Risk Analizi Platformu</h1>
+    <div class="status success">
+        <h2>✅ Netlify Deployment Başarılı!</h2>
+        <p>Platform çalışıyor ve kullanıma hazır.</p>
+    </div>
+    
+    <div class="status">
+        <h3>📊 Platform Özellikleri:</h3>
+        <ul style="text-align: left; display: inline-block;">
+            <li>✅ 10-Step Assessment Form</li>
+            <li>✅ 89+ Excel Field Integration</li> 
+            <li>✅ 3 Risk Calculation Engines</li>
+            <li>✅ Turkish/English Language Support</li>
+            <li>✅ Responsive Design</li>
+            <li>✅ TCFD Compliant Methodology</li>
+        </ul>
+    </div>
+
+    <div class="status">
+        <h3>🚀 Test Completed</h3>
+        <p><strong>Versiyon:</strong> 2.0</p>
+        <p><strong>Deploy Tarihi:</strong> <span id="date"></span></p>
+    </div>
+
+    <script>
+        document.getElementById('date').textContent = new Date().toLocaleDateString('tr-TR');
+        console.log('Climate Platform - Test page loaded successfully!');
+        
+        // Test JavaScript execution
+        setTimeout(() => {
+            console.log('JavaScript working! Platform ready for full deployment.');
+        }, 1000);
+    </script>
+</body>
+</html>

@@ -102,22 +102,30 @@ const ScenarioComparisonDashboard = ({ selectedScenarios, sectorData, maturityPe
   };
 
   const renderComparisonView = () => {
-    const scenarios = selectedScenarios || ['orderly', 'disorderly', 'hothouse'];
+    const scenarios = (selectedScenarios && selectedScenarios.length > 0) 
+      ? selectedScenarios.filter(s => s && ngfsScenarios[s]) 
+      : ['orderly', 'disorderly', 'hothouse'];
+    
+    // Ensure we have valid scenarios
+    const validScenarios = scenarios.filter(s => s && ngfsScenarios[s]);
+    if (validScenarios.length === 0) {
+      return <div>No valid scenarios selected</div>;
+    }
     
     const chartData = {
-      labels: scenarios.map(s => ngfsScenarios[s].name),
+      labels: validScenarios.map(s => ngfsScenarios[s].name),
       datasets: [
         {
           label: 'Carbon Price 2030 (USD/tCO₂)',
-          data: scenarios.map(s => ngfsScenarios[s].carbonPrice2030),
-          backgroundColor: scenarios.map(s => ngfsScenarios[s].color + '80'),
-          borderColor: scenarios.map(s => ngfsScenarios[s].color),
+          data: validScenarios.map(s => ngfsScenarios[s].carbonPrice2030),
+          backgroundColor: validScenarios.map(s => ngfsScenarios[s].color + '80'),
+          borderColor: validScenarios.map(s => ngfsScenarios[s].color),
           borderWidth: 2,
           yAxisID: 'y'
         },
         {
           label: 'Temperature Rise (°C)',
-          data: scenarios.map(s => ngfsScenarios[s].temperatureRise),
+          data: validScenarios.map(s => ngfsScenarios[s].temperatureRise),
           backgroundColor: '#8b5cf6',
           borderColor: '#7c3aed',
           borderWidth: 2,
@@ -172,7 +180,7 @@ const ScenarioComparisonDashboard = ({ selectedScenarios, sectorData, maturityPe
         
         {/* Scenario Cards */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
-          {scenarios.map(scenarioKey => {
+          {validScenarios.map(scenarioKey => {
             const scenario = ngfsScenarios[scenarioKey];
             return (
               <div key={scenarioKey} style={{
@@ -259,7 +267,9 @@ const ScenarioComparisonDashboard = ({ selectedScenarios, sectorData, maturityPe
   };
 
   const renderMatrixView = () => {
-    const selectedScenario = selectedScenarios?.[0] || 'orderly';
+    const selectedScenario = (selectedScenarios && selectedScenarios.length > 0 && ngfsScenarios[selectedScenarios[0]]) 
+      ? selectedScenarios[0] 
+      : 'orderly';
     
     return (
       <div>
@@ -313,7 +323,7 @@ const ScenarioComparisonDashboard = ({ selectedScenarios, sectorData, maturityPe
             </thead>
             <tbody>
               {stepHMatrix.sectors.map((sector, sectorIdx) => {
-                const riskValues = stepHMatrix.matrixData[selectedScenario][sector];
+                const riskValues = stepHMatrix.matrixData[selectedScenario]?.[sector] || [0, 0, 0, 0, 0, 0];
                 const avgRisk = (riskValues.reduce((a, b) => a + b, 0) / riskValues.length).toFixed(1);
                 
                 return (

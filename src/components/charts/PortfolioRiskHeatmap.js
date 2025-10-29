@@ -1,18 +1,8 @@
 import React, { useState, useMemo } from 'react';
-import { Bar, Doughnut, Line } from 'react-chartjs-2';
+import { Doughnut } from 'react-chartjs-2';
 
-const PortfolioRiskHeatmap = ({ 
-  portfolioData, 
-  exposureData, 
-  selectedScenario = 'orderly',
-  currency = 'QAR' 
-}) => {
-  const [activeView, setActiveView] = useState('heatmap'); // 'heatmap', 'concentration', 'rollup', 'evolution'
-  const [selectedMetric, setSelectedMetric] = useState('ead'); // 'ead', 'pd', 'lgd', 'ecl'
-  const [heatmapGranularity, setHeatmapGranularity] = useState('sector'); // 'sector', 'country', 'both'
-
-  // PDF Step H: Sector × Country Risk Matrix (Page 15-16)
-  const riskMatrix = {
+// PDF Step H: Sector × Country Risk Matrix (Page 15-16) - Moved outside component to prevent re-creation
+const riskMatrix = {
     sectors: [
       'Oil & Gas', 'Utilities', 'Manufacturing', 'Transportation', 
       'Real Estate', 'Agriculture', 'Financial Services', 'Technology',
@@ -94,12 +84,21 @@ const PortfolioRiskHeatmap = ({
     }
   };
 
-  // Country risk factors from ND-GAIN integration
-  const countryRiskFactors = {
-    'Qatar': 0.42, 'UAE': 0.40, 'Saudi Arabia': 0.42, 'Oman': 0.48, 'Kuwait': 0.44, 'Bahrain': 0.45,
-    'Turkey': 0.46, 'Egypt': 0.52, 'Jordan': 0.49, 'Morocco': 0.50, 'India': 0.57, 'China': 0.42,
-    'Germany': 0.30, 'UK': 0.30, 'USA': 0.34, 'Brazil': 0.53, 'Indonesia': 0.54, 'Nigeria': 0.63
-  };
+// Country risk factors from ND-GAIN integration - Moved outside component to prevent re-creation
+const countryRiskFactors = {
+  'Qatar': 0.42, 'UAE': 0.40, 'Saudi Arabia': 0.42, 'Oman': 0.48, 'Kuwait': 0.44, 'Bahrain': 0.45,
+  'Turkey': 0.46, 'Egypt': 0.52, 'Jordan': 0.49, 'Morocco': 0.50, 'India': 0.57, 'China': 0.42,
+  'Germany': 0.30, 'UK': 0.30, 'USA': 0.34, 'Brazil': 0.53, 'Indonesia': 0.54, 'Nigeria': 0.63
+};
+
+const PortfolioRiskHeatmap = ({ 
+  portfolioData = {}, 
+  exposureData = {}, 
+  selectedScenario = 'orderly',
+  currency = 'QAR' 
+}) => {
+  const [activeView, setActiveView] = useState('heatmap'); // 'heatmap', 'concentration', 'rollup', 'evolution'
+  const [selectedMetric, setSelectedMetric] = useState('ead'); // 'ead', 'pd', 'lgd', 'ecl'
 
   const calculateAdjustedRisk = (exposure, sectorRisk, countryRisk) => {
     return exposure * sectorRisk * (1 + countryRisk);
@@ -116,11 +115,11 @@ const PortfolioRiskHeatmap = ({
 
   const heatmapData = useMemo(() => {
     const data = [];
-    const sectorRisks = riskMatrix.riskMultipliers[selectedScenario];
+    const sectorRisks = riskMatrix.riskMultipliers[selectedScenario] || {};
     
     riskMatrix.sectors.forEach(sector => {
-      if (riskMatrix.exposureMatrix[sector]) {
-        Object.entries(riskMatrix.exposureMatrix[sector]).forEach(([country, exposure]) => {
+      if (riskMatrix.exposureMatrix && riskMatrix.exposureMatrix[sector]) {
+        Object.entries(riskMatrix.exposureMatrix[sector] || {}).forEach(([country, exposure]) => {
           const countryRisk = countryRiskFactors[country] || 0.5;
           const sectorRisk = sectorRisks[sector] || 1.0;
           const adjustedRisk = calculateAdjustedRisk(exposure, sectorRisk, countryRisk);
@@ -145,7 +144,7 @@ const PortfolioRiskHeatmap = ({
   }, [selectedScenario]);
 
   const renderHeatmapView = () => {
-    const maxRisk = Math.max(...heatmapData.map(d => d.adjustedRisk));
+    const maxRisk = heatmapData.length > 0 ? Math.max(...heatmapData.map(d => d.adjustedRisk || 0)) : 1;
     
     // Group data for heatmap visualization
     const groupedData = {};
@@ -257,12 +256,12 @@ const PortfolioRiskHeatmap = ({
                 </div>
                 {riskMatrix.countries.map(country => {
                   const cellData = groupedData[sector]?.[country];
-                  const value = cellData ? cellData[selectedMetric] : 0;
+                  const value = cellData && cellData[selectedMetric] !== undefined ? cellData[selectedMetric] : 0;
                   const displayValue = selectedMetric === 'ead' ? 
-                    `${Math.round(value)}M` :
+                    `${Math.round(value || 0)}M` :
                     selectedMetric === 'adjustedRisk' ?
-                    `${Math.round(value)}` :
-                    value.toFixed(2);
+                    `${Math.round(value || 0)}` :
+                    (value || 0).toFixed(2);
                   
                   return (
                     <div
@@ -328,23 +327,25 @@ const PortfolioRiskHeatmap = ({
     let totalExposure = 0;
 
     heatmapData.forEach(item => {
+      if (!item || !item.sector || !item.country) return; // Skip invalid items
+      
       // Sector aggregation
       if (!sectorConcentration[item.sector]) {
         sectorConcentration[item.sector] = { exposure: 0, risk: 0, count: 0 };
       }
-      sectorConcentration[item.sector].exposure += item.exposure;
-      sectorConcentration[item.sector].risk += item.adjustedRisk;
+      sectorConcentration[item.sector].exposure += item.exposure || 0;
+      sectorConcentration[item.sector].risk += item.adjustedRisk || 0;
       sectorConcentration[item.sector].count += 1;
       
       // Country aggregation
       if (!countryConcentration[item.country]) {
         countryConcentration[item.country] = { exposure: 0, risk: 0, count: 0 };
       }
-      countryConcentration[item.country].exposure += item.exposure;
-      countryConcentration[item.country].risk += item.adjustedRisk;
+      countryConcentration[item.country].exposure += item.exposure || 0;
+      countryConcentration[item.country].risk += item.adjustedRisk || 0;
       countryConcentration[item.country].count += 1;
       
-      totalExposure += item.exposure;
+      totalExposure += item.exposure || 0;
     });
 
     const sectorChartData = {
@@ -479,16 +480,18 @@ const PortfolioRiskHeatmap = ({
   const renderRollupView = () => {
     const sectorRollup = {};
     heatmapData.forEach(item => {
+      if (!item || !item.sector || !item.country) return; // Skip invalid items
+      
       if (!sectorRollup[item.sector]) {
         sectorRollup[item.sector] = { 
           totalExposure: 0, 
           totalRisk: 0, 
-          avgSectorRisk: item.sectorRisk,
+          avgSectorRisk: item.sectorRisk || 1.0,
           countries: new Set()
         };
       }
-      sectorRollup[item.sector].totalExposure += item.exposure;
-      sectorRollup[item.sector].totalRisk += item.adjustedRisk;
+      sectorRollup[item.sector].totalExposure += item.exposure || 0;
+      sectorRollup[item.sector].totalRisk += item.adjustedRisk || 0;
       sectorRollup[item.sector].countries.add(item.country);
     });
 
@@ -579,6 +582,22 @@ const PortfolioRiskHeatmap = ({
     );
   };
 
+  // Early return if required data is missing
+  if (!portfolioData && !exposureData) {
+    return (
+      <div style={{
+        backgroundColor: 'white',
+        borderRadius: '12px',
+        padding: '40px',
+        textAlign: 'center',
+        boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+      }}>
+        <h3 style={{ color: '#64748b', marginBottom: '10px' }}>No Portfolio Data Available</h3>
+        <p style={{ color: '#94a3b8', fontSize: '14px' }}>Please provide portfolio or exposure data to view the risk heatmap.</p>
+      </div>
+    );
+  }
+
   return (
     <div style={{
       backgroundColor: 'white',
@@ -604,25 +623,22 @@ const PortfolioRiskHeatmap = ({
           </p>
         </div>
 
-        {/* Scenario Selector */}
-        <div>
-          <label style={{ fontSize: '14px', fontWeight: '500', marginRight: '10px' }}>
+        {/* Current Scenario Display */}
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          backgroundColor: '#dbeafe',
+          padding: '8px 16px',
+          borderRadius: '20px'
+        }}>
+          <span style={{ fontSize: '14px', fontWeight: '500', marginRight: '8px', color: '#1e40af' }}>
             Scenario:
-          </label>
-          <select
-            value={selectedScenario}
-            onChange={(e) => setSelectedScenario(e.target.value)}
-            style={{
-              padding: '8px 12px',
-              borderRadius: '6px',
-              border: '1px solid #d1d5db',
-              fontSize: '14px'
-            }}
-          >
-            <option value="orderly">NGFS Orderly</option>
-            <option value="disorderly">NGFS Disorderly</option>
-            <option value="hothouse">NGFS Hot House</option>
-          </select>
+          </span>
+          <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#1e40af' }}>
+            {selectedScenario === 'orderly' ? 'NGFS Orderly' :
+             selectedScenario === 'disorderly' ? 'NGFS Disorderly' :
+             selectedScenario === 'hothouse' ? 'NGFS Hot House' : selectedScenario}
+          </span>
         </div>
       </div>
 
