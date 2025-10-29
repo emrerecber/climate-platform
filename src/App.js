@@ -2212,21 +2212,6 @@ function App() {
                 }}>5</div>
                 <span style={{ fontSize: '12px', color: formStep >= 5 ? '#0066cc' : '#6b7280' }}>{t('esgTargets')}</span>
               </div>
-              <div style={{ textAlign: 'center', flex: 1 }}>
-                <div style={{
-                  width: '40px',
-                  height: '40px',
-                  borderRadius: '50%',
-                  backgroundColor: formStep >= 6 ? '#0066cc' : '#e5e7eb',
-                  color: formStep >= 6 ? 'white' : '#6b7280',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  margin: '0 auto 8px',
-                  fontWeight: 'bold'
-                }}>6</div>
-                <span style={{ fontSize: '12px', color: formStep >= 6 ? '#0066cc' : '#6b7280' }}>{t('pactaAnalysis')}</span>
-              </div>
             </div>
           </div>
 
