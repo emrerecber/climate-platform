@@ -232,7 +232,7 @@ const PACTAAnalysis = () => {
               fontWeight: '600'
             }}
           >
-            Dosya Seç
+            {t('selectFile')}
           </label>
         </div>
         
@@ -245,7 +245,7 @@ const PACTAAnalysis = () => {
             border: '1px solid #3b82f6'
           }}>
             <p style={{ margin: 0, color: '#1e40af' }}>
-              ✅ Dosya yüklendi: {pactaData.portfolioFile.name}
+              ✅ {t('fileUploaded')}: {pactaData.portfolioFile.name}
             </p>
           </div>
         )}
@@ -253,9 +253,9 @@ const PACTAAnalysis = () => {
 
       {/* Template Download */}
       <div style={{ backgroundColor: '#f3f4f6', padding: '20px', borderRadius: '8px' }}>
-        <h3 style={{ margin: '0 0 15px 0', color: '#374151' }}>📋 Şablon Dosyalar</h3>
+        <h3 style={{ margin: '0 0 15px 0', color: '#374151' }}>📋 {t('templateFiles')}</h3>
         <p style={{ margin: '0 0 15px 0', color: '#6b7280', fontSize: '14px' }}>
-          Portföy verilerinizi doğru formatta hazırlamak için aşağıdaki şablonları kullanabilirsiniz:
+          {t('templateDescription')}
         </p>
         <div style={{ display: 'flex', gap: '15px' }}>
           <button style={{
@@ -267,7 +267,7 @@ const PACTAAnalysis = () => {
             fontSize: '14px',
             cursor: 'pointer'
           }}>
-            📊 Hisse Senedi Şablonu
+            📊 {t('equityTemplate')}
           </button>
           <button style={{
             padding: '8px 16px',
@@ -278,7 +278,7 @@ const PACTAAnalysis = () => {
             fontSize: '14px',
             cursor: 'pointer'
           }}>
-            💳 Tahvil Şablonu
+            💳 {t('bondsTemplate')}
           </button>
           <button style={{
             padding: '8px 16px',
@@ -289,7 +289,7 @@ const PACTAAnalysis = () => {
             fontSize: '14px',
             cursor: 'pointer'
           }}>
-            🏦 Kredi Şablonu
+            🏪 {t('loansTemplate')}
           </button>
         </div>
       </div>
@@ -299,16 +299,16 @@ const PACTAAnalysis = () => {
   const renderSectorSpecificData = () => (
     <div style={{ backgroundColor: 'white', padding: '30px', borderRadius: '12px', marginBottom: '30px' }}>
       <h2 style={{ color: '#1e40af', marginBottom: '25px' }}>
-        ⚙️ {selectedSector === 'power' ? 'Enerji Sektörü' : 'Sektörel'} Detayları
+        ⚙️ {selectedSector === 'power' ? t('energySectorDetails') : t('sectoralDetails')}
       </h2>
       
       {selectedSector === 'power' && (
         <div>
-          <h3 style={{ marginBottom: '20px', color: '#374151' }}>⚡ Elektrik Üretim Kapasitesi</h3>
+          <h3 style={{ marginBottom: '20px', color: '#374151' }}>⚡ {t('electricityGenerationCapacity')}</h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
             <div>
               <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>
-                Kömür Kapasitesi (MW)
+                {t('coalCapacityMW')}
               </label>
               <input
                 type="number"
@@ -326,7 +326,7 @@ const PACTAAnalysis = () => {
             
             <div>
               <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>
-                Doğal Gaz Kapasitesi (MW)
+                {t('gasCapacityMW')}
               </label>
               <input
                 type="number"
@@ -344,7 +344,7 @@ const PACTAAnalysis = () => {
             
             <div>
               <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>
-                Rüzgar Kapasitesi (MW)
+                {t('windCapacityMW')}
               </label>
               <input
                 type="number"
@@ -362,7 +362,7 @@ const PACTAAnalysis = () => {
             
             <div>
               <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>
-                Güneş Kapasitesi (MW)
+                {t('solarCapacityMW')}
               </label>
               <input
                 type="number"
@@ -380,7 +380,7 @@ const PACTAAnalysis = () => {
             
             <div>
               <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>
-                Hidroelektrik Kapasitesi (MW)
+                {t('hydroCapacityMW')}
               </label>
               <input
                 type="number"

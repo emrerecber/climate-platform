@@ -798,7 +798,14 @@ const resources = {
       "sustainableTransport": "Sürdürülebilir ulaşım",
       "greenBuildings": "Çevreci binalar",
       "art8Funds": "Art. 8 fonlar",
-      "paiCompliance": "PAI compliance"
+      "paiCompliance": "PAI compliance",
+      "art9Funds": "Art. 9 fonlar",
+      "financialRiskAssessment": "Finansal Risk Değerlendirmesi",
+      "portfolioOptimization": "Portföy Optimizasyonu",
+      "regulatoryReports": "Düzenleyici Raporlar",
+      "welcomeMessage": "Hoş geldiniz",
+      "admin": "Yönetici",
+      "customer": "Müşteri"
     }
   },
   en: {
@@ -1601,7 +1608,14 @@ const resources = {
       "sustainableTransport": "Sustainable transport",
       "greenBuildings": "Green buildings",
       "art8Funds": "Art. 8 funds",
-      "paiCompliance": "PAI compliance"
+      "paiCompliance": "PAI compliance",
+      "art9Funds": "Art. 9 funds",
+      "financialRiskAssessment": "Financial Risk Assessment",
+      "portfolioOptimization": "Portfolio Optimization",
+      "regulatoryReports": "Regulatory Reports",
+      "welcomeMessage": "Welcome",
+      "admin": "Admin",
+      "customer": "Customer"
     }
   }
 };

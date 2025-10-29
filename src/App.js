@@ -3789,7 +3789,7 @@ function App() {
                 </div>
                 <div style={{ marginBottom: '8px' }}>
                   <div style={{ fontSize: '16px', fontWeight: 'bold', color: '#10b981' }}>€800M</div>
-                  <div style={{ fontSize: '12px', color: '#6b7280' }}>Art. 9 fonlar</div>
+                  <div style={{ fontSize: '12px', color: '#6b7280' }}>{t('art9Funds')}</div>
                 </div>
                 <div style={{ fontSize: '12px', color: '#6b7280' }}>PAI compliance: 95%</div>
               </div>
@@ -3812,7 +3812,7 @@ function App() {
               }}
               onClick={() => setActiveTab('financialAnalysis')}
             >
-              📈 Finansal Risk Değerlendirmesi
+              📈 {t('financialRiskAssessment')}
             </button>
             
             <button
@@ -3829,7 +3829,7 @@ function App() {
               }}
               onClick={() => setActiveTab('portfolioOptimization')}
             >
-              📅 Portföy Optimizasyonu
+              📅 {t('portfolioOptimization')}
             </button>
             
             <button
@@ -3846,7 +3846,7 @@ function App() {
               }}
               onClick={() => setActiveTab('regulatoryReports')}
             >
-              📄 Düzenleyici Raporlar
+              📄 {t('regulatoryReports')}
             </button>
           </div>
         </div>
@@ -3882,10 +3882,10 @@ function App() {
             borderRadius: '5px',
             marginBottom: '20px'
           }}>
-<p style={{ margin: '0 0 5px 0', fontSize: '12px', opacity: 0.7 }}>Hoş geldiniz,</p>
+            <p style={{ margin: '0 0 5px 0', fontSize: '12px', opacity: 0.7 }}>{t('welcomeMessage')},</p>
             <p style={{ margin: 0, fontWeight: 'bold' }}>{currentUser.username}</p>
             <p style={{ margin: '5px 0 0 0', fontSize: '12px', opacity: 0.7 }}>
-              {currentUser.role === 'admin' ? 'Yönetici' : 'Müşteri'}
+              {currentUser.role === 'admin' ? t('admin') : t('customer')}
             </p>
           </div>
         )}
