@@ -319,7 +319,7 @@ const RiskReport = ({ company, scores, enhanced, productSpecific, settings, onCl
               marginBottom: '20px',
               boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
             }}>
-              <h3 style={{ marginBottom: '15px', fontSize: '16px' }}>🔥 Portföy Risk Konsantrasyonu ve Heat Map</h3>
+              <h3 style={{ marginBottom: '15px', fontSize: '16px' }}>🔥 {t('portfolioRiskConcentration')}</h3>
               <PortfolioRiskHeatmap 
                 selectedScenario={enhanced.scenario?.toLowerCase() || 'orderly'}
                 portfolioData={company}
@@ -340,7 +340,7 @@ const RiskReport = ({ company, scores, enhanced, productSpecific, settings, onCl
             border: '2px solid #3b82f6'
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-              <h2 style={{ color: '#1e40af', marginBottom: 0 }}>💼 {productSpecific.productType} Analizi</h2>
+              <h2 style={{ color: '#1e40af', marginBottom: 0 }}>💼 {productSpecific.productType} {t('productAnalysis')}</h2>
               <div style={{
                 backgroundColor: '#dbeafe',
                 padding: '8px 16px',
@@ -349,7 +349,7 @@ const RiskReport = ({ company, scores, enhanced, productSpecific, settings, onCl
                 fontWeight: 'bold',
                 color: '#1e40af'
               }}>
-                Vade: {productSpecific.maturityAdjustment?.category} (x{productSpecific.maturityAdjustment?.multiplier})
+                {t('maturity')}: {productSpecific.maturityAdjustment?.category} (x{productSpecific.maturityAdjustment?.multiplier})
               </div>
             </div>
             
@@ -362,17 +362,17 @@ const RiskReport = ({ company, scores, enhanced, productSpecific, settings, onCl
                 marginBottom: '20px',
                 boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
               }}>
-                <h3 style={{ marginBottom: '15px', fontSize: '16px' }}>📉 Kredi Risk Metrikleri</h3>
+                <h3 style={{ marginBottom: '15px', fontSize: '16px' }}>📉 {t('creditRiskMetrics')}</h3>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '15px' }}>
                   <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '5px' }}>PD Artışı</div>
+                    <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '5px' }}>{t('pdIncrease')}</div>
                     <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#dc2626' }}>
                       +{productSpecific.creditMetrics.pd_uplift_pct}%
                     </div>
                     <div style={{ fontSize: '12px', color: '#6b7280' }}>{productSpecific.creditMetrics.pd_base} → {productSpecific.creditMetrics.pd_new}</div>
                   </div>
                   <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '5px' }}>LGD Artışı</div>
+                    <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '5px' }}>{t('lgdIncrease')}</div>
                     <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#ea580c' }}>
                       +{productSpecific.creditMetrics.pd_uplift_pct}%
                     </div>
@@ -386,11 +386,11 @@ const RiskReport = ({ company, scores, enhanced, productSpecific, settings, onCl
                     <div style={{ fontSize: '12px', color: '#6b7280' }}>{productSpecific.expectedLoss?.ecl_12m_bps} bps</div>
                   </div>
                   <div style={{ textAlign: 'center' }}>
-                    <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '5px' }}>Teminat Vuln.</div>
+                    <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '5px' }}>{t('collateralVuln')}</div>
                     <div style={{ fontSize: '20px', fontWeight: 'bold', color: '#7c2d12' }}>
                       {(productSpecific.creditMetrics.collateralVulnerability * 100).toFixed(0)}%
                     </div>
-                    <div style={{ fontSize: '12px', color: '#6b7280' }}>Risk faktörü</div>
+                    <div style={{ fontSize: '12px', color: '#6b7280' }}>{t('riskFactor')}</div>
                   </div>
                 </div>
               </div>
@@ -405,7 +405,7 @@ const RiskReport = ({ company, scores, enhanced, productSpecific, settings, onCl
                 marginBottom: '20px',
                 boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
               }}>
-                <h3 style={{ marginBottom: '15px', fontSize: '16px' }}>🏗️ Proje Finansmanı Covenant Analizi</h3>
+                <h3 style={{ marginBottom: '15px', fontSize: '16px' }}>🏭️ {t('projectFinanceCovenantAnalysis')}</h3>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px' }}>
                   <div style={{ textAlign: 'center' }}>
                     <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '5px' }}>DSCR (Baseline)</div>
@@ -438,22 +438,22 @@ const RiskReport = ({ company, scores, enhanced, productSpecific, settings, onCl
               borderRadius: '8px',
               color: 'white'
             }}>
-              <h3 style={{ marginBottom: '15px', fontSize: '16px', color: 'white' }}>💰 Beklenen Kayıp Özeti</h3>
+              <h3 style={{ marginBottom: '15px', fontSize: '16px', color: 'white' }}>💰 {t('expectedLossSummary')}</h3>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px', textAlign: 'center' }}>
                 <div>
-                  <div style={{ fontSize: '12px', opacity: 0.7, marginBottom: '5px' }}>12 Aylık ECL</div>
+                  <div style={{ fontSize: '12px', opacity: 0.7, marginBottom: '5px' }}>{t('monthlyECL')}</div>
                   <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#fbbf24' }}>
                     {productSpecific.expectedLoss?.ecl_12m_qar?.toLocaleString() || 'N/A'} QAR
                   </div>
                 </div>
                 <div>
-                  <div style={{ fontSize: '12px', opacity: 0.7, marginBottom: '5px' }}>Lifetime ECL</div>
+                  <div style={{ fontSize: '12px', opacity: 0.7, marginBottom: '5px' }}>{t('lifetimeECL')}</div>
                   <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#f59e0b' }}>
                     {productSpecific.expectedLoss?.ecl_lifetime_qar?.toLocaleString() || 'N/A'} QAR
                   </div>
                 </div>
                 <div>
-                  <div style={{ fontSize: '12px', opacity: 0.7, marginBottom: '5px' }}>Risk-Adjusted Pricing</div>
+                  <div style={{ fontSize: '12px', opacity: 0.7, marginBottom: '5px' }}>{t('riskAdjustedPricing')}</div>
                   <div style={{ fontSize: '24px', fontWeight: 'bold', color: '#ef4444' }}>
                     +{productSpecific.stresses?.spread_shock_bps || 0} bps
                   </div>
@@ -626,11 +626,11 @@ const RiskReport = ({ company, scores, enhanced, productSpecific, settings, onCl
                 textAlign: 'center',
                 borderLeft: '4px solid #3b82f6'
               }}>
-                <h3 style={{ fontSize: '14px', color: '#666', marginBottom: '10px' }}>PACTA Test</h3>
+                <h3 style={{ fontSize: '14px', color: '#666', marginBottom: '10px' }}>{t('pactaTest')}</h3>
                 <p style={{ fontSize: '24px', fontWeight: 'bold', color: '#1e40af' }}>
                   {company.totalInstalledCapacity || 'Debug Mode'}
                 </p>
-                <p style={{ fontSize: '12px', color: '#666' }}>PACTA Aktif</p>
+                <p style={{ fontSize: '12px', color: '#666' }}>{t('pactaActive')}</p>
               </div>
               
               {/* Yıllık Üretim */}

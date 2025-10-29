@@ -937,7 +937,22 @@ const resources = {
       "pactaTechnologyAlignment": "PACTA Teknoloji Uyumu",
       "misalignmentGap": "Misalignment Gap",
       "benchmarkDistance": "Benchmark'tan uzaklık",
-      "pactaAnalysisNote": "PACTA (Paris Anlaşması Sermaye Geçiş Değerlendirmesi) analizini sol menüdeki ayrı PACTA Analizi sayfasından yapabilirsiniz."
+      "pactaAnalysisNote": "PACTA (Paris Anlaşması Sermaye Geçiş Değerlendirmesi) analizini sol menüdeki ayrı PACTA Analizi sayfasından yapabilirsiniz.",
+      "portfolioRiskConcentration": "Portföy Risk Konsantrasyonu ve Heat Map",
+      "productAnalysis": "Analizi",
+      "maturity": "Vade",
+      "creditRiskMetrics": "Kredi Risk Metrikleri",
+      "pdIncrease": "PD Artışı",
+      "lgdIncrease": "LGD Artışı",
+      "collateralVuln": "Teminat Vuln.",
+      "riskFactor": "Risk faktörü",
+      "projectFinanceCovenantAnalysis": "Proje Finansmanı Covenant Analizi",
+      "expectedLossSummary": "Beklenen Kayıp Özeti",
+      "monthlyECL": "12 Aylık ECL",
+      "lifetimeECL": "Lifetime ECL",
+      "riskAdjustedPricing": "Risk-Adjusted Pricing",
+      "pactaTest": "PACTA Test",
+      "pactaActive": "PACTA Aktif"
     }
   },
   en: {
@@ -1879,7 +1894,22 @@ const resources = {
       "pactaTechnologyAlignment": "PACTA Technology Alignment",
       "misalignmentGap": "Misalignment Gap",
       "benchmarkDistance": "Distance from Benchmark",
-      "pactaAnalysisNote": "You can perform PACTA (Paris Agreement Capital Transition Assessment) analysis from the separate PACTA Analysis page in the left menu."
+      "pactaAnalysisNote": "You can perform PACTA (Paris Agreement Capital Transition Assessment) analysis from the separate PACTA Analysis page in the left menu.",
+      "portfolioRiskConcentration": "Portfolio Risk Concentration and Heat Map",
+      "productAnalysis": "Analysis",
+      "maturity": "Maturity",
+      "creditRiskMetrics": "Credit Risk Metrics",
+      "pdIncrease": "PD Increase",
+      "lgdIncrease": "LGD Increase",
+      "collateralVuln": "Collateral Vuln.",
+      "riskFactor": "Risk factor",
+      "projectFinanceCovenantAnalysis": "Project Finance Covenant Analysis",
+      "expectedLossSummary": "Expected Loss Summary",
+      "monthlyECL": "12-Month ECL",
+      "lifetimeECL": "Lifetime ECL",
+      "riskAdjustedPricing": "Risk-Adjusted Pricing",
+      "pactaTest": "PACTA Test",
+      "pactaActive": "PACTA Active"
     }
   }
 };
