@@ -398,7 +398,7 @@ const PACTAAnalysis = () => {
             
             <div>
               <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>
-                Nükleer Kapasitesi (MW)
+                {t('nuclearCapacityMW')}
               </label>
               <input
                 type="number"
@@ -419,11 +419,11 @@ const PACTAAnalysis = () => {
 
       {/* Future Projections */}
       <div style={{ marginTop: '40px' }}>
-        <h3 style={{ marginBottom: '20px', color: '#374151' }}>📈 Gelecek Projeksiyonları</h3>
+        <h3 style={{ marginBottom: '20px', color: '#374151' }}>📈 {t('futureProjections')}</h3>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
           <div>
             <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>
-              2025 Üretim Projeksiyonu
+              {t('production2025')}
             </label>
             <input
               type="text"
@@ -435,13 +435,13 @@ const PACTAAnalysis = () => {
                 border: '2px solid #e5e7eb',
                 borderRadius: '8px'
               }}
-              placeholder="Örn: %15 artış bekleniyor"
+              placeholder={t('placeholder2025')}
             />
           </div>
           
           <div>
             <label style={{ display: 'block', marginBottom: '8px', fontWeight: '600' }}>
-              2030 Üretim Projeksiyonu
+              {t('production2030')}
             </label>
             <input
               type="text"
@@ -453,7 +453,7 @@ const PACTAAnalysis = () => {
                 border: '2px solid #e5e7eb',
                 borderRadius: '8px'
               }}
-              placeholder="Örn: %40 yenilenebilir enerji oranı"
+              placeholder={t('placeholder2030')}
             />
           </div>
         </div>
@@ -461,12 +461,12 @@ const PACTAAnalysis = () => {
 
       {/* Scenario Selection */}
       <div style={{ marginTop: '40px' }}>
-        <h3 style={{ marginBottom: '20px', color: '#374151' }}>🌍 İklim Senaryosu Seçimi</h3>
+        <h3 style={{ marginBottom: '20px', color: '#374151' }}>🌍 {t('climateScenarioSelection')}</h3>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '15px' }}>
           {[
-            { value: 'nze_2050', label: 'Net Zero 2050', description: '1.5°C senaryosu' },
-            { value: 'below_2c', label: 'Below 2°C', description: '2°C altı senaryo' },
-            { value: 'ndc', label: 'NDC', description: 'Ulusal katkı senaryosu' }
+            { value: 'nze_2050', label: 'Net Zero 2050', descriptionKey: 'scenario_1_5c' },
+            { value: 'below_2c', label: 'Below 2°C', descriptionKey: 'scenario_2c_below' },
+            { value: 'ndc', label: 'NDC', descriptionKey: 'scenario_ndc' }
           ].map(scenario => (
             <div
               key={scenario.value}
@@ -481,7 +481,7 @@ const PACTAAnalysis = () => {
               }}
             >
               <h4 style={{ margin: '0 0 8px 0', color: '#1e40af' }}>{scenario.label}</h4>
-              <p style={{ margin: 0, fontSize: '14px', color: '#6b7280' }}>{scenario.description}</p>
+              <p style={{ margin: 0, fontSize: '14px', color: '#6b7280' }}>{t(scenario.descriptionKey)}</p>
             </div>
           ))}
         </div>

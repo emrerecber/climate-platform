@@ -1732,7 +1732,7 @@ function App() {
 
                 <div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                    <span style={{ fontSize: '14px', fontWeight: '500' }}>Su Kullanımı</span>
+                    <span style={{ fontSize: '14px', fontWeight: '500' }}>{t('waterUsage')}</span>
                     <span style={{ fontSize: '14px', fontWeight: 'bold' }}>{(companyMetrics.waterUsage / 1000).toFixed(0)}K m³</span>
                   </div>
                   <div style={{ height: '8px', backgroundColor: '#e5e7eb', borderRadius: '4px', overflow: 'hidden' }}>
@@ -1747,7 +1747,7 @@ function App() {
 
                 <div>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                    <span style={{ fontSize: '14px', fontWeight: '500' }}>Atık Üretimi</span>
+                    <span style={{ fontSize: '14px', fontWeight: '500' }}>{t('wasteGeneration')}</span>
                     <span style={{ fontSize: '14px', fontWeight: 'bold' }}>{(companyMetrics.wasteGeneration / 1000).toFixed(0)} ton</span>
                   </div>
                   <div style={{ height: '8px', backgroundColor: '#e5e7eb', borderRadius: '4px', overflow: 'hidden' }}>
@@ -1767,12 +1767,12 @@ function App() {
                   borderRadius: '8px',
                   textAlign: 'center'
                 }}>
-                  <h4 style={{ margin: '0 0 10px 0', fontSize: '16px' }}>Toplam İklim Skoru</h4>
+                  <h4 style={{ margin: '0 0 10px 0', fontSize: '16px' }}>{t('totalClimateScore')}</h4>
                   <div style={{ fontSize: '48px', fontWeight: 'bold', color: '#6366f1' }}>
                     {((5 - avgTransitionRisk) * 20).toFixed(0)}/100
                   </div>
                   <p style={{ margin: '10px 0 0 0', fontSize: '14px', color: '#6b7280' }}>
-                    Sektör sıralaması: 3/15
+                    {t('sectorRanking')}: 3/15
                   </p>
                 </div>
               </div>
@@ -1783,52 +1783,52 @@ function App() {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
             {/* Risk Faktörleri */}
             <div style={{ backgroundColor: 'white', padding: '25px', borderRadius: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
-              <h3 style={{ marginBottom: '20px', fontSize: '18px' }}>Risk Faktörleri & Fırsatlar</h3>
+              <h3 style={{ marginBottom: '20px', fontSize: '18px' }}>{t('riskFactorsOpportunities')}</h3>
               
               <div style={{ marginBottom: '20px' }}>
                 <h4 style={{ fontSize: '14px', color: '#dc2626', marginBottom: '12px', fontWeight: '600' }}>
-                  🔴 Yüksek Risk Alanları
+                  🔴 {t('highRiskAreas')}
                 </h4>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   <div style={{ padding: '12px', backgroundColor: '#fee2e2', borderRadius: '8px', fontSize: '14px' }}>
-                    • Karbon vergisi maliyetleri (CBAM): €45M/yıl
+                    • {t('carbonTaxCosts')}: €45M/yıl
                   </div>
                   <div style={{ padding: '12px', backgroundColor: '#fee2e2', borderRadius: '8px', fontSize: '14px' }}>
-                    • Fosil yakıt bağımlılığı: %65 enerji
+                    • {t('fossilFuelDependency')}: %65 enerji
                   </div>
                   <div style={{ padding: '12px', backgroundColor: '#fee2e2', borderRadius: '8px', fontSize: '14px' }}>
-                    • Teknolojik dönüşüm CAPEX: €120M
+                    • {t('techTransformationCapex')}: €120M
                   </div>
                 </div>
               </div>
 
               <div style={{ marginBottom: '20px' }}>
                 <h4 style={{ fontSize: '14px', color: '#f59e0b', marginBottom: '12px', fontWeight: '600' }}>
-                  🟡 Orta Seviye Riskler
+                  🟡 {t('mediumLevelRisks')}
                 </h4>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   <div style={{ padding: '12px', backgroundColor: '#fef3c7', borderRadius: '8px', fontSize: '14px' }}>
-                    • Tedarik zinciri emisyonları
+                    • {t('supplyChainEmissions')}
                   </div>
                   <div style={{ padding: '12px', backgroundColor: '#fef3c7', borderRadius: '8px', fontSize: '14px' }}>
-                    • Su stresi riski (İstanbul bölgesi)
+                    • {t('waterStressRisk')}
                   </div>
                 </div>
               </div>
 
               <div>
                 <h4 style={{ fontSize: '14px', color: '#10b981', marginBottom: '12px', fontWeight: '600' }}>
-                  🟢 Güçlü Yönler & Fırsatlar
+                  🟢 {t('strengthsOpportunities')}
                 </h4>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   <div style={{ padding: '12px', backgroundColor: '#d1fae5', borderRadius: '8px', fontSize: '14px' }}>
-                    • 2050 Net-Zero taahhüdü
+                    • {t('netZeroCommitment')}
                   </div>
                   <div style={{ padding: '12px', backgroundColor: '#d1fae5', borderRadius: '8px', fontSize: '14px' }}>
-                    • Yeşil tahvil ihracı: €500M
+                    • {t('greenBondIssuance')}: €500M
                   </div>
                   <div style={{ padding: '12px', backgroundColor: '#d1fae5', borderRadius: '8px', fontSize: '14px' }}>
-                    • R&D yatırımları: Yıllık €25M
+                    • {t('rdInvestments')} €25M
                   </div>
                 </div>
               </div>
@@ -1836,7 +1836,7 @@ function App() {
 
             {/* Aksiyon Planı */}
             <div style={{ backgroundColor: 'white', padding: '25px', borderRadius: '12px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
-              <h3 style={{ marginBottom: '20px', fontSize: '18px' }}>Önerilen Aksiyon Planı</h3>
+              <h3 style={{ marginBottom: '20px', fontSize: '18px' }}>{t('recommendedActionPlan')}</h3>
               
               <div style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
                 <div style={{ 
@@ -1846,12 +1846,12 @@ function App() {
                   borderLeft: '4px solid #3b82f6'
                 }}>
                   <h4 style={{ margin: '0 0 8px 0', fontSize: '16px', color: '#1e40af' }}>
-                    🚀 Acil (0-6 ay)
+                    🚀 {t('urgent0_6months')}
                   </h4>
                   <ul style={{ margin: 0, paddingLeft: '20px', fontSize: '14px', lineHeight: '1.8' }}>
-                    <li>TCFD raporlaması başlatılması</li>
-                    <li>Enerji verimliliği denetimi</li>
-                    <li>Karbon ayak izi ölçümü (Scope 1-2-3)</li>
+                    <li>{t('tcfdReportingStart')}</li>
+                    <li>{t('energyEfficiencyAudit')}</li>
+                    <li>{t('carbonFootprintMeasurement')}</li>
                   </ul>
                 </div>
 
@@ -1862,12 +1862,12 @@ function App() {
                   borderLeft: '4px solid #f59e0b'
                 }}>
                   <h4 style={{ margin: '0 0 8px 0', fontSize: '16px', color: '#92400e' }}>
-                    ⏱️ Kısa Vade (6-24 ay)
+                    ⏱️ {t('shortTerm6_24months')}
                   </h4>
                   <ul style={{ margin: 0, paddingLeft: '20px', fontSize: '14px', lineHeight: '1.8' }}>
-                    <li>%30 yenilenebilir enerji geçişi</li>
-                    <li>ISO 14001 sertifikasyonu</li>
-                    <li>Tedarikçi emisyon programı</li>
+                    <li>{t('renewableEnergyTransition')}</li>
+                    <li>{t('iso14001Certification')}</li>
+                    <li>{t('supplierEmissionProgram')}</li>
                   </ul>
                 </div>
 
@@ -1878,12 +1878,12 @@ function App() {
                   borderLeft: '4px solid #10b981'
                 }}>
                   <h4 style={{ margin: '0 0 8px 0', fontSize: '16px', color: '#065f46' }}>
-                    📈 Uzun Vade (2-5 yıl)
+                    📈 {t('longTerm2_5years')}
                   </h4>
                   <ul style={{ margin: 0, paddingLeft: '20px', fontSize: '14px', lineHeight: '1.8' }}>
-                    <li>Karbon nötr üretim tesisleri</li>
-                    <li>Döngüsel ekonomi modeli</li>
-                    <li>Net-Zero yol haritası implementasyonu</li>
+                    <li>{t('carbonNeutralFacilities')}</li>
+                    <li>{t('circularEconomyModel')}</li>
+                    <li>{t('netZeroRoadmapImplementation')}</li>
                   </ul>
                 </div>
               </div>
@@ -1892,27 +1892,27 @@ function App() {
 
           {/* TCFD Uyumluluk ve Emisyon Verileri */}
           <div style={{ backgroundColor: 'white', padding: '25px', borderRadius: '12px', marginTop: '20px', marginBottom: '20px', boxShadow: '0 2px 8px rgba(0,0,0,0.08)' }}>
-            <h3 style={{ marginBottom: '20px', fontSize: '18px' }}>TCFD Uyumluluk & Emisyon Profili</h3>
+            <h3 style={{ marginBottom: '20px', fontSize: '18px' }}>{t('tcfdComplianceEmissions')}</h3>
             
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px' }}>
               {/* TCFD Skorboard */}
               <div>
-                <h4 style={{ fontSize: '16px', marginBottom: '15px', color: '#1f2937' }}>TCFD Uyumluluk Durumu</h4>
+                <h4 style={{ fontSize: '16px', marginBottom: '15px', color: '#1f2937' }}>{t('tcfdComplianceStatus')}</h4>
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
                   <div style={{ padding: '15px', backgroundColor: selectedCompany.sector === 'Finans' ? '#d1fae5' : '#fef3c7', borderRadius: '8px' }}>
-                    <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '5px' }}>Yönetişim</div>
+                    <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '5px' }}>{t('governance')}</div>
                     <div style={{ fontSize: '20px', fontWeight: 'bold' }}>{selectedCompany.sector === 'Finans' ? '✔' : '◐'}</div>
                   </div>
                   <div style={{ padding: '15px', backgroundColor: '#fef3c7', borderRadius: '8px' }}>
-                    <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '5px' }}>Strateji</div>
+                    <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '5px' }}>{t('strategy')}</div>
                     <div style={{ fontSize: '20px', fontWeight: 'bold' }}>◐</div>
                   </div>
                   <div style={{ padding: '15px', backgroundColor: selectedCompany.sector === 'Enerji' ? '#fee2e2' : '#fef3c7', borderRadius: '8px' }}>
-                    <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '5px' }}>Risk Yönetimi</div>
+                    <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '5px' }}>{t('riskManagement')}</div>
                     <div style={{ fontSize: '20px', fontWeight: 'bold' }}>{selectedCompany.sector === 'Enerji' ? '○' : '◐'}</div>
                   </div>
                   <div style={{ padding: '15px', backgroundColor: '#d1fae5', borderRadius: '8px' }}>
-                    <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '5px' }}>Metrikler</div>
+                    <div style={{ fontSize: '12px', color: '#6b7280', marginBottom: '5px' }}>{t('metrics')}</div>
                     <div style={{ fontSize: '20px', fontWeight: 'bold' }}>✔</div>
                   </div>
                 </div>
@@ -1920,11 +1920,11 @@ function App() {
 
               {/* Emisyon Dağılımı */}
               <div>
-                <h4 style={{ fontSize: '16px', marginBottom: '15px', color: '#1f2937' }}>GHG Emisyon Dağılımı (tCO₂e)</h4>
+                <h4 style={{ fontSize: '16px', marginBottom: '15px', color: '#1f2937' }}>{t('ghgEmissionDistribution')}</h4>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                   <div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
-                      <span style={{ fontSize: '14px' }}>Scope 1 (Doğrudan)</span>
+                      <span style={{ fontSize: '14px' }}>{t('scope1Direct')}</span>
                       <span style={{ fontSize: '14px', fontWeight: 'bold' }}>
                         {(selectedCompany.loan / 100000).toFixed(0)}
                       </span>
@@ -1935,7 +1935,7 @@ function App() {
                   </div>
                   <div>
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '5px' }}>
-                      <span style={{ fontSize: '14px' }}>Scope 2 (Enerji)</span>
+                      <span style={{ fontSize: '14px' }}>{t('scope2Energy')}</span>
                       <span style={{ fontSize: '14px', fontWeight: 'bold' }}>
                         {(selectedCompany.loan / 50000).toFixed(0)}
                       </span>
