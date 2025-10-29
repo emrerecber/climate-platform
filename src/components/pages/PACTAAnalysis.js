@@ -617,7 +617,7 @@ const PACTAAnalysis = () => {
         boxShadow: '0 2px 8px rgba(0,0,0,0.08)'
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '15px' }}>
-          {
+          {[
             { step: 1, title: t('companyInformation') },
             { step: 2, title: t('portfolioUpload') },
             { step: 3, title: t('sectoralData') },
