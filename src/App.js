@@ -2406,6 +2406,8 @@ function App() {
                       <option value="EUR">EUR</option>
                       <option value="USD">USD</option>
                       <option value="TRY">TRY</option>
+                      <option value="GBP">GBP</option>
+                      <option value="QAR">QAR</option>
                       <option value="CNY">CNY</option>
                     </select>
                   </div>
