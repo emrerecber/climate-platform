@@ -2130,8 +2130,8 @@ function App() {
       return (
         <div>
           <div style={{ marginBottom: '30px' }}>
-            <h1 style={{ marginBottom: '8px' }}>İklim Risk Değerlendirme Formu</h1>
-            <p style={{ color: '#666' }}>TCFD uyumlu kapsamlı risk analizi</p>
+            <h1 style={{ marginBottom: '8px' }}>{t('riskAssessmentFormTitle')}</h1>
+            <p style={{ color: '#666' }}>{t('tcfdCompliantAnalysisFull')}</p>
           </div>
 
           {/* İlerleme Göstergesi */}
@@ -2150,7 +2150,7 @@ function App() {
                   margin: '0 auto 8px',
                   fontWeight: 'bold'
                 }}>1</div>
-                <span style={{ fontSize: '12px', color: formStep >= 1 ? '#0066cc' : '#6b7280' }}>Şirket Bilgileri</span>
+                <span style={{ fontSize: '12px', color: formStep >= 1 ? '#0066cc' : '#6b7280' }}>{t('companyInfo')}</span>
               </div>
               <div style={{ textAlign: 'center', flex: 1 }}>
                 <div style={{
@@ -2165,7 +2165,7 @@ function App() {
                   margin: '0 auto 8px',
                   fontWeight: 'bold'
                 }}>2</div>
-                <span style={{ fontSize: '12px', color: formStep >= 2 ? '#0066cc' : '#6b7280' }}>Emisyon Verileri</span>
+                <span style={{ fontSize: '12px', color: formStep >= 2 ? '#0066cc' : '#6b7280' }}>{t('emissionData')}</span>
               </div>
               <div style={{ textAlign: 'center', flex: 1 }}>
                 <div style={{
@@ -2180,7 +2180,7 @@ function App() {
                   margin: '0 auto 8px',
                   fontWeight: 'bold'
                 }}>3</div>
-                <span style={{ fontSize: '12px', color: formStep >= 3 ? '#0066cc' : '#6b7280' }}>TCFD Uyumluluk</span>
+                <span style={{ fontSize: '12px', color: formStep >= 3 ? '#0066cc' : '#6b7280' }}>{t('tcfdCompliance')}</span>
               </div>
               <div style={{ textAlign: 'center', flex: 1 }}>
                 <div style={{
@@ -2195,7 +2195,7 @@ function App() {
                   margin: '0 auto 8px',
                   fontWeight: 'bold'
                 }}>4</div>
-                <span style={{ fontSize: '12px', color: formStep >= 4 ? '#0066cc' : '#6b7280' }}>Risk Faktörleri</span>
+                <span style={{ fontSize: '12px', color: formStep >= 4 ? '#0066cc' : '#6b7280' }}>{t('riskFactors')}</span>
               </div>
               <div style={{ textAlign: 'center', flex: 1 }}>
                 <div style={{
@@ -2210,7 +2210,7 @@ function App() {
                   margin: '0 auto 8px',
                   fontWeight: 'bold'
                 }}>5</div>
-                <span style={{ fontSize: '12px', color: formStep >= 5 ? '#0066cc' : '#6b7280' }}>ESG & Hedefler</span>
+                <span style={{ fontSize: '12px', color: formStep >= 5 ? '#0066cc' : '#6b7280' }}>{t('esgTargets')}</span>
               </div>
               <div style={{ textAlign: 'center', flex: 1 }}>
                 <div style={{
@@ -2225,7 +2225,7 @@ function App() {
                   margin: '0 auto 8px',
                   fontWeight: 'bold'
                 }}>6</div>
-                <span style={{ fontSize: '12px', color: formStep >= 6 ? '#0066cc' : '#6b7280' }}>PACTA Analizi</span>
+                <span style={{ fontSize: '12px', color: formStep >= 6 ? '#0066cc' : '#6b7280' }}>{t('pactaAnalysis')}</span>
               </div>
             </div>
           </div>
@@ -2238,14 +2238,14 @@ function App() {
             marginBottom: '25px',
             boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
           }}>
-            <h3 style={{ marginBottom: '20px', fontSize: '18px', color: '#495057' }}>Analiz Parametreleri</h3>
+            <h3 style={{ marginBottom: '20px', fontSize: '18px', color: '#495057' }}>{t('analysisParameters')}</h3>
             <div style={{ 
               display: 'grid',
               gridTemplateColumns: '1fr 1fr 1fr',
               gap: '20px'
             }}>
               <div>
-                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#495057' }}>İklim Senaryosu</label>
+                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#495057' }}>{t('climateScenarioLabel')}</label>
                 <select
                   value={selectedScenario}
                   onChange={(e) => setSelectedScenario(e.target.value)}
@@ -2259,19 +2259,19 @@ function App() {
                     boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
                   }}
                 >
-                  <option value="orderly_2030">🌱 Düzenli Geçiş (1.5°C - NGFS)</option>
-                  <option value="disorderly_2030">⚠️ Düzensiz Geçiş (Gecikmeli Politika)</option>
-                  <option value="hothouse_2030">🔥 Sera Dünyası (3°C+ - Fiziksel Risk)</option>
+                  <option value="orderly_2030">🌱 {t('orderlyTransition')}</option>
+                  <option value="disorderly_2030">⚠️ {t('disorderlyTransition')}</option>
+                  <option value="hothouse_2030">🔥 {t('greenhouseWorld')}</option>
                 </select>
                 <div style={{ fontSize: '12px', color: '#6c757d', marginTop: '4px' }}>
-                  {selectedScenario === 'orderly_2030' && 'Karbon fiyatı: 150 QAR/tCO₂e'}
-                  {selectedScenario === 'disorderly_2030' && 'Karbon fiyatı: 300 QAR/tCO₂e'}
-                  {selectedScenario === 'hothouse_2030' && 'Karbon fiyatı: 50 QAR/tCO₂e'}
+                  {selectedScenario === 'orderly_2030' && `${t('carbonPrice')}: 150 QAR/tCO₂e`}
+                  {selectedScenario === 'disorderly_2030' && `${t('carbonPrice')}: 300 QAR/tCO₂e`}
+                  {selectedScenario === 'hothouse_2030' && `${t('carbonPrice')}: 50 QAR/tCO₂e`}
                 </div>
               </div>
               
               <div>
-                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#495057' }}>Vade Kategorisi</label>
+                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#495057' }}>{t('maturityCategory')}</label>
                 <select
                   value={selectedMaturity}
                   onChange={(e) => setSelectedMaturity(e.target.value)}
@@ -2285,19 +2285,19 @@ function App() {
                     boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
                   }}
                 >
-                  <option value="pre_2030">⏰ 2030 Öncesi (Risk Çarpanı: 0x)</option>
-                  <option value="2030_2039">📊 2030-2039 (Risk Çarpanı: 1.2x)</option>
-                  <option value="post_2040">🎯 2040+ (Risk Çarpanı: 1.4x)</option>
+                  <option value="pre_2030">⏰ {t('pre2030')}</option>
+                  <option value="2030_2039">📊 {t('year2030_2039')}</option>
+                  <option value="post_2040">🎯 {t('post2040')}</option>
                 </select>
                 <div style={{ fontSize: '12px', color: '#6c757d', marginTop: '4px' }}>
-                  {selectedMaturity === 'pre_2030' && 'İklim riski uygulanmaz'}
-                  {selectedMaturity === '2030_2039' && 'Orta düzey iklim riski beklentisi'}
-                  {selectedMaturity === 'post_2040' && 'Yüksek iklim riski beklentisi'}
+                  {selectedMaturity === 'pre_2030' && t('climateRiskNotApplied')}
+                  {selectedMaturity === '2030_2039' && t('mediumClimateRisk')}
+                  {selectedMaturity === 'post_2040' && t('highClimateRisk')}
                 </div>
               </div>
               
               <div>
-                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#495057' }}>Finansal Ürün</label>
+                <label style={{ display: 'block', marginBottom: '8px', fontWeight: '500', color: '#495057' }}>{t('financialProduct')}</label>
                 <select
                   value={selectedProductType}
                   onChange={(e) => setSelectedProductType(e.target.value)}
@@ -2311,16 +2311,16 @@ function App() {
                     boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
                   }}
                 >
-                  <option value="sme_loan">🏢 KOBİ/Kurumsal Kredi</option>
-                  <option value="project_finance">🏗️ Proje Finansmanı</option>
-                  <option value="syndicated">🤝 Sendikasyon Kredisi</option>
-                  <option value="bond">📈 Tahvil</option>
-                  <option value="equity">📊 Özkaynak/Hisse</option>
-                  <option value="exim">🌍 İhracat Finansmanı</option>
-                  <option value="guarantee">🛡️ Garanti (Al-Dhameen)</option>
+                  <option value="sme_loan">🏪 {t('smeLoan')}</option>
+                  <option value="project_finance">🏭️ {t('projectFinance')}</option>
+                  <option value="syndicated">🤝 {t('syndicatedLoan')}</option>
+                  <option value="bond">📈 {t('bond')}</option>
+                  <option value="equity">📊 {t('equity')}</option>
+                  <option value="exim">🌍 {t('eximFinance')}</option>
+                  <option value="guarantee">🛡️ {t('guarantee')}</option>
                 </select>
                 <div style={{ fontSize: '12px', color: '#6c757d', marginTop: '4px' }}>
-                  PDF metodolojisine göre spesifik hesaplama
+                  {t('pdfMethodology')}
                 </div>
               </div>
             </div>
