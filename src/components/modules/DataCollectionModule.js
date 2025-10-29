@@ -10,6 +10,7 @@ const DataCollectionModule = ({ onClose, onDataSaved }) => {
         headOfficeAddress: '',
         totalEmployees: '',
         annualRevenue: '',
+        currency: 'TRY',
         operationalCountries: '',
         
         // Adım 2: Emisyon Verileri
@@ -171,7 +172,21 @@ const DataCollectionModule = ({ onClose, onDataSaved }) => {
                 </div>
 
                 <div className="form-group">
-                    <label>Yıllık Ciro (TRY)</label>
+                    <label>Para Birimi</label>
+                    <select
+                        value={formData.currency}
+                        onChange={(e) => handleInputChange('currency', e.target.value)}
+                    >
+                        <option value="TRY">TRY - Turkish Lira</option>
+                        <option value="USD">USD - US Dollar</option>
+                        <option value="EUR">EUR - Euro</option>
+                        <option value="GBP">GBP - British Pound</option>
+                        <option value="QAR">QAR - Qatari Riyal</option>
+                    </select>
+                </div>
+
+                <div className="form-group">
+                    <label>Yıllık Ciro ({formData.currency})</label>
                     <input
                         type="number"
                         value={formData.annualRevenue}
