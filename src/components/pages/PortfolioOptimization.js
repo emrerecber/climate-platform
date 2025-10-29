@@ -30,14 +30,14 @@ const PortfolioOptimization = () => {
   
   // Handle optimization application
   const handleApplyOptimization = () => {
-    if (window.confirm('Bu optimizasyonu uygulamak istediğinizden emin misiniz? Bu işlem portföyünüzü yeniden dengeleyecektir.')) {
+    if (window.confirm(t('confirmOptimization'))) {
       // In a real application, this would connect to backend services
       // For now, we'll simulate the process
       setIsOptimizationApplied(true);
       
       // Show success message
       setTimeout(() => {
-        alert(`Optimizasyon başarıyla uygulandı!\n\nYeni portföy dağılımı:\n${getOptimizationSummary()}`);
+        alert(`${t('optimizationAppliedSuccess')}\n\n${t('newPortfolioAllocation')}:\n${getOptimizationSummary()}`);
       }, 1000);
     }
   };
@@ -117,11 +117,11 @@ const PortfolioOptimization = () => {
       const fileName = `Portfolio_Optimization_Report_${data.scenario}_${new Date().toISOString().split('T')[0]}.pdf`;
       pdf.save(fileName);
       
-      alert(`Detaylı rapor başarıyla oluşturuldu: ${fileName}`);
+      alert(`${t('reportGeneratedSuccess')}: ${fileName}`);
       
     } catch (error) {
       console.error('Report generation error:', error);
-      alert('Rapor oluşturulurken bir hata oluştu. Lütfen tekrar deneyin.');
+      alert(t('reportGenerationError'));
     }
   };
 
@@ -213,7 +213,7 @@ const PortfolioOptimization = () => {
     <div>
       <div style={{ marginBottom: '30px' }}>
         <h1 style={{ marginBottom: '8px', color: '#10b981' }}>📊 {t('portfolioOptimization') || 'Portfolio Optimization'}</h1>
-        <p style={{ color: '#666' }}>ESG ve İklim Risk bazlı portföy optimizasyonu ve yeniden dengeleme</p>
+        <p style={{ color: '#666' }}>{t('esgClimateOptimization')}</p>
       </div>
 
       {/* Optimization Controls */}
@@ -224,11 +224,11 @@ const PortfolioOptimization = () => {
         marginBottom: '30px',
         border: '1px solid #e2e8f0' 
       }}>
-        <h3 style={{ marginBottom: '20px', color: '#1e293b' }}>⚙️ Optimizasyon Parametreleri</h3>
+        <h3 style={{ marginBottom: '20px', color: '#1e293b' }}>⚙️ {t('optimizationParameters')}</h3>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
           <div>
             <label style={{ display: 'block', fontSize: '14px', fontWeight: '600', marginBottom: '8px' }}>
-              Optimizasyon Senaryosu
+              {t('optimizationScenario')}
             </label>
             <select 
               value={optimizationScenario}
@@ -241,15 +241,15 @@ const PortfolioOptimization = () => {
                 fontSize: '14px'
               }}
             >
-              <option value="esg-balanced">ESG Dengeli</option>
-              <option value="climate-focused">İklim Odaklı</option>
-              <option value="risk-minimized">Risk Minimize</option>
+              <option value="esg-balanced">{t('esgBalanced')}</option>
+              <option value="climate-focused">{t('climateFocused')}</option>
+              <option value="risk-minimized">{t('riskMinimized')}</option>
             </select>
           </div>
           
           <div>
             <label style={{ display: 'block', fontSize: '14px', fontWeight: '600', marginBottom: '8px' }}>
-              Risk Toleransı
+              {t('riskTolerance')}
             </label>
             <select 
               value={riskTolerance}
@@ -262,15 +262,15 @@ const PortfolioOptimization = () => {
                 fontSize: '14px'
               }}
             >
-              <option value="conservative">Muhafazakar</option>
-              <option value="moderate">Orta</option>
-              <option value="aggressive">Agresif</option>
+              <option value="conservative">{t('conservative')}</option>
+              <option value="moderate">{t('moderate')}</option>
+              <option value="aggressive">{t('aggressive')}</option>
             </select>
           </div>
           
           <div>
             <label style={{ display: 'block', fontSize: '14px', fontWeight: '600', marginBottom: '8px' }}>
-              Optimizasyon Hedefi
+              {t('optimizationObjective')}
             </label>
             <select 
               value={optimizationObjective}
@@ -284,10 +284,10 @@ const PortfolioOptimization = () => {
               }}
             >
               <option value="sharpe-ratio">Sharpe Ratio</option>
-              <option value="max-return">Maksimum Getiri</option>
-              <option value="min-risk">Minimum Risk</option>
-              <option value="esg-score">ESG Skoru</option>
-              <option value="climate-alignment">İklim Uyumu</option>
+              <option value="max-return">{t('maxReturn')}</option>
+              <option value="min-risk">{t('minRisk')}</option>
+              <option value="esg-score">ESG Score</option>
+              <option value="climate-alignment">{t('climateAlignment')}</option>
             </select>
           </div>
         </div>
@@ -297,7 +297,7 @@ const PortfolioOptimization = () => {
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px', marginBottom: '30px' }}>
         {/* Current Portfolio */}
         <div style={{ backgroundColor: 'white', padding: '25px', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
-          <h3 style={{ marginBottom: '20px', color: '#dc2626' }}>📈 Mevcut Portföy</h3>
+          <h3 style={{ marginBottom: '20px', color: '#dc2626' }}>📈 {t('currentPortfolio')}</h3>
           <div style={{ height: '300px', marginBottom: '20px' }}>
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -337,7 +337,7 @@ const PortfolioOptimization = () => {
 
         {/* Optimized Portfolio */}
         <div style={{ backgroundColor: 'white', padding: '25px', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.08)' }}>
-          <h3 style={{ marginBottom: '20px', color: '#10b981' }}>🎯 Optimize Edilmiş Portföy</h3>
+          <h3 style={{ marginBottom: '20px', color: '#10b981' }}>🎯 {t('optimizedPortfolio')}</h3>
           <div style={{ height: '300px', marginBottom: '20px' }}>
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
@@ -378,15 +378,15 @@ const PortfolioOptimization = () => {
 
       {/* Performance Comparison Table */}
       <div style={{ backgroundColor: 'white', padding: '25px', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.08)', marginBottom: '30px' }}>
-        <h3 style={{ marginBottom: '20px', color: '#1e293b' }}>📊 Performans Karşılaştırması</h3>
+        <h3 style={{ marginBottom: '20px', color: '#1e293b' }}>📊 {t('performanceComparison')}</h3>
         <div style={{ overflowX: 'auto' }}>
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr style={{ backgroundColor: '#f8fafc' }}>
-                <th style={{ padding: '12px', textAlign: 'left', fontSize: '14px', fontWeight: '600' }}>Metrik</th>
-                <th style={{ padding: '12px', textAlign: 'center', fontSize: '14px', fontWeight: '600' }}>Mevcut Portföy</th>
-                <th style={{ padding: '12px', textAlign: 'center', fontSize: '14px', fontWeight: '600' }}>Optimize Portföy</th>
-                <th style={{ padding: '12px', textAlign: 'center', fontSize: '14px', fontWeight: '600' }}>İyileştirme</th>
+                <th style={{ padding: '12px', textAlign: 'left', fontSize: '14px', fontWeight: '600' }}>{t('metric')}</th>
+                <th style={{ padding: '12px', textAlign: 'center', fontSize: '14px', fontWeight: '600' }}>{t('currentPortfolioCol')}</th>
+                <th style={{ padding: '12px', textAlign: 'center', fontSize: '14px', fontWeight: '600' }}>{t('optimizedPortfolioCol')}</th>
+                <th style={{ padding: '12px', textAlign: 'center', fontSize: '14px', fontWeight: '600' }}>{t('improvement')}</th>
               </tr>
             </thead>
             <tbody>
@@ -427,7 +427,7 @@ const PortfolioOptimization = () => {
                 dataKey="current" 
                 stroke="#dc2626" 
                 strokeWidth={3}
-                name="Mevcut Portföy"
+                name={t('currentPortfolio')}
                 dot={{ fill: '#dc2626', strokeWidth: 2, r: 6 }}
               />
               <Line 
@@ -435,7 +435,7 @@ const PortfolioOptimization = () => {
                 dataKey="optimized" 
                 stroke="#10b981" 
                 strokeWidth={3}
-                name="Optimize Portföy"
+                name={t('optimizedPortfolio')}
                 dot={{ fill: '#10b981', strokeWidth: 2, r: 6 }}
               />
             </LineChart>
@@ -504,7 +504,7 @@ const PortfolioOptimization = () => {
               marginRight: '10px'
             }}
           >
-            📊 Detaylı Rapor Oluştur
+            📊 {t('generateDetailedReport')}
           </button>
           <button 
             onClick={handleApplyOptimization}
@@ -519,7 +519,7 @@ const PortfolioOptimization = () => {
               cursor: 'pointer'
             }}
           >
-            {isOptimizationApplied ? '✅ Uygulandı' : '⚡ Optimizasyonu Uygula'}
+            {isOptimizationApplied ? '✅ Applied' : `⚡ ${t('applyOptimization')}`}
           </button>
         </div>
       </div>

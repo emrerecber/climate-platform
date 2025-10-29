@@ -14,12 +14,12 @@ const RegulatoryReports = () => {
   
   // Handle email sending
   const handleSendEmail = () => {
-    const recipient = prompt('Raporu göndermek istediğiniz e-posta adresini girin:');
+    const recipient = prompt(t('enterEmailPrompt'));
     if (recipient && validateEmail(recipient)) {
       // Simulate email sending
-      alert(`${getReportTitle(selectedReport)} raporu ${recipient} adresine gönderiliyor...\n\nE-posta başarıyla gönderildi!`);
+      alert(`${getReportTitle(selectedReport)} ${t('reportGeneratedMessage')} ${recipient}...\n\n${t('emailSentSuccess')}`);
     } else if (recipient) {
-      alert('Geçerli bir e-posta adresi girin.');
+      alert(t('validEmailError'));
     }
   };
   
@@ -79,11 +79,11 @@ const RegulatoryReports = () => {
       const fileName = `${reportType.toUpperCase()}_Report_${period}_${new Date().toISOString().split('T')[0]}.pdf`;
       pdf.save(fileName);
       
-      alert(`${getReportTitle(reportType)} raporu başarıyla oluşturuldu: ${fileName}`);
+      alert(`${getReportTitle(reportType)} ${t('reportGeneratedMessage')}: ${fileName}`);
       
     } catch (error) {
       console.error('Report generation error:', error);
-      alert('Rapor oluşturulurken bir hata oluştu. Lütfen tekrar deneyin.');
+      alert(t('reportGenerationError'));
     }
   };
   
@@ -601,7 +601,7 @@ const RegulatoryReports = () => {
     <div>
       <div style={{ marginBottom: '30px' }}>
         <h1 style={{ marginBottom: '8px', color: '#8b5cf6' }}>📄 {t('regulatoryReports') || 'Regulatory Reports'}</h1>
-        <p style={{ color: '#666' }}>TCFD, EU Taxonomy, SFDR ve diğer düzenleyici raporlama gereklilikleri</p>
+        <p style={{ color: '#666' }}>{t('regulatoryReportsDesc')}</p>
       </div>
 
       {/* Report Selection and Period */}
@@ -616,7 +616,7 @@ const RegulatoryReports = () => {
           <div style={{ display: 'flex', gap: '20px' }}>
             <div>
               <label style={{ display: 'block', fontSize: '14px', fontWeight: '600', marginBottom: '8px' }}>
-                Rapor Türü
+                {t('selectReportType')}
               </label>
               <select 
                 value={selectedReport}
@@ -637,7 +637,7 @@ const RegulatoryReports = () => {
             
             <div>
               <label style={{ display: 'block', fontSize: '14px', fontWeight: '600', marginBottom: '8px' }}>
-                Raporlama Dönemi
+                {t('reportingPeriod')}
               </label>
               <select 
                 value={reportingPeriod}
@@ -672,7 +672,7 @@ const RegulatoryReports = () => {
                 cursor: 'pointer'
               }}
             >
-              📄 Rapor İndir
+              📄 {t('downloadReport')}
             </button>
             <button 
               onClick={handleSendEmail}
@@ -687,7 +687,7 @@ const RegulatoryReports = () => {
                 cursor: 'pointer'
               }}
             >
-              📧 E-posta Gönder
+              📧 {t('sendByEmail')}
             </button>
           </div>
         </div>
