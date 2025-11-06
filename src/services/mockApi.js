@@ -494,6 +494,26 @@ export const mockOrganizationAPI = {
     };
   },
 
+  create: async (data) => {
+    await delay();
+    const orgs = getStorageData(STORAGE_KEYS.ORGANIZATIONS);
+    
+    const newOrg = {
+      id: generateId(),
+      ...data,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+
+    orgs.push(newOrg);
+    setStorageData(STORAGE_KEYS.ORGANIZATIONS, orgs);
+
+    return {
+      success: true,
+      data: { organization: newOrg }
+    };
+  },
+
   update: async (id, data) => {
     await delay();
     const orgs = getStorageData(STORAGE_KEYS.ORGANIZATIONS);
