@@ -43,6 +43,7 @@ const AppWithAuth = () => {
   const handleSelectCompany = (company) => {
     console.log('🔵 handleSelectCompany called with:', company);
     setSelectedCompany(company);
+    console.log('🟣 selectedCompany will be set to:', company);
   };
 
   const handleBackToDashboard = () => {
@@ -89,6 +90,7 @@ const AppWithAuth = () => {
   }
 
   // Company selected -> Show existing app
+  console.log('🟡 Rendering App component with selectedCompany:', selectedCompany);
   return (
     <div>
       {/* Back to Dashboard Button */}
