@@ -269,7 +269,7 @@ const Dashboard = ({ user, onLogout, onSelectCompany }) => {
             {/* Only show button if user can create */}
             {(user.role === 'analyst' || user.role === 'manager' || user.role === 'admin') && (
               <button
-                onClick={() => onSelectCompany({})}
+                onClick={() => onSelectCompany(null)}
                 style={{
                   padding: '10px 20px',
                   background: '#667eea',
