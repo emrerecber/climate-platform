@@ -41,6 +41,7 @@ const AppWithAuth = () => {
   };
 
   const handleSelectCompany = (company) => {
+    console.log('🔵 handleSelectCompany called with:', company);
     setSelectedCompany(company);
   };
 
@@ -77,6 +78,7 @@ const AppWithAuth = () => {
 
   // Authenticated but no company selected -> Show dashboard
   if (selectedCompany === null) {
+    console.log('🟢 Rendering Dashboard with onSelectCompany:', typeof handleSelectCompany);
     return (
       <Dashboard 
         user={user}

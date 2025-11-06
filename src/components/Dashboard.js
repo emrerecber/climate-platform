@@ -269,7 +269,14 @@ const Dashboard = ({ user, onLogout, onSelectCompany }) => {
             {/* Only show button if user can create */}
             {(user.role === 'analyst' || user.role === 'manager' || user.role === 'admin') && (
               <button
-                onClick={() => onSelectCompany(null)}
+                onClick={() => {
+                  console.log('🟠 New Assessment clicked, onSelectCompany type:', typeof onSelectCompany);
+                  if (typeof onSelectCompany === 'function') {
+                    onSelectCompany(null);
+                  } else {
+                    console.error('❌ onSelectCompany is not a function!', onSelectCompany);
+                  }
+                }}
                 style={{
                   padding: '10px 20px',
                   background: '#667eea',
