@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-  PieChart, Pie, Cell, BarChart, Bar, LineChart, Line, AreaChart, Area,
+  PieChart, Pie, Cell, BarChart, Bar, AreaChart, Area,
   XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, RadialBarChart, RadialBar
 } from 'recharts';
 
-const FinancialReport = ({ analysisData, onClose, onExportPDF, onExportExcel }) => {
+const FinancialReport = ({ analysisData, onClose, onExportPDF, onExportExcel, onShowPACTAReport, onShowTCFDReport, hasPACTAData, hasTCFDData, scope3Results, forwardMetrics, physicalRisk, benchmarking }) => {
   const { t } = useTranslation();
   const [activeReportType, setActiveReportType] = useState('summary');
+  
+  // Check if enhanced climate data is available
+  const hasClimateData = scope3Results || forwardMetrics || physicalRisk || benchmarking;
 
   if (!analysisData || !analysisData.success) {
     return (
@@ -163,6 +166,52 @@ const FinancialReport = ({ analysisData, onClose, onExportPDF, onExportExcel }) 
           </p>
         </div>
       </div>
+
+      {/* Climate Insights Summary (if available) */}
+      {hasClimateData && (
+        <div style={{
+          background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+          padding: '25px',
+          borderRadius: '12px',
+          marginBottom: '30px',
+          color: 'white'
+        }}>
+          <h3 style={{ marginBottom: '15px', color: 'white' }}>🌍 Climate Risk & Sustainability Insights</h3>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '15px' }}>
+            {scope3Results && (
+              <div style={{ backgroundColor: 'rgba(255,255,255,0.15)', padding: '15px', borderRadius: '8px' }}>
+                <div style={{ fontSize: '12px', opacity: 0.9, marginBottom: '5px' }}>Scope 3 Emissions</div>
+                <div style={{ fontSize: '20px', fontWeight: 'bold' }}>{(scope3Results.totalEmissionsTons || 0).toLocaleString()} tCO₂e</div>
+                <div style={{ fontSize: '11px', opacity: 0.8, marginTop: '5px' }}>{scope3Results.coverage.calculated}/15 categories tracked</div>
+              </div>
+            )}
+            {forwardMetrics && (
+              <div style={{ backgroundColor: 'rgba(255,255,255,0.15)', padding: '15px', borderRadius: '8px' }}>
+                <div style={{ fontSize: '12px', opacity: 0.9, marginBottom: '5px' }}>2050 Pathway</div>
+                <div style={{ fontSize: '20px', fontWeight: 'bold' }}>{forwardMetrics.bestFitScenario}</div>
+                <div style={{ fontSize: '11px', opacity: 0.8, marginTop: '5px' }}>Target: {forwardMetrics.targetYear}</div>
+              </div>
+            )}
+            {physicalRisk && (
+              <div style={{ backgroundColor: 'rgba(255,255,255,0.15)', padding: '15px', borderRadius: '8px' }}>
+                <div style={{ fontSize: '12px', opacity: 0.9, marginBottom: '5px' }}>Physical Risk</div>
+                <div style={{ fontSize: '20px', fontWeight: 'bold' }}>{physicalRisk.baseline.baseline.overall.toFixed(1)}/5</div>
+                <div style={{ fontSize: '11px', opacity: 0.8, marginTop: '5px' }}>{physicalRisk.location.country}</div>
+              </div>
+            )}
+            {benchmarking && benchmarking.overallRanking && (
+              <div style={{ backgroundColor: 'rgba(255,255,255,0.15)', padding: '15px', borderRadius: '8px' }}>
+                <div style={{ fontSize: '12px', opacity: 0.9, marginBottom: '5px' }}>Peer Ranking</div>
+                <div style={{ fontSize: '20px', fontWeight: 'bold' }}>{benchmarking.overallRanking.position}</div>
+                <div style={{ fontSize: '11px', opacity: 0.8, marginTop: '5px' }}>{benchmarking.overallRanking.percentile}th percentile</div>
+              </div>
+            )}
+          </div>
+          <div style={{ marginTop: '15px', fontSize: '13px', opacity: 0.9 }}>
+            💡 View detailed climate analysis using PACTA and TCFD report buttons above
+          </div>
+        </div>
+      )}
 
       {/* Charts Section */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px', marginBottom: '30px' }}>
@@ -640,29 +689,75 @@ const FinancialReport = ({ analysisData, onClose, onExportPDF, onExportExcel }) 
           borderBottom: '1px solid #e5e7eb',
           backgroundColor: 'white'
         }}>
-          <div style={{ display: 'flex', gap: '10px' }}>
-            {[
-              { key: 'summary', label: t('summaryReport') },
-              { key: 'detailed', label: t('detailedAnalysis') },
-              { key: 'recommendations', label: t('recommendations') }
-            ].map(tab => (
-              <button
-                key={tab.key}
-                onClick={() => setActiveReportType(tab.key)}
-                style={{
-                  padding: '10px 20px',
-                  backgroundColor: activeReportType === tab.key ? '#3b82f6' : '#f3f4f6',
-                  color: activeReportType === tab.key ? 'white' : '#374151',
-                  border: 'none',
-                  borderRadius: '8px',
-                  cursor: 'pointer',
-                  fontSize: '14px',
-                  fontWeight: activeReportType === tab.key ? '600' : '400'
-                }}
-              >
-                {tab.label}
-              </button>
-            ))}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div style={{ display: 'flex', gap: '10px' }}>
+              {[
+                { key: 'summary', label: t('summaryReport') },
+                { key: 'detailed', label: t('detailedAnalysis') },
+                { key: 'recommendations', label: t('recommendations') }
+              ].map(tab => (
+                <button
+                  key={tab.key}
+                  onClick={() => setActiveReportType(tab.key)}
+                  style={{
+                    padding: '10px 20px',
+                    backgroundColor: activeReportType === tab.key ? '#3b82f6' : '#f3f4f6',
+                    color: activeReportType === tab.key ? 'white' : '#374151',
+                    border: 'none',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    fontSize: '14px',
+                    fontWeight: activeReportType === tab.key ? '600' : '400'
+                  }}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+            
+            {/* Climate Reports Section */}
+            <div style={{ display: 'flex', gap: '10px', borderLeft: '2px solid #e5e7eb', paddingLeft: '15px' }}>
+              {hasPACTAData && (
+                <button
+                  onClick={onShowPACTAReport}
+                  style={{
+                    padding: '10px 16px',
+                    backgroundColor: '#10b981',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    fontSize: '14px',
+                    fontWeight: '500',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px'
+                  }}
+                >
+                  🌍 PACTA Report
+                </button>
+              )}
+              {hasTCFDData && (
+                <button
+                  onClick={onShowTCFDReport}
+                  style={{
+                    padding: '10px 16px',
+                    backgroundColor: '#3b82f6',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    fontSize: '14px',
+                    fontWeight: '500',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px'
+                  }}
+                >
+                  📋 TCFD Report
+                </button>
+              )}
+            </div>
           </div>
         </div>
 

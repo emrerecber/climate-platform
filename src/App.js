@@ -21,11 +21,22 @@ import {
 } from 'chart.js';
 
 import './App.css';
+import { companyAPI } from './services/api';
+import { useToast } from './components/Toast';
+import { LoadingOverlay } from './components/LoadingComponents';
 import RiskCalculator from './utils/riskCalculator';
 import EnhancedRiskCalculator from './utils/enhancedRiskCalculator';
 import FinancialProducts from './utils/financialProducts';
 import FinancialAnalysis from './utils/financialAnalysis';
+import { calculatePACTA } from './utils/pactaCalculator';
+import { calculateTCFD } from './utils/tcfdCalculator';
+import { calculateScope3 } from './utils/scope3Calculator';
+import { calculateForwardMetrics } from './utils/pathwayCalculator';
+import { assessPhysicalRisk } from './utils/physicalRiskCalculator';
+import { performBenchmarkingAnalysis } from './utils/benchmarkingDatabase';
 import RiskReport from './components/RiskReport';
+import PACTAReport from './components/PACTAReport';
+import TCFDReport from './components/TCFDReport';
 import HomePage from './components/pages/HomePage';
 import LoginPage from './components/pages/LoginPage';
 import PACTADataForm from './components/PACTADataForm';
@@ -80,24 +91,37 @@ const buttonStyle = {
   cursor: 'pointer'
 };
 
-function App() {
+function App({ selectedCompany: initialCompany, user, onDataSaved }) {
   const { t } = useTranslation();
+  const toast = useToast();
   const [activeTab, setActiveTab] = useState('dashboard');
   const [showAddForm, setShowAddForm] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState(null);
   const [formStep, setFormStep] = useState(1);
   const [showReport, setShowReport] = useState(false);
   const [reportData, setReportData] = useState(null);
-  const [currentView, setCurrentView] = useState('home');
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentView, setCurrentView] = useState('dashboard');
+  // Use user prop directly from AppWithAuth, no need for local state
+  const currentUser = user;
   const [selectedScenario, setSelectedScenario] = useState('orderly_2030');
   const [selectedMaturity, setSelectedMaturity] = useState('2030_2039');
   const [selectedProductType, setSelectedProductType] = useState('sme_loan');
+  const [isLoading, setIsLoading] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState('');
   
   // Financial system states
   const [showFinancialForm, setShowFinancialForm] = useState(false);
   const [showFinancialReport, setShowFinancialReport] = useState(false);
   const [financialAnalysisData, setFinancialAnalysisData] = useState(null);
+  const [pactaResults, setPactaResults] = useState(null);
+  const [tcfdResults, setTcfdResults] = useState(null);
+  const [scope3Results, setScope3Results] = useState(null);
+  const [forwardMetrics, setForwardMetrics] = useState(null);
+  const [physicalRisk, setPhysicalRisk] = useState(null);
+  const [benchmarking, setBenchmarking] = useState(null);
+  const [showPACTAReport, setShowPACTAReport] = useState(false);
+  const [showTCFDReport, setShowTCFDReport] = useState(false);
+  const [submittedFormData, setSubmittedFormData] = useState(null);
   
   // Enhanced calculators
   const enhancedCalculator = new EnhancedRiskCalculator();
@@ -299,25 +323,280 @@ function App() {
     setShowReport(true);
   };
 
-  const handleLogin = (userType, userData) => {
-    setCurrentUser(userData);
-    setCurrentView('dashboard');
-  };
+  // handleLogin and handleLogout are now managed by AppWithAuth
+  // const handleLogin = (userType, userData) => {
+  //   setCurrentUser(userData);
+  //   setCurrentView('dashboard');
+  // };
 
-  const handleLogout = () => {
-    setCurrentUser(null);
-    setCurrentView('home');
-  };
+  // const handleLogout = () => {
+  //   setCurrentUser(null);
+  //   setCurrentView('home');
+  // };
 
   const handleFormChange = (field, value) => {
     setRiskFormData({ ...riskFormData, [field]: value });
   };
 
-  const handleFinancialFormSubmit = (data) => {
-    const analysisResult = financialAnalysis.generateComprehensiveAnalysis(data);
-    setFinancialAnalysisData(analysisResult);
-    setShowFinancialForm(false);
-    setShowFinancialReport(true);
+  const handleFinancialFormSubmit = async (data) => {
+    setIsLoading(true);
+    setLoadingMessage('Calculating climate risk assessments...');
+    
+    try {
+      // Store form data for later use
+      setSubmittedFormData(data);
+      
+      // Financial Analysis calculation
+      toast.showInfo('Starting comprehensive climate risk analysis...');
+      const analysisResult = financialAnalysis.generateComprehensiveAnalysis(data);
+      setFinancialAnalysisData(analysisResult);
+    
+    // PACTA calculation (if sector data provided)
+    if (data.pactaSector && data.pactaSector !== '') {
+      const pactaResult = calculatePACTA(data);
+      setPactaResults(pactaResult);
+    } else {
+      setPactaResults(null);
+    }
+    
+    // TCFD calculation (if governance data provided)
+    if (data.hasClimateExpertOnBoard !== undefined && data.hasClimateExpertOnBoard !== '') {
+      const tcfdResult = calculateTCFD(data);
+      setTcfdResults(tcfdResult);
+    } else {
+      setTcfdResults(null);
+    }
+
+    // Scope 3 calculation
+    try {
+      const s3 = calculateScope3(data);
+      setScope3Results(s3);
+    } catch (e) {
+      setScope3Results(null);
+    }
+
+    // Forward-looking metrics
+    try {
+      const fwd = calculateForwardMetrics(data);
+      setForwardMetrics(fwd);
+    } catch (e) {
+      setForwardMetrics(null);
+    }
+
+    // Physical risk assessment
+    try {
+      const phys = assessPhysicalRisk({
+        country: data.country || data.entityCountry || data.headquarterCountry,
+        city: data.city || data.entityCity,
+        sector: data.sector || data.pactaSector,
+        totalAssets: analysisResult?.summary?.totalAssets,
+        annualRevenue: analysisResult?.summary?.totalIncome
+      });
+      setPhysicalRisk(phys);
+    } catch (e) {
+      setPhysicalRisk(null);
+    }
+
+    // Peer benchmarking (use available metrics)
+    try {
+      const bm = performBenchmarkingAnalysis({
+        carbonIntensity: data.steelCarbonIntensity || data.cementCarbonIntensity || data.buildingEmissionsIntensity,
+        renewableShare: data.renewableEnergyShare || data.renewableTarget2030,
+        evProductionShare: data.evProductionTarget2030,
+        lowCarbonShare: data.lowCarbonSteelTarget2030,
+        clinkerRatio: data.clinkerRatio,
+        safUsage: data.safUsage,
+        renewableHeatingShare: data.renewableHeatingShare,
+        tcfdScore: tcfdResults?.overallScore,
+        financed_emissions: undefined,
+        greenFinanceShare: undefined
+      }, (data.sector || data.pactaSector || 'default'));
+      setBenchmarking(bm);
+    } catch (e) {
+      setBenchmarking(null);
+    }
+    
+    toast.showSuccess('Climate risk calculations completed!');
+    
+    // PHASE 2: BACKEND SAVE
+    setLoadingMessage('Saving assessment to database...');
+      
+      const companyData = {
+        companyName: data.entityName || data.companyName,
+        sector: data.sector || data.pactaSector || 'Other',
+        country: data.country || data.entityCountry || data.headquarterCountry || 'Turkey',
+        city: data.city || data.entityCity,
+        revenue: parseFloat(data.totalIncome) || parseFloat(data.annualRevenue) || null,
+        employees: parseInt(data.employeeCount) || null,
+        yearFounded: parseInt(data.yearFounded) || null,
+        formData: data, // Store complete form data
+        status: 'completed',
+        completionPercentage: 100,
+        lastCalculatedAt: new Date().toISOString()
+      };
+
+      let savedCompanyId = null;
+      let backendSaveSuccess = false;
+      
+      try {
+        if (initialCompany) {
+          // Update existing company
+          const updateResponse = await companyAPI.update(initialCompany.id, companyData);
+          console.log('Company updated:', updateResponse);
+          savedCompanyId = initialCompany.id;
+          
+          // Save calculation results
+          const calculations = {
+            pactaResults: pactaResults,
+            tcfdResults: tcfdResults,
+            financialResults: analysisResult,
+            scope3Results: scope3Results,
+            forwardMetrics: forwardMetrics,
+            physicalRisk: physicalRisk,
+            benchmarking: benchmarking
+          };
+          
+          await companyAPI.saveCalculations(initialCompany.id, calculations);
+          console.log('Calculations saved');
+          
+          backendSaveSuccess = true;
+          toast.showSuccess('Assessment updated successfully!');
+          
+          if (onDataSaved) onDataSaved();
+          
+          // Ask if user wants to submit for review (non-blocking)
+          if (user && (user.role === 'analyst' || user.role === 'manager' || user.role === 'admin')) {
+            setTimeout(() => {
+              const shouldSubmit = window.confirm(
+                'Would you like to submit this assessment for Manager review?\n\n' +
+                'Click OK to submit for review, or Cancel to keep as draft.'
+              );
+              
+              if (shouldSubmit) {
+                companyAPI.submitForReview(initialCompany.id)
+                  .then(() => {
+                    toast.showSuccess('Assessment submitted for review!');
+                  })
+                  .catch((submitError) => {
+                    console.error('Error submitting for review:', submitError);
+                    toast.showError('Could not submit for review: ' + submitError.message);
+                  });
+              }
+            }, 500);
+          }
+      } else {
+        // Create new company
+        const createResponse = await companyAPI.create(companyData);
+        console.log('Company created:', createResponse);
+        savedCompanyId = createResponse.data?.company?.id;
+        
+        // Save calculation results
+        if (createResponse.data?.company?.id) {
+          const calculations = {
+            pactaResults: pactaResults,
+            tcfdResults: tcfdResults,
+            financialResults: analysisResult,
+            scope3Results: scope3Results,
+            forwardMetrics: forwardMetrics,
+            physicalRisk: physicalRisk,
+            benchmarking: benchmarking
+          };
+          
+          await companyAPI.saveCalculations(createResponse.data.company.id, calculations);
+          console.log('Calculations saved');
+        }
+        
+        if (onDataSaved) onDataSaved();
+        
+        // Ask if user wants to submit for review (non-blocking)
+        if (user && savedCompanyId && (user.role === 'analyst' || user.role === 'manager' || user.role === 'admin')) {
+          setTimeout(() => {
+            const shouldSubmit = window.confirm(
+              'Would you like to submit this assessment for Manager review?\n\n' +
+              'Click OK to submit for review, or Cancel to keep as draft.'
+            );
+            
+            if (shouldSubmit) {
+              companyAPI.submitForReview(savedCompanyId)
+                .then(() => {
+                  toast.showSuccess('Assessment submitted for review!');
+                })
+                .catch((submitError) => {
+                  console.error('Error submitting for review:', submitError);
+                  toast.showError('Could not submit for review: ' + submitError.message);
+                });
+            }
+          }, 500);
+        }
+      }
+      } catch (backendError) {
+        // Backend save failed - but DON'T block the user
+        console.error('Backend save error:', backendError);
+        
+        // Determine error type for better UX
+        if (backendError.name === 'NetworkError') {
+          toast.showWarning(
+            'Network error - Assessment calculations completed but could not be saved to server. Please check your internet connection.',
+            8000
+          );
+        } else if (backendError.name === 'TimeoutError') {
+          toast.showWarning(
+            'Server timeout - Assessment calculations completed but save took too long. The data may still be saving in the background.',
+            8000
+          );
+        } else if (backendError.status === 401) {
+          toast.showError(
+            'Authentication error - Please log in again to save your assessment.',
+            8000
+          );
+        } else if (backendError.status === 403) {
+          toast.showError(
+            'Permission denied - You do not have permission to save assessments.',
+            8000
+          );
+        } else if (backendError.status >= 500) {
+          toast.showError(
+            'Server error - Assessment calculations completed but server is experiencing issues.',
+            8000
+          );
+        } else {
+          toast.showWarning(
+            'Could not save to database: ' + backendError.message + '. However, your calculations are complete and viewable.',
+            8000
+          );
+        }
+        
+        backendSaveSuccess = false;
+      }
+      
+      // PHASE 3: SHOW RESULTS
+      setIsLoading(false);
+      setShowFinancialForm(false);
+      setShowFinancialReport(true);
+      
+      // Final success toast
+      if (backendSaveSuccess) {
+        toast.showSuccess(
+          '✅ ECB/IFRS S2 compliant climate risk assessment completed and saved!',
+          4000
+        );
+      } else {
+        toast.showInfo(
+          'Climate risk assessment completed! You can view results now.',
+          4000
+        );
+      }
+      
+    } catch (error) {
+      // Catastrophic error (calculation failure)
+      console.error('Critical error in assessment:', error);
+      setIsLoading(false);
+      
+      toast.showError(
+        'Failed to complete climate risk assessment: ' + error.message + '. Please check your form data and try again.',
+        10000
+      );
+    }
   };
 
   const handleFinancialFormCancel = () => {
@@ -327,6 +606,29 @@ function App() {
   const handleFinancialReportClose = () => {
     setShowFinancialReport(false);
     setFinancialAnalysisData(null);
+    setPactaResults(null);
+    setTcfdResults(null);
+    setScope3Results(null);
+    setForwardMetrics(null);
+    setPhysicalRisk(null);
+    setBenchmarking(null);
+    setSubmittedFormData(null);
+  };
+  
+  const handleShowPACTAReport = () => {
+    if (pactaResults && submittedFormData) {
+      setShowPACTAReport(true);
+    } else {
+      alert('No PACTA data available. Please fill in PACTA sector-specific fields (Step 11) in the form.');
+    }
+  };
+  
+  const handleShowTCFDReport = () => {
+    if (tcfdResults && submittedFormData) {
+      setShowTCFDReport(true);
+    } else {
+      alert('No TCFD data available. Please fill in TCFD governance and targets fields (Step 12) in the form.');
+    }
   };
 
   const handleExportPDF = async () => {
@@ -3841,16 +4143,20 @@ function App() {
     return null;
   };
 
-  if (currentView === 'home') {
-    return <HomePage onLogin={() => setCurrentView('login')} />;
-  }
+  // Auth is handled by AppWithAuth wrapper, no need for login view here
+  // if (currentView === 'home') {
+  //   return <HomePage onLogin={() => setCurrentView('login')} />;
+  // }
 
-  if (currentView === 'login') {
-    return <LoginPage onLogin={handleLogin} onBack={() => setCurrentView('home')} />;
-  }
+  // if (currentView === 'login') {
+  //   return <LoginPage onLogin={handleLogin} onBack={() => setCurrentView('home')} />;
+  // }
 
   return (
     <div style={{ display: 'flex', minHeight: '100vh', backgroundColor: '#f5f5f5' }}>
+      {/* Loading Overlay */}
+      {isLoading && <LoadingOverlay message={loadingMessage} />}
+      
       {/* Sidebar */}
       <div style={{ width: '260px', backgroundColor: '#1a1a1a', color: 'white', padding: '20px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
@@ -3956,24 +4262,7 @@ function App() {
           </button>
         </nav>
         
-        {/* Çıkış Butonu */}
-        <button
-          onClick={handleLogout}
-          style={{
-            width: '100%',
-            padding: '12px',
-            marginTop: '20px',
-            backgroundColor: '#dc3545',
-            color: 'white',
-            border: 'none',
-            cursor: 'pointer',
-            textAlign: 'center',
-            fontSize: '16px',
-            borderRadius: '4px'
-          }}
-        >
-          {t('logout')}
-        </button>
+        {/* Logout is handled by AppWithAuth wrapper - no button needed here */}
       </div>
 
       {/* Main Content */}
@@ -4008,6 +4297,30 @@ function App() {
           onClose={handleFinancialReportClose}
           onExportPDF={handleExportPDF}
           onExportExcel={handleExportExcel}
+          onShowPACTAReport={handleShowPACTAReport}
+          onShowTCFDReport={handleShowTCFDReport}
+          hasPACTAData={pactaResults !== null}
+          hasTCFDData={tcfdResults !== null}
+          scope3Results={scope3Results}
+          forwardMetrics={forwardMetrics}
+          physicalRisk={physicalRisk}
+          benchmarking={benchmarking}
+        />
+      )}
+      
+      {showPACTAReport && pactaResults && submittedFormData && (
+        <PACTAReport
+          pactaResults={pactaResults}
+          formData={submittedFormData}
+          onClose={() => setShowPACTAReport(false)}
+        />
+      )}
+      
+      {showTCFDReport && tcfdResults && submittedFormData && (
+        <TCFDReport
+          tcfdResults={tcfdResults}
+          formData={submittedFormData}
+          onClose={() => setShowTCFDReport(false)}
         />
       )}
     </div>

@@ -963,7 +963,3 @@ const RiskReport = ({ company, scores, enhanced, productSpecific, settings, onCl
 };
 
 export default RiskReport;
-  );
-};
-
-export default RiskReport;
