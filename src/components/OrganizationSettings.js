@@ -88,6 +88,11 @@ const OrganizationSettings = ({ onClose }) => {
         return;
       }
 
+      if (!organization || !organization.id) {
+        alert('❌ Organization not found. Please refresh and try again.');
+        return;
+      }
+
       setLoading(true);
       await workspaceAPI.create({
         ...newWorkspace,
