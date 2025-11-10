@@ -4,6 +4,7 @@ import ApprovalQueue from './ApprovalQueue';
 import OrganizationSettings from './OrganizationSettings';
 import NotificationCenter from './NotificationCenter';
 import AssessmentHistory from './AssessmentHistory';
+import AdminPanel from './AdminPanel';
 
 const Dashboard = ({ user, onLogout, onSelectCompany }) => {
   const [companies, setCompanies] = useState([]);
@@ -13,6 +14,7 @@ const Dashboard = ({ user, onLogout, onSelectCompany }) => {
   const [showApprovalQueue, setShowApprovalQueue] = useState(false);
   const [showOrgSettings, setShowOrgSettings] = useState(false);
   const [showAssessmentHistory, setShowAssessmentHistory] = useState(false);
+  const [showAdminPanel, setShowAdminPanel] = useState(false);
   const [statusFilter, setStatusFilter] = useState('all'); // all, pending, approved, rejected, draft
 
   useEffect(() => {
@@ -103,6 +105,28 @@ const Dashboard = ({ user, onLogout, onSelectCompany }) => {
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
           {/* Notification Center */}
           <NotificationCenter userId={user.id} />
+          
+          {/* Admin Panel button - Only for Admins */}
+          {user.role === 'admin' && (
+            <button
+              onClick={() => setShowAdminPanel(true)}
+              style={{
+                padding: '10px 16px',
+                background: '#dc3545',
+                color: 'white',
+                border: 'none',
+                borderRadius: '6px',
+                cursor: 'pointer',
+                fontSize: '14px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                fontWeight: '600'
+              }}
+            >
+              ⚙️ Admin Panel
+            </button>
+          )}
           
           {/* Organization Settings button for Admin/Manager */}
           {(user.role === 'admin' || user.role === 'manager') && (
@@ -673,6 +697,14 @@ const Dashboard = ({ user, onLogout, onSelectCompany }) => {
               ...assessment.formData 
             });
           }}
+        />
+      )}
+
+      {/* Admin Panel Modal */}
+      {showAdminPanel && (
+        <AdminPanel 
+          onClose={() => setShowAdminPanel(false)}
+          currentUser={user}
         />
       )}
     </div>
