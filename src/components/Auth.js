@@ -3,8 +3,10 @@ import { authAPI } from '../services/api';
 
 const Auth = ({ onAuthSuccess }) => {
   const [isLogin, setIsLogin] = useState(true);
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   
   const [formData, setFormData] = useState({
     email: '',
@@ -22,12 +24,34 @@ const Auth = ({ onAuthSuccess }) => {
       [e.target.name]: e.target.value
     });
     setError('');
+    setSuccessMessage('');
+  };
+
+  const handleForgotPassword = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    setSuccessMessage('');
+
+    try {
+      const response = await authAPI.resetPassword(formData.email);
+      if (response.success) {
+        setSuccessMessage('Password reset email sent! Please check your inbox.');
+        setFormData({ ...formData, email: '' });
+      }
+    } catch (err) {
+      console.error('Password reset error:', err);
+      setError(err.message || 'Failed to send reset email');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError('');
+    setSuccessMessage('');
 
     try {
       if (isLogin) {
@@ -101,11 +125,11 @@ const Auth = ({ onAuthSuccess }) => {
             🌍 Climate Platform
           </h1>
           <p style={{ color: '#666' }}>
-            {isLogin ? 'Welcome back!' : 'Create your account'}
+            {isForgotPassword ? 'Reset your password' : (isLogin ? 'Welcome back!' : 'Create your account')}
           </p>
         </div>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={isForgotPassword ? handleForgotPassword : handleSubmit}>
           <div style={{ marginBottom: '20px' }}>
             <input
               type="email"
@@ -125,26 +149,28 @@ const Auth = ({ onAuthSuccess }) => {
             />
           </div>
 
-          <div style={{ marginBottom: '20px' }}>
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              minLength="6"
-              style={{
-                width: '100%',
-                padding: '12px',
-                border: '2px solid #e0e0e0',
-                borderRadius: '6px',
-                fontSize: '14px'
-              }}
-            />
-          </div>
+          {!isForgotPassword && (
+            <div style={{ marginBottom: '20px' }}>
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+                minLength="6"
+                style={{
+                  width: '100%',
+                  padding: '12px',
+                  border: '2px solid #e0e0e0',
+                  borderRadius: '6px',
+                  fontSize: '14px'
+                }}
+              />
+            </div>
+          )}
 
-          {!isLogin && (
+          {!isLogin && !isForgotPassword && (
             <>
               <div style={{ marginBottom: '20px' }}>
                 <input
@@ -278,6 +304,19 @@ const Auth = ({ onAuthSuccess }) => {
             </div>
           )}
 
+          {successMessage && (
+            <div style={{
+              padding: '12px',
+              background: '#d1fae5',
+              color: '#065f46',
+              borderRadius: '6px',
+              marginBottom: '20px',
+              fontSize: '14px'
+            }}>
+              {successMessage}
+            </div>
+          )}
+
           <button
             type="submit"
             disabled={loading}
@@ -294,7 +333,7 @@ const Auth = ({ onAuthSuccess }) => {
               transition: 'all 0.3s'
             }}
           >
-            {loading ? 'Please wait...' : (isLogin ? 'Login' : 'Register')}
+            {loading ? 'Please wait...' : (isForgotPassword ? 'Send Reset Link' : (isLogin ? 'Login' : 'Register'))}
           </button>
         </form>
 
@@ -304,28 +343,74 @@ const Auth = ({ onAuthSuccess }) => {
           paddingTop: '20px',
           borderTop: '1px solid #e0e0e0'
         }}>
-          <button
-            onClick={() => {
-              setIsLogin(!isLogin);
-              setError('');
-            }}
-            style={{
-              background: 'none',
-              border: 'none',
-              color: '#667eea',
-              cursor: 'pointer',
-              fontSize: '14px',
-              textDecoration: 'underline'
-            }}
-          >
-            {isLogin 
-              ? "Don't have an account? Register" 
-              : 'Already have an account? Login'
-            }
-          </button>
+          {!isForgotPassword ? (
+            <>
+              <button
+                onClick={() => {
+                  setIsLogin(!isLogin);
+                  setError('');
+                  setSuccessMessage('');
+                }}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#667eea',
+                  cursor: 'pointer',
+                  fontSize: '14px',
+                  textDecoration: 'underline'
+                }}
+              >
+                {isLogin 
+                  ? "Don't have an account? Register" 
+                  : 'Already have an account? Login'
+                }
+              </button>
+              {isLogin && (
+                <>
+                  <br />
+                  <button
+                    onClick={() => {
+                      setIsForgotPassword(true);
+                      setError('');
+                      setSuccessMessage('');
+                    }}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      color: '#667eea',
+                      cursor: 'pointer',
+                      fontSize: '13px',
+                      textDecoration: 'underline',
+                      marginTop: '10px'
+                    }}
+                  >
+                    Forgot password?
+                  </button>
+                </>
+              )}
+            </>
+          ) : (
+            <button
+              onClick={() => {
+                setIsForgotPassword(false);
+                setError('');
+                setSuccessMessage('');
+              }}
+              style={{
+                background: 'none',
+                border: 'none',
+                color: '#667eea',
+                cursor: 'pointer',
+                fontSize: '14px',
+                textDecoration: 'underline'
+              }}
+            >
+              ← Back to Login
+            </button>
+          )}
         </div>
 
-        {isLogin && (
+        {isLogin && !isForgotPassword && (
           <div style={{
             marginTop: '20px',
             padding: '12px',
@@ -340,7 +425,7 @@ const Auth = ({ onAuthSuccess }) => {
           </div>
         )}
         
-        {!isLogin && (
+        {!isLogin && !isForgotPassword && (
           <div style={{
             marginTop: '20px',
             padding: '12px',
