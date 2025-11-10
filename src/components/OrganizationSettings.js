@@ -31,27 +31,11 @@ const OrganizationSettings = ({ onClose }) => {
   const loadData = async () => {
     try {
       setLoading(true);
-      const [orgRes, workspacesRes] = await Promise.all([
-        organizationAPI.getMyOrganization(),
-        workspaceAPI.getMyWorkspaces()
-      ]);
-      
-      // Handle response format: { success: true, data: { organization: ... } }
-      const org = orgRes.data?.organization || orgRes.organization;
-      const workspacesList = workspacesRes.data?.workspaces || workspacesRes.workspaces || [];
-      
-      setOrganization(org);
-      setWorkspaces(workspacesList);
-      
-      if (org) {
-        setFormData({
-          name: org.name || '',
-          description: org.description || '',
-          industry: org.industry || '',
-          website: org.website || '',
-          country: org.country || ''
-        });
-      }
+      // Temporarily disable organization API calls - will be implemented with Supabase
+      // For now, show a placeholder message
+      setOrganization(null);
+      setWorkspaces([]);
+      setError('Organization management is currently being set up with your database.');
     } catch (err) {
       setError(err.message);
     } finally {
