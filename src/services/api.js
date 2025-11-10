@@ -6,9 +6,13 @@
  */
 
 import mockAPI from './mockApi';
+import supabaseAuthAPI from './supabaseAuth';
+import { supabaseCompanyAPI, supabaseAssessmentAPI, supabaseNotificationAPI } from './supabaseData';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api/v1';
-const USE_MOCK_API = process.env.REACT_APP_USE_MOCK_API === 'true' || true; // Default to true for development
+// Use Supabase if URL is configured, otherwise use mock API
+const USE_SUPABASE = process.env.REACT_APP_SUPABASE_URL && process.env.REACT_APP_SUPABASE_URL !== 'YOUR_SUPABASE_PROJECT_URL';
+const USE_MOCK_API = !USE_SUPABASE; // Use mock if Supabase not configured
 
 // Configuration
 const API_CONFIG = {
@@ -507,19 +511,24 @@ const healthAPI = {
 // Export utility functions
 export { getAuthToken, setAuthToken, removeAuthToken };
 
-// Use mock API if enabled, otherwise use real API
-if (USE_MOCK_API) {
-  console.log('%c🎭 MOCK MODE ENABLED', 'background: #10b981; color: white; padding: 4px 8px; border-radius: 4px; font-weight: bold');
-  console.log('%cBackend is not required. All data is stored in localStorage.', 'color: #10b981');
+// Display API mode
+if (USE_SUPABASE) {
+  console.log('%c🚀 SUPABASE MODE ENABLED', 'background: #10b981; color: white; padding: 4px 8px; border-radius: 4px; font-weight: bold');
+  console.log('%cConnected to production database with authentication.', 'color: #10b981');
+  console.log('%cURL:', process.env.REACT_APP_SUPABASE_URL, 'color: #6b7280');
+} else if (USE_MOCK_API) {
+  console.log('%c🎭 MOCK MODE ENABLED', 'background: #fbbf24; color: white; padding: 4px 8px; border-radius: 4px; font-weight: bold');
+  console.log('%cBackend is not required. All data is stored in localStorage.', 'color: #fbbf24');
   console.log('%cTest credentials: admin@climate.com / admin123 or analyst@climate.com / analyst123', 'color: #6b7280');
 }
 
-// Choose between mock and real API
-const finalAuthAPI = USE_MOCK_API ? mockAPI.auth : authAPI;
-const finalCompanyAPI = USE_MOCK_API ? mockAPI.company : companyAPI;
+// Choose between Supabase, Mock, or Real API
+const finalAuthAPI = USE_SUPABASE ? supabaseAuthAPI : (USE_MOCK_API ? mockAPI.auth : authAPI);
+const finalCompanyAPI = USE_SUPABASE ? supabaseCompanyAPI : (USE_MOCK_API ? mockAPI.company : companyAPI);
 const finalOrganizationAPI = USE_MOCK_API ? mockAPI.organization : organizationAPI;
 const finalWorkspaceAPI = USE_MOCK_API ? mockAPI.workspace : workspaceAPI;
-const finalAssessmentAPI = USE_MOCK_API ? mockAPI.assessment : assessmentAPI;
+const finalAssessmentAPI = USE_SUPABASE ? supabaseAssessmentAPI : (USE_MOCK_API ? mockAPI.assessment : assessmentAPI);
+const finalNotificationAPI = USE_SUPABASE ? supabaseNotificationAPI : mockAPI.notification;
 const finalHealthAPI = USE_MOCK_API ? mockAPI.health : healthAPI;
 
 // Export with original names for backward compatibility
@@ -528,6 +537,7 @@ export { finalCompanyAPI as companyAPI };
 export { finalOrganizationAPI as organizationAPI };
 export { finalWorkspaceAPI as workspaceAPI };
 export { finalAssessmentAPI as assessmentAPI };
+export { finalNotificationAPI as notificationAPI };
 export { finalHealthAPI as healthAPI };
 
 export default {
@@ -536,5 +546,6 @@ export default {
   organization: finalOrganizationAPI,
   workspace: finalWorkspaceAPI,
   assessment: finalAssessmentAPI,
+  notification: finalNotificationAPI,
   health: finalHealthAPI,
 };
