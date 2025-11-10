@@ -3,6 +3,7 @@ import { companyAPI, authAPI } from '../services/api';
 import ApprovalQueue from './ApprovalQueue';
 import OrganizationSettings from './OrganizationSettings';
 import NotificationCenter from './NotificationCenter';
+import AssessmentHistory from './AssessmentHistory';
 
 const Dashboard = ({ user, onLogout, onSelectCompany }) => {
   const [companies, setCompanies] = useState([]);
@@ -11,6 +12,7 @@ const Dashboard = ({ user, onLogout, onSelectCompany }) => {
   const [error, setError] = useState('');
   const [showApprovalQueue, setShowApprovalQueue] = useState(false);
   const [showOrgSettings, setShowOrgSettings] = useState(false);
+  const [showAssessmentHistory, setShowAssessmentHistory] = useState(false);
   const [statusFilter, setStatusFilter] = useState('all'); // all, pending, approved, rejected, draft
 
   useEffect(() => {
@@ -296,6 +298,23 @@ const Dashboard = ({ user, onLogout, onSelectCompany }) => {
                 🔒 View-only access
               </span>
             )}
+            {/* Assessment History button */}
+            <button
+              onClick={() => setShowAssessmentHistory(true)}
+              style={{
+                padding: '10px 20px',
+                background: '#28a745',
+                color: 'white',
+                border: 'none',
+                borderRadius: '6px',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: '600',
+                marginLeft: '10px'
+              }}
+            >
+              📊 Assessment History
+            </button>
             {/* Approval Queue button for Managers/Admins */}
             {(user.role === 'manager' || user.role === 'admin') && (
               <button
@@ -639,6 +658,22 @@ const Dashboard = ({ user, onLogout, onSelectCompany }) => {
       {/* Organization Settings Modal */}
       {showOrgSettings && (
         <OrganizationSettings onClose={() => setShowOrgSettings(false)} />
+      )}
+
+      {/* Assessment History Modal */}
+      {showAssessmentHistory && (
+        <AssessmentHistory 
+          onClose={() => setShowAssessmentHistory(false)}
+          onViewAssessment={(assessment) => {
+            console.log('Viewing assessment:', assessment);
+            setShowAssessmentHistory(false);
+            // Reload the assessment data into the form
+            onSelectCompany({ 
+              id: assessment.companyId,
+              ...assessment.formData 
+            });
+          }}
+        />
       )}
     </div>
   );

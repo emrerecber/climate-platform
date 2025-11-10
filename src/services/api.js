@@ -444,6 +444,51 @@ const workspaceAPI = {
 };
 
 // ========================
+// ASSESSMENT API
+// ========================
+
+const assessmentAPI = {
+  // Get all assessments
+  getAll: async (params = {}) => {
+    const queryString = new URLSearchParams(params).toString();
+    return await apiRequest(`/assessments${queryString ? `?${queryString}` : ''}`);
+  },
+
+  // Get assessment by ID
+  getById: async (id) => {
+    return await apiRequest(`/assessments/${id}`);
+  },
+
+  // Create assessment
+  create: async (data) => {
+    return await apiRequest('/assessments', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+  },
+
+  // Update assessment
+  update: async (id, data) => {
+    return await apiRequest(`/assessments/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(data)
+    });
+  },
+
+  // Delete assessment
+  delete: async (id) => {
+    return await apiRequest(`/assessments/${id}`, {
+      method: 'DELETE'
+    });
+  },
+
+  // Get assessment statistics
+  getStats: async () => {
+    return await apiRequest('/assessments/stats');
+  }
+};
+
+// ========================
 // HEALTH CHECK
 // ========================
 
@@ -474,6 +519,7 @@ const finalAuthAPI = USE_MOCK_API ? mockAPI.auth : authAPI;
 const finalCompanyAPI = USE_MOCK_API ? mockAPI.company : companyAPI;
 const finalOrganizationAPI = USE_MOCK_API ? mockAPI.organization : organizationAPI;
 const finalWorkspaceAPI = USE_MOCK_API ? mockAPI.workspace : workspaceAPI;
+const finalAssessmentAPI = USE_MOCK_API ? mockAPI.assessment : assessmentAPI;
 const finalHealthAPI = USE_MOCK_API ? mockAPI.health : healthAPI;
 
 // Export with original names for backward compatibility
@@ -481,6 +527,7 @@ export { finalAuthAPI as authAPI };
 export { finalCompanyAPI as companyAPI };
 export { finalOrganizationAPI as organizationAPI };
 export { finalWorkspaceAPI as workspaceAPI };
+export { finalAssessmentAPI as assessmentAPI };
 export { finalHealthAPI as healthAPI };
 
 export default {
@@ -488,5 +535,6 @@ export default {
   company: finalCompanyAPI,
   organization: finalOrganizationAPI,
   workspace: finalWorkspaceAPI,
+  assessment: finalAssessmentAPI,
   health: finalHealthAPI,
 };

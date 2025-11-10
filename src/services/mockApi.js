@@ -9,6 +9,7 @@ const STORAGE_KEYS = {
   COMPANIES: 'mock_companies',
   ORGANIZATIONS: 'mock_organizations',
   WORKSPACES: 'mock_workspaces',
+  ASSESSMENTS: 'mock_assessments',
   CURRENT_USER: 'mock_current_user'
 };
 
@@ -68,6 +69,10 @@ const initializeMockData = () => {
 
   if (!localStorage.getItem(STORAGE_KEYS.WORKSPACES)) {
     localStorage.setItem(STORAGE_KEYS.WORKSPACES, JSON.stringify([]));
+  }
+
+  if (!localStorage.getItem(STORAGE_KEYS.ASSESSMENTS)) {
+    localStorage.setItem(STORAGE_KEYS.ASSESSMENTS, JSON.stringify([]));
   }
 };
 
@@ -762,6 +767,173 @@ export const mockWorkspaceAPI = {
 // HEALTH CHECK
 // ========================
 
+// ========================
+// MOCK ASSESSMENT API
+// ========================
+
+export const mockAssessmentAPI = {
+  create: async (assessmentData) => {
+    await delay();
+    
+    const assessments = getStorageData(STORAGE_KEYS.ASSESSMENTS);
+    const currentUser = JSON.parse(localStorage.getItem(STORAGE_KEYS.CURRENT_USER));
+
+    const newAssessment = {
+      id: generateId(),
+      userId: currentUser.id,
+      companyId: assessmentData.companyId,
+      companyName: assessmentData.companyName,
+      sector: assessmentData.sector,
+      assessmentType: assessmentData.assessmentType || 'comprehensive',
+      status: 'completed',
+      formData: assessmentData.formData,
+      results: {
+        financialAnalysis: assessmentData.financialAnalysis,
+        pacta: assessmentData.pacta,
+        tcfd: assessmentData.tcfd,
+        scope3: assessmentData.scope3,
+        forwardMetrics: assessmentData.forwardMetrics,
+        physicalRisk: assessmentData.physicalRisk,
+        benchmarking: assessmentData.benchmarking
+      },
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+
+    assessments.push(newAssessment);
+    setStorageData(STORAGE_KEYS.ASSESSMENTS, assessments);
+
+    return {
+      success: true,
+      data: { assessment: newAssessment }
+    };
+  },
+
+  getAll: async (params = {}) => {
+    await delay(300);
+    
+    const assessments = getStorageData(STORAGE_KEYS.ASSESSMENTS);
+    const currentUser = JSON.parse(localStorage.getItem(STORAGE_KEYS.CURRENT_USER));
+
+    // Filter by current user
+    let filtered = assessments.filter(a => a.userId === currentUser.id);
+
+    // Apply filters
+    if (params.companyId) {
+      filtered = filtered.filter(a => a.companyId === params.companyId);
+    }
+    if (params.sector) {
+      filtered = filtered.filter(a => a.sector === params.sector);
+    }
+    if (params.status) {
+      filtered = filtered.filter(a => a.status === params.status);
+    }
+    if (params.assessmentType) {
+      filtered = filtered.filter(a => a.assessmentType === params.assessmentType);
+    }
+
+    // Sort by date (newest first)
+    filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+    return {
+      success: true,
+      data: {
+        assessments: filtered,
+        total: filtered.length
+      }
+    };
+  },
+
+  getById: async (id) => {
+    await delay(200);
+    
+    const assessments = getStorageData(STORAGE_KEYS.ASSESSMENTS);
+    const assessment = assessments.find(a => a.id === id);
+
+    if (!assessment) {
+      throw new Error('Assessment not found');
+    }
+
+    return {
+      success: true,
+      data: { assessment }
+    };
+  },
+
+  update: async (id, assessmentData) => {
+    await delay();
+    
+    const assessments = getStorageData(STORAGE_KEYS.ASSESSMENTS);
+    const assessmentIndex = assessments.findIndex(a => a.id === id);
+
+    if (assessmentIndex === -1) {
+      throw new Error('Assessment not found');
+    }
+
+    assessments[assessmentIndex] = {
+      ...assessments[assessmentIndex],
+      ...assessmentData,
+      updatedAt: new Date().toISOString()
+    };
+
+    setStorageData(STORAGE_KEYS.ASSESSMENTS, assessments);
+
+    return {
+      success: true,
+      data: { assessment: assessments[assessmentIndex] }
+    };
+  },
+
+  delete: async (id) => {
+    await delay();
+    
+    const assessments = getStorageData(STORAGE_KEYS.ASSESSMENTS);
+    const filtered = assessments.filter(a => a.id !== id);
+
+    setStorageData(STORAGE_KEYS.ASSESSMENTS, filtered);
+
+    return {
+      success: true,
+      data: { message: 'Assessment deleted' }
+    };
+  },
+
+  getStats: async () => {
+    await delay(200);
+    
+    const assessments = getStorageData(STORAGE_KEYS.ASSESSMENTS);
+    const currentUser = JSON.parse(localStorage.getItem(STORAGE_KEYS.CURRENT_USER));
+    
+    const userAssessments = assessments.filter(a => a.userId === currentUser.id);
+
+    // Group by month
+    const byMonth = {};
+    userAssessments.forEach(a => {
+      const month = new Date(a.createdAt).toISOString().substring(0, 7);
+      byMonth[month] = (byMonth[month] || 0) + 1;
+    });
+
+    // Group by sector
+    const bySector = {};
+    userAssessments.forEach(a => {
+      const sector = a.sector || 'Unknown';
+      bySector[sector] = (bySector[sector] || 0) + 1;
+    });
+
+    return {
+      success: true,
+      data: {
+        total: userAssessments.length,
+        completed: userAssessments.filter(a => a.status === 'completed').length,
+        inProgress: userAssessments.filter(a => a.status === 'in_progress').length,
+        draft: userAssessments.filter(a => a.status === 'draft').length,
+        byMonth,
+        bySector
+      }
+    };
+  }
+};
+
 export const mockHealthAPI = {
   check: async () => {
     await delay(100);
@@ -780,5 +952,6 @@ export default {
   company: mockCompanyAPI,
   organization: mockOrganizationAPI,
   workspace: mockWorkspaceAPI,
+  assessment: mockAssessmentAPI,
   health: mockHealthAPI
 };

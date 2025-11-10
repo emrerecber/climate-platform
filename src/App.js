@@ -21,7 +21,7 @@ import {
 } from 'chart.js';
 
 import './App.css';
-import { companyAPI } from './services/api';
+import { companyAPI, assessmentAPI } from './services/api';
 import { useToast } from './components/Toast';
 import { LoadingOverlay } from './components/LoadingComponents';
 import RiskCalculator from './utils/riskCalculator';
@@ -459,6 +459,27 @@ function App({ selectedCompany: initialCompany, user, onDataSaved }) {
           await companyAPI.saveCalculations(initialCompany.id, calculations);
           console.log('Calculations saved');
           
+          // ALSO SAVE AS STANDALONE ASSESSMENT
+          try {
+            const assessmentData = {
+              companyId: initialCompany.id,
+              companyName: data.entityName || initialCompany.name,
+              sector: data.sector || data.pactaSector || 'Other',
+              formData: data,
+              financialAnalysis: analysisResult,
+              pacta: pactaResults,
+              tcfd: tcfdResults,
+              scope3: scope3Results,
+              forwardMetrics: forwardMetrics,
+              physicalRisk: physicalRisk,
+              benchmarking: benchmarking
+            };
+            await assessmentAPI.create(assessmentData);
+            console.log('Assessment saved to history');
+          } catch (assessmentError) {
+            console.error('Failed to save assessment history:', assessmentError);
+          }
+          
           backendSaveSuccess = true;
           toast.showSuccess('Assessment updated successfully!');
           
@@ -504,6 +525,27 @@ function App({ selectedCompany: initialCompany, user, onDataSaved }) {
           
           await companyAPI.saveCalculations(createResponse.data.company.id, calculations);
           console.log('Calculations saved');
+          
+          // ALSO SAVE AS STANDALONE ASSESSMENT
+          try {
+            const assessmentData = {
+              companyId: createResponse.data.company.id,
+              companyName: data.entityName,
+              sector: data.sector || data.pactaSector || 'Other',
+              formData: data,
+              financialAnalysis: analysisResult,
+              pacta: pactaResults,
+              tcfd: tcfdResults,
+              scope3: scope3Results,
+              forwardMetrics: forwardMetrics,
+              physicalRisk: physicalRisk,
+              benchmarking: benchmarking
+            };
+            await assessmentAPI.create(assessmentData);
+            console.log('Assessment saved to history');
+          } catch (assessmentError) {
+            console.error('Failed to save assessment history:', assessmentError);
+          }
         }
         
         if (onDataSaved) onDataSaved();
