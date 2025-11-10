@@ -272,7 +272,7 @@ const Dashboard = ({ user, onLogout, onSelectCompany }) => {
                 onClick={() => {
                   console.log('🟠 New Assessment clicked, onSelectCompany type:', typeof onSelectCompany);
                   if (typeof onSelectCompany === 'function') {
-                    onSelectCompany(null);
+                    onSelectCompany({}); // Empty object for new assessment
                   } else {
                     console.error('❌ onSelectCompany is not a function!', onSelectCompany);
                   }
