@@ -1,4 +1,16 @@
-# Getting Started with Create React App
+# Climate Risk Assessment Platform
+
+A comprehensive climate risk assessment platform for ECB/IFRS S2 compliance.
+
+## Features
+
+- ✅ **Supabase Authentication**: Email verification, password reset
+- ✅ **PostgreSQL Database**: Persistent data storage
+- ✅ **Assessment History**: Track all climate risk assessments
+- ✅ **Real-time Sync**: Multi-user support with row-level security
+- ✅ **6 Assessment Modules**: PACTA, TCFD, Scope 3, Physical Risk, Forward Metrics, Benchmarking
+
+## Getting Started
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
