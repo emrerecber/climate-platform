@@ -31,17 +31,14 @@ const Auth = ({ onAuthSuccess }) => {
 
     try {
       if (isLogin) {
-        // Login
-        const response = await authAPI.login({
-          email: formData.email,
-          password: formData.password
-        });
+        // Login - Supabase expects email and password directly
+        const response = await authAPI.login(formData.email, formData.password);
         
         if (response.success) {
-          onAuthSuccess(response.data.user);
+          onAuthSuccess(response.user);
         }
       } else {
-        // Register
+        // Register - Pass full user data object
         const response = await authAPI.register({
           email: formData.email,
           password: formData.password,
@@ -53,10 +50,25 @@ const Auth = ({ onAuthSuccess }) => {
         });
         
         if (response.success) {
-          onAuthSuccess(response.data.user);
+          // Show email verification message
+          setError('');
+          alert(response.message || 'Registration successful! Please check your email to verify your account.');
+          // Switch to login mode
+          setIsLogin(true);
+          // Clear form
+          setFormData({
+            email: formData.email, // Keep email for convenience
+            password: '',
+            firstName: '',
+            lastName: '',
+            organizationName: '',
+            role: 'analyst',
+            customerProfile: 'other'
+          });
         }
       }
     } catch (err) {
+      console.error('Auth error:', err);
       setError(err.message || 'Authentication failed');
     } finally {
       setLoading(false);
@@ -313,18 +325,36 @@ const Auth = ({ onAuthSuccess }) => {
           </button>
         </div>
 
-        <div style={{
-          marginTop: '20px',
-          padding: '12px',
-          background: '#e7f3ff',
-          borderRadius: '6px',
-          fontSize: '12px',
-          color: '#666'
-        }}>
-          <strong>Demo credentials:</strong><br/>
-          Email: test@example.com<br/>
-          Password: password123
-        </div>
+        {isLogin && (
+          <div style={{
+            marginTop: '20px',
+            padding: '12px',
+            background: '#e7f3ff',
+            borderRadius: '6px',
+            fontSize: '12px',
+            color: '#666'
+          }}>
+            <strong>ℹ️ Note:</strong><br/>
+            Please register with your real email address.<br/>
+            Email verification is required for security.
+          </div>
+        )}
+        
+        {!isLogin && (
+          <div style={{
+            marginTop: '20px',
+            padding: '12px',
+            background: '#fff3cd',
+            borderRadius: '6px',
+            fontSize: '12px',
+            color: '#856404',
+            border: '1px solid #ffeaa7'
+          }}>
+            <strong>⚠️ Important:</strong><br/>
+            After registration, check your email for a verification link.<br/>
+            You must verify your email before you can log in.
+          </div>
+        )}
       </div>
     </div>
   );
