@@ -17,7 +17,9 @@ export const supabaseAuthAPI = {
         options: {
           data: {
             first_name: firstName,
-            last_name: lastName
+            last_name: lastName,
+            role: role || 'analyst',
+            customer_profile: customerProfile
           },
           emailRedirectTo: `${window.location.origin}/auth/confirm`
         }
