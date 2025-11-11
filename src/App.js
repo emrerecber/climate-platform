@@ -466,18 +466,25 @@ function App({ selectedCompany: initialCompany, user, onDataSaved }) {
               companyName: data.entityName || initialCompany.name,
               sector: data.sector || data.pactaSector || 'Other',
               formData: data,
-              financialAnalysis: analysisResult,
-              pacta: pactaResults,
-              tcfd: tcfdResults,
-              scope3: scope3Results,
-              forwardMetrics: forwardMetrics,
-              physicalRisk: physicalRisk,
-              benchmarking: benchmarking
+              results: {
+                financialAnalysis: analysisResult,
+                pacta: pactaResults,
+                tcfd: tcfdResults,
+                scope3: scope3Results,
+                forwardMetrics: forwardMetrics,
+                physicalRisk: physicalRisk,
+                benchmarking: benchmarking
+              }
             };
             await assessmentAPI.create(assessmentData);
             console.log('Assessment saved to history');
           } catch (assessmentError) {
             console.error('Failed to save assessment history:', assessmentError);
+            // Show warning but don't block user
+            toast.showWarning(
+              'Could not save to database: ' + assessmentError.message + '. However, your calculations are complete and viewable.',
+              6000
+            );
           }
           
           backendSaveSuccess = true;
@@ -533,18 +540,25 @@ function App({ selectedCompany: initialCompany, user, onDataSaved }) {
               companyName: data.entityName,
               sector: data.sector || data.pactaSector || 'Other',
               formData: data,
-              financialAnalysis: analysisResult,
-              pacta: pactaResults,
-              tcfd: tcfdResults,
-              scope3: scope3Results,
-              forwardMetrics: forwardMetrics,
-              physicalRisk: physicalRisk,
-              benchmarking: benchmarking
+              results: {
+                financialAnalysis: analysisResult,
+                pacta: pactaResults,
+                tcfd: tcfdResults,
+                scope3: scope3Results,
+                forwardMetrics: forwardMetrics,
+                physicalRisk: physicalRisk,
+                benchmarking: benchmarking
+              }
             };
             await assessmentAPI.create(assessmentData);
             console.log('Assessment saved to history');
           } catch (assessmentError) {
             console.error('Failed to save assessment history:', assessmentError);
+            // Show warning but don't block user
+            toast.showWarning(
+              'Could not save to database: ' + assessmentError.message + '. However, your calculations are complete and viewable.',
+              6000
+            );
           }
         }
         
