@@ -31,11 +31,24 @@ const OrganizationSettings = ({ onClose }) => {
   const loadData = async () => {
     try {
       setLoading(true);
-      // Temporarily disable organization API calls - will be implemented with Supabase
-      // For now, show a placeholder message
-      setOrganization(null);
-      setWorkspaces([]);
-      setError('Organization management is currently being set up with your database.');
+      const orgRes = await organizationAPI.getMyOrganization();
+      
+      // Handle response format: { success: true, data: { organization: ... } }
+      const org = orgRes.data?.organization || orgRes.organization;
+      
+      setOrganization(org);
+      
+      if (org) {
+        setFormData({
+          name: org.name || '',
+          description: org.description || '',
+          industry: org.industry || '',
+          website: org.website || '',
+          country: org.country || ''
+        });
+      } else {
+        setError(orgRes.data?.message || 'No organization found. Please contact your administrator.');
+      }
     } catch (err) {
       setError(err.message);
     } finally {

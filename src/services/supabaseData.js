@@ -340,6 +340,127 @@ export const supabaseAssessmentAPI = {
 };
 
 // =====================================================
+// ORGANIZATIONS API - Supabase
+// =====================================================
+
+export const supabaseOrganizationAPI = {
+  // Get my organization
+  getMyOrganization: async () => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('Not authenticated');
+
+      // Get user's organization_id
+      const { data: profile } = await supabase
+        .from('user_profiles')
+        .select('organization_id')
+        .eq('id', user.id)
+        .single();
+
+      if (!profile?.organization_id) {
+        return {
+          data: {
+            organization: null,
+            message: 'No organization assigned. Please contact your administrator.'
+          }
+        };
+      }
+
+      // Get organization details
+      const { data: org, error } = await supabase
+        .from('organizations')
+        .select('*')
+        .eq('id', profile.organization_id)
+        .single();
+
+      if (error) throw error;
+
+      return {
+        data: {
+          organization: org
+        }
+      };
+    } catch (error) {
+      console.error('Get organization error:', error);
+      throw error;
+    }
+  },
+
+  // Create organization (admin only)
+  create: async (orgData) => {
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('Not authenticated');
+
+      const { data, error } = await supabase
+        .from('organizations')
+        .insert([{
+          name: orgData.name,
+          industry: orgData.industry,
+          settings: orgData.settings || {
+            approval_required: false,
+            roles_enabled: true,
+            notification_enabled: true
+          }
+        }])
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      return { data };
+    } catch (error) {
+      console.error('Create organization error:', error);
+      throw error;
+    }
+  },
+
+  // Update organization
+  update: async (id, orgData) => {
+    try {
+      const { data, error } = await supabase
+        .from('organizations')
+        .update({
+          name: orgData.name,
+          industry: orgData.industry,
+          settings: orgData.settings
+        })
+        .eq('id', id)
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      return { data };
+    } catch (error) {
+      console.error('Update organization error:', error);
+      throw error;
+    }
+  },
+
+  // Get all organizations (admin only)
+  getAll: async () => {
+    try {
+      const { data, error } = await supabase
+        .from('organizations')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+
+      return {
+        data: {
+          organizations: data || []
+        }
+      };
+    } catch (error) {
+      console.error('Get all organizations error:', error);
+      throw error;
+    }
+  }
+};
+
+// =====================================================
 // NOTIFICATIONS API - Supabase
 // =====================================================
 

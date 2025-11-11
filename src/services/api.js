@@ -7,7 +7,7 @@
 
 import mockAPI from './mockApi';
 import supabaseAuthAPI from './supabaseAuth';
-import { supabaseCompanyAPI, supabaseAssessmentAPI, supabaseNotificationAPI } from './supabaseData';
+import { supabaseCompanyAPI, supabaseAssessmentAPI, supabaseNotificationAPI, supabaseOrganizationAPI } from './supabaseData';
 
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api/v1';
 // Use Supabase if URL is configured, otherwise use mock API
@@ -525,7 +525,7 @@ if (USE_SUPABASE) {
 // Choose between Supabase, Mock, or Real API
 const finalAuthAPI = USE_SUPABASE ? supabaseAuthAPI : (USE_MOCK_API ? mockAPI.auth : authAPI);
 const finalCompanyAPI = USE_SUPABASE ? supabaseCompanyAPI : (USE_MOCK_API ? mockAPI.company : companyAPI);
-const finalOrganizationAPI = USE_MOCK_API ? mockAPI.organization : organizationAPI;
+const finalOrganizationAPI = USE_SUPABASE ? supabaseOrganizationAPI : (USE_MOCK_API ? mockAPI.organization : organizationAPI);
 const finalWorkspaceAPI = USE_MOCK_API ? mockAPI.workspace : workspaceAPI;
 const finalAssessmentAPI = USE_SUPABASE ? supabaseAssessmentAPI : (USE_MOCK_API ? mockAPI.assessment : assessmentAPI);
 const finalNotificationAPI = USE_SUPABASE ? supabaseNotificationAPI : mockAPI.notification;
