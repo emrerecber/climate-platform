@@ -257,12 +257,21 @@ CREATE TRIGGER update_assessments_updated_at BEFORE UPDATE ON assessments
 CREATE OR REPLACE FUNCTION public.handle_new_user()
 RETURNS TRIGGER AS $$
 BEGIN
-  INSERT INTO public.user_profiles (id, email, first_name, last_name)
+  INSERT INTO public.user_profiles (
+    id, 
+    email, 
+    first_name, 
+    last_name,
+    role,
+    customer_profile
+  )
   VALUES (
     NEW.id,
     NEW.email,
     NEW.raw_user_meta_data->>'first_name',
-    NEW.raw_user_meta_data->>'last_name'
+    NEW.raw_user_meta_data->>'last_name',
+    COALESCE(NEW.raw_user_meta_data->>'role', 'analyst'),
+    NEW.raw_user_meta_data->>'customer_profile'
   );
   RETURN NEW;
 END;
